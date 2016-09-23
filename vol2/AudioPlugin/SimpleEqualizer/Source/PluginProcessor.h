@@ -16,8 +16,6 @@
 #include "DSP/PeakingEQ.h"
 
 //==============================================================================
-/**
-*/
 class SimpleEqualizerAudioProcessor  : public AudioProcessor
 {
 public:
@@ -83,7 +81,6 @@ private:
 	
 	//Processor
 	float UserParams[totalNumParam];
-	float* inputData;
 	PeakingEQ peakingEQ[2]; //Create PeakingEQ for 2ch
 
 	//GUI

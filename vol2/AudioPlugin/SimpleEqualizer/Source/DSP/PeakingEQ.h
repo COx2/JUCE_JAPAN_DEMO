@@ -15,20 +15,13 @@ class PeakingEQ {
 public:
 	PeakingEQ();
 	~PeakingEQ();
-	
 	void SetParameter(float samplerate, float freq, float bw, float gain);
 	void DoProcess(float* bufferPtr, int bufferSize);
-	float DoProcess(float input);
 
 private:
-
 	float a0, a1, a2, b0, b1, b2;
-
 	float out1, out2;
-	
 	float in1, in2;
-
-	float output;
 };
 
 #endif  // PEAKINGEQ_H_INCLUDED

@@ -218,18 +218,9 @@ int SimpleEqualizerAudioProcessor::getNumParameters()
 //Get Return Filter Parameter range 0~1.0
 float SimpleEqualizerAudioProcessor::getParameter(int index)
 {
-	switch (index)
-	{
-	case Parameters::MasterBypass://example nothing special
-		return UserParams[MasterBypass];
-	case Parameters::Frequency://example update from internal
-		return UserParams[Frequency];
-	case Parameters::BandWidth://example update from internal
-		return UserParams[BandWidth];
-	case Parameters::Gain://example update from internal
-		return UserParams[Gain];
-	default: return 0.0f;//invalid index
-	}
+	if (index >= 0 && index < totalNumParam)
+		return UserParams[index];
+	else return 0;
 }
 
 //The host will call this method to change the value of one of the filter's parameters.
@@ -243,22 +234,10 @@ float SimpleEqualizerAudioProcessor::getParameter(int index)
 //The value passed will be between 0 and 1.0.
 void SimpleEqualizerAudioProcessor::setParameter(int index, float newValue)
 {
-	switch (index)
-	{
-	case Parameters::MasterBypass:
-		UserParams[MasterBypass] = newValue;
-		break;
-	case Parameters::Frequency:
-		UserParams[Frequency] = newValue;
-		break;
-	case Parameters::BandWidth:
-		UserParams[BandWidth] = newValue;
-		break;
-	case Parameters::Gain:
-		UserParams[Gain] = newValue;
-		break;
-	default: return;
-	}
+	if (index >= 0 && index < totalNumParam)
+		UserParams[index] = newValue;
+	else return;
+	
 	UIUpdateFlag = true;//Request UI update -- Some OSX hosts use alternate editors, this updates ours
 }
 

@@ -14,10 +14,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
-
 //==============================================================================
-/**
-*/
 class SimpleEqualizerAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
@@ -35,6 +32,4 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEqualizerAudioProcessorEditor)
 };
-
-
 #endif  // PLUGINEDITOR_H_INCLUDED
