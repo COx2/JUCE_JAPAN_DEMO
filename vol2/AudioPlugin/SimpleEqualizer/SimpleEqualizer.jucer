@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="ci2FcV" name="SimpleEqualizer" projectType="audioplug" version="1.0.0"
+              bundleIdentifier="com.JuceJapan.SimpleEqualizer" includeBinaryInAppConfig="1"
+              buildVST="1" buildVST3="1" buildAU="1" buildAUv3="1" buildRTAS="0"
+              buildAAX="0" pluginName="SimpleEqualizer" pluginDesc="SimpleEqualizer"
+              pluginManufacturer="JUCE JAPAN" pluginManufacturerCode="Manu"
+              pluginCode="Ci2f" pluginChannelConfigs="{1, 1},{2, 2}" pluginIsSynth="0"
+              pluginWantsMidiIn="0" pluginProducesMidiOut="0" pluginIsMidiEffectPlugin="0"
+              pluginEditorRequiresKeys="0" pluginAUExportPrefix="SimpleEqualizerAU"
+              pluginRTASCategory="" aaxIdentifier="com.yourcompany.SimpleEqualizer"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.2.3"
+              companyName="JUCE JAPAN">
+  <MAINGROUP id="fHSjW1" name="SimpleEqualizer">
+    <GROUP id="{311EC453-8D4F-16EC-0A51-2F838088E609}" name="Source">
+      <GROUP id="{8939F735-76A1-7AD5-6194-F61139966F64}" name="GUI">
+        <FILE id="gKmpww" name="FilmstripSlider.cpp" compile="1" resource="0"
+              file="Source/GUI/FilmstripSlider.cpp"/>
+        <FILE id="bsa1fm" name="FilmstripSlider.h" compile="0" resource="0"
+              file="Source/GUI/FilmstripSlider.h"/>
+        <FILE id="CJz1BT" name="FilmstripToggleButton.cpp" compile="1" resource="0"
+              file="Source/GUI/FilmstripToggleButton.cpp"/>
+        <FILE id="Uziq05" name="FilmstripToggleButton.h" compile="0" resource="0"
+              file="Source/GUI/FilmstripToggleButton.h"/>
+      </GROUP>
+      <GROUP id="{96A0F873-436A-ACF7-1C23-D442E618CD5C}" name="DSP">
+        <FILE id="yAJS1Z" name="PeakingEQ.cpp" compile="1" resource="0" file="Source/DSP/PeakingEQ.cpp"/>
+        <FILE id="VlTp9N" name="PeakingEQ.h" compile="0" resource="0" file="Source/DSP/PeakingEQ.h"/>
+      </GROUP>
+      <FILE id="Ht9jU9" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="TJthVN" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="Tnbc39" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="hPAXE3" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="" vst3Folder="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SimpleEqualizer"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SimpleEqualizer"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="C:/SDKs/ROLI/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2015 targetFolder="Builds/VisualStudio2015" vstFolder="" vst3Folder="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="1" optimisation="1" targetName="SimpleEqualizer"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="0" optimisation="3" targetName="SimpleEqualizer"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="C:/SDKs/ROLI/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="C:/SDKs/ROLI/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2015>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
+</JUCERPROJECT>
