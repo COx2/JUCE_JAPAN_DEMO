@@ -12,6 +12,16 @@
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.2.3"
               companyName="JUCE JAPAN">
   <MAINGROUP id="h8ZiWl" name="SimpleEqualizer">
+    <GROUP id="{935309A4-6301-F295-808D-EE0C8D40A491}" name="GUI">
+      <FILE id="WP8PDZ" name="FilmstripSlider.cpp" compile="1" resource="0"
+            file="Source/GUI/FilmstripSlider.cpp"/>
+      <FILE id="OpgIdl" name="FilmstripSlider.h" compile="0" resource="0"
+            file="Source/GUI/FilmstripSlider.h"/>
+      <FILE id="svVzRp" name="FilmstripToggleButton.cpp" compile="1" resource="0"
+            file="Source/GUI/FilmstripToggleButton.cpp"/>
+      <FILE id="nItMCg" name="FilmstripToggleButton.h" compile="0" resource="0"
+            file="Source/GUI/FilmstripToggleButton.h"/>
+    </GROUP>
     <GROUP id="{2F0BAC9E-B89C-F845-9247-2BFDFC35AD83}" name="DSP">
       <FILE id="HxEBkd" name="ParametricEQ.cpp" compile="1" resource="0"
             file="Source/DSP/ParametricEQ.cpp"/>

@@ -134,8 +134,9 @@ void SimpleEqualizerAudioProcessor::processBlock (AudioSampleBuffer& buffer, Mid
 	for (int channel = 0; channel < totalNumInputChannels; ++channel)
 	{
 		// EQ Process
-		UserParams[SampleRate] = getSampleRate();
 		float _sampleRate = getSampleRate();
+		UserParams[SampleRate] = _sampleRate;
+
 		float _frequency = 20.0f * pow(1000.0, UserParams[Frequency]);
 		float _bandWidth = 0.1f * pow(60.0, UserParams[BandWidth]);
 		float _gain = 48.0f * (UserParams[Gain] - 0.5f);
