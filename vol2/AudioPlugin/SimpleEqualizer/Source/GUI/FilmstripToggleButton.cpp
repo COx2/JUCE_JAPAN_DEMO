@@ -59,7 +59,7 @@ void FilmstripToggleButton::paint(Graphics& g)
 		bool value = getToggleState();
 		int imageHeight = getWidth();;
 		int imageWidth = getHeight();
-
+		
 		if(isHorizontal)
         {
 			g.drawImage(filmStripImage, (getWidth() - imageWidth) * 0.5, 0, imageWidth, imageHeight,
