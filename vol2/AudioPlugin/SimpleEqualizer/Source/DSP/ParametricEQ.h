@@ -17,7 +17,7 @@ class ParametricEQ {
 public:								// ‡B•Ï”EŠÖ”‚ÌƒAƒNƒZƒXŒ ‚ðPublic‚ÉŽw’è‚·‚ééŒ¾
 	ParametricEQ();					// ‡CƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	~ParametricEQ();				// ‡DƒfƒXƒgƒ‰ƒNƒ^
-	void SetParameter(float samplerate, float freq, float bw, float gain);	// ‡EƒtƒBƒ‹ƒ^‚Ìƒpƒ‰ƒ[ƒ^‚ð•ÏX‚·‚éŠÖ”
+	void SetParameter(float samplerate, float frequency, float bw, float gain);	// ‡EƒtƒBƒ‹ƒ^‚Ìƒpƒ‰ƒ[ƒ^‚ð•ÏX‚·‚éŠÖ”
 	void DoProcess(float* bufferPtr, int bufferSize);						// ‡FƒfƒWƒ^ƒ‹ƒtƒBƒ‹ƒ^‚ð“K—p‚·‚éŠÖ”
 
 private:
