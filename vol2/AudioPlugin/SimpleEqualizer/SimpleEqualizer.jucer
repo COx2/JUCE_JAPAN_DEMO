@@ -13,6 +13,14 @@
               companyName="JUCE JAPAN">
   <MAINGROUP id="h8ZiWl" name="SimpleEqualizer">
     <GROUP id="{935309A4-6301-F295-808D-EE0C8D40A491}" name="GUI">
+      <GROUP id="{24DA2857-FCE3-8A46-04CD-D3862BFC75F3}" name="assets">
+        <FILE id="wAX9LA" name="SimpleEqualizer_bg.png" compile="0" resource="1"
+              file="Resources/SimpleEqualizer_bg.png"/>
+        <FILE id="vGQi48" name="SimpleEqualizer_bypass.png" compile="0" resource="1"
+              file="Resources/SimpleEqualizer_bypass.png"/>
+        <FILE id="WX90XO" name="SimpleEqualizer_knob.png" compile="0" resource="1"
+              file="Resources/SimpleEqualizer_knob.png"/>
+      </GROUP>
       <FILE id="WP8PDZ" name="FilmstripSlider.cpp" compile="1" resource="0"
             file="Source/GUI/FilmstripSlider.cpp"/>
       <FILE id="OpgIdl" name="FilmstripSlider.h" compile="0" resource="0"

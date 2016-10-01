@@ -11,7 +11,7 @@
 #include "ParametricEQ.h"
 #include <Math.h>
 
-// ‡@ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Æ•Ï”‚Ì‰Šú‰»
+// â€¡@Æ’RÆ’â€œÆ’XÆ’gÆ’â€°Æ’NÆ’^â€šÃ†â€¢Ãâ€â€šÃŒâ€°Å Ãºâ€°Â»
 ParametricEQ::ParametricEQ()
 	: a0(1.0f), a1(0.0f), a2(0.0f),
 	b0(1.0f), b1(0.0f), b2(0.0f),
@@ -20,21 +20,21 @@ ParametricEQ::ParametricEQ()
 {
 }
 
-//	ƒfƒXƒgƒ‰ƒNƒ^
+//	Æ’fÆ’XÆ’gÆ’â€°Æ’NÆ’^
 ParametricEQ::~ParametricEQ() {
 }
 
-// ‡AƒtƒBƒ‹ƒ^ƒpƒ‰ƒ[ƒ^‚ğŒvZ‚µ‚Ä•Û‚·‚éŠÖ”
-// float samplerate c ƒTƒ“ƒvƒŠƒ“ƒOü”g”
-// float freq c ’†Sü”g”(Hz)
-// float bw   c ‘Ñˆæ•(Octave)
-// float gain c ‘•—Ê(dB)
+// â€¡AÆ’tÆ’BÆ’â€¹Æ’^Æ’pÆ’â€°Æ’[Æ’^â€šÃ°Å’vÅ½Zâ€šÂµâ€šÃ„â€¢Ã›Å½â€šÂ·â€šÃ©Å Ã–â€
+// float samplerate c Æ’TÆ’â€œÆ’vÆ’Å Æ’â€œÆ’OÅ½Ã¼â€gâ€
+// float freq c â€™â€ SÅ½Ã¼â€gâ€(Hz)
+// float bw   c â€˜Ã‘Ë†Ã¦â€¢(Octave)
+// float gain c â€˜â€¢â€”ÃŠ(dB)
 // H(s) = (s^2 + s*(A/Q) + 1) / (s^2 + s/(A*Q) + 1)
 void ParametricEQ::SetParameter(float samplerate, float frequency, float bw, float gain) {
 
-	float omega = 2.0f * 3.14159265f *  frequency / samplerate;					//	Špü”g”ƒÖ‚ÌŒvZ
-	float sinw = sin(omega);													//	sin(ƒÖ)‚ÌŒvZ
-	float cosw = cos(omega);													//	cos(ƒÖ)‚ÌŒvZ
+	float omega = 2.0f * 3.14159265f *  frequency / samplerate;					//	Å pÅ½Ã¼â€gâ€Æ’Ã–â€šÃŒÅ’vÅ½Z
+	float sinw = sin(omega);													//	sin(Æ’Ã–)â€šÃŒÅ’vÅ½Z
+	float cosw = cos(omega);													//	cos(Æ’Ã–)â€šÃŒÅ’vÅ½Z
 	float alpha = sinw * sinh(log(2.0f) / 2.0 * bw * omega / sinw);				//
 	float A = pow(10.0f, (gain / 40.0f));										//
 
@@ -46,23 +46,23 @@ void ParametricEQ::SetParameter(float samplerate, float frequency, float bw, flo
 	b2 = 1.0f - alpha * A;
 }
 
-// ‡BƒI[ƒfƒBƒIƒoƒbƒtƒ@‚ÉƒtƒBƒ‹ƒ^‚ğ“K—p‚·‚éˆ—
-// float bufferPtr  c ƒI[ƒfƒBƒIƒoƒbƒtƒ@‚Ìƒ|ƒCƒ“ƒ^
-// int  bufferSize c ƒI[ƒfƒBƒIƒoƒbƒtƒ@‚ÌƒTƒCƒY
+// â€¡BÆ’I[Æ’fÆ’BÆ’IÆ’oÆ’bÆ’tÆ’@â€šÃ‰Æ’tÆ’BÆ’â€¹Æ’^â€šÃ°â€œKâ€”pâ€šÂ·â€šÃ©Ë†â€”
+// float bufferPtr  c Æ’I[Æ’fÆ’BÆ’IÆ’oÆ’bÆ’tÆ’@â€šÃŒÆ’|Æ’CÆ’â€œÆ’^
+// int  bufferSize c Æ’I[Æ’fÆ’BÆ’IÆ’oÆ’bÆ’tÆ’@â€šÃŒÆ’TÆ’CÆ’Y
 void ParametricEQ::DoProcess(float* bufferPtr, int bufferSize) {
-	// ƒoƒbƒtƒ@‚ÌƒTƒ“ƒvƒ‹–ˆ‚ÉƒtƒBƒ‹ƒ^ˆ—‚ğŒJ‚è•Ô‚µÀs‚·‚é
+	// Æ’oÆ’bÆ’tÆ’@â€šÃŒÆ’TÆ’â€œÆ’vÆ’â€¹â€“Ë†â€šÃ‰Æ’tÆ’BÆ’â€¹Æ’^Ë†â€”â€šÃ°Å’Jâ€šÃ¨â€¢Ã”â€šÂµÅ½Ã€sâ€šÂ·â€šÃ©
 	for (int i = 0; i < bufferSize; i++) {
-		// “ü—ÍM†‚ÉƒtƒBƒ‹ƒ^‚ğ“K—p‚µAo—ÍM†‚Æ‚µ‚Ä‘‚«o‚·
+		// â€œÃ¼â€”ÃMâ€ â€šÃ‰Æ’tÆ’BÆ’â€¹Æ’^â€šÃ°â€œKâ€”pâ€šÂµAoâ€”ÃMâ€ â€šÃ†â€šÂµâ€šÃ„â€˜â€šÂ«oâ€šÂ·
 		// H(s) = (s^2 + s*(A/Q) + 1) / (s^2 + s/(A*Q) + 1)
 		float out0 = b0 / a0 * bufferPtr[i] + b1 / a0 * in1 + b2 / a0 * in2
 			- a1 / a0 * out1 - a2 / a0 * out2;
 
-		in2 = in1;           // 2‚Â‘O‚Ì“ü—ÍM†‚ğXV
-		in1 = bufferPtr[i];  // 1‚Â‘O‚Ì“ü—ÍM†‚ğXV
+		in2 = in1;           // 2â€šÃ‚â€˜Oâ€šÃŒâ€œÃ¼â€”ÃMâ€ â€šÃ°XV
+		in1 = bufferPtr[i];  // 1â€šÃ‚â€˜Oâ€šÃŒâ€œÃ¼â€”ÃMâ€ â€šÃ°XV
 
-		out2 = out1;         // 2‚Â‘O‚Ìo—ÍM†‚ğXV
-		out1 = out0;         // 1‚Â‘O‚Ìo—ÍM†‚ğXV
+		out2 = out1;         // 2â€šÃ‚â€˜Oâ€šÃŒoâ€”ÃMâ€ â€šÃ°XV
+		out1 = out0;         // 1â€šÃ‚â€˜Oâ€šÃŒoâ€”ÃMâ€ â€šÃ°XV
 
-		bufferPtr[i] = out0; // ƒoƒbƒtƒ@‚Éo—ÍM†‚ğ‘‚«‚Ş
+		bufferPtr[i] = out0; // Æ’oÆ’bÆ’tÆ’@â€šÃ‰oâ€”ÃMâ€ â€šÃ°â€˜â€šÂ«Å¾â€šÃ
 	}
 }

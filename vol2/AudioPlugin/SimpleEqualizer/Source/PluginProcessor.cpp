@@ -150,8 +150,8 @@ void SimpleEqualizerAudioProcessor::processBlock (AudioSampleBuffer& buffer, Mid
 //==============================================================================
 bool SimpleEqualizerAudioProcessor::hasEditor() const
 {
-	return false;
-	//return true; // (change this to false if you choose to not supply an editor)
+	//return false;
+	return true; // (change this to false if you choose to not supply an editor)
 }
 
 AudioProcessorEditor* SimpleEqualizerAudioProcessor::createEditor()

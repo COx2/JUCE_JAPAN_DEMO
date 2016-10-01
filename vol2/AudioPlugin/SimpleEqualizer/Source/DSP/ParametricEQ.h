@@ -8,23 +8,23 @@
   ==============================================================================
 */
 
-// ‡@“ñdƒCƒ“ƒNƒ‹[ƒh–h~‚Ì‚½‚ß‚ÌƒvƒŠƒvƒƒZƒbƒTi©“®¶¬j
-#ifndef PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"‚ªdefine’è‹`‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎAˆÈ‰º‚Ìˆ—‚ğÀs
-#define PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"‚ğdefine’è‹`‚·‚é
+// â€¡@â€œÃ±dÆ’CÆ’â€œÆ’NÆ’â€¹[Æ’hâ€“hÅ½~â€šÃŒâ€šÂ½â€šÃŸâ€šÃŒÆ’vÆ’Å Æ’vÆ’Æ’ZÆ’bÆ’TiÅ½Â©â€œÂ®Â¶Â¬j
+#ifndef PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"â€šÂªdefineâ€™Ã¨â€¹`â€šÂ³â€šÃªâ€šÃ„â€šÂ¢â€šÃˆâ€šÂ¯â€šÃªâ€šÃAË†Ãˆâ€°Âºâ€šÃŒË†â€”â€šÃ°Å½Ã€s
+#define PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"â€šÃ°defineâ€™Ã¨â€¹`â€šÂ·â€šÃ©
 
-// ‡AƒNƒ‰ƒX–¼éŒ¾
+// â€¡AÆ’NÆ’â€°Æ’Xâ€“Â¼Ã©Å’Â¾
 class ParametricEQ {
-public:								// ‡B•Ï”EŠÖ”‚ÌƒAƒNƒZƒXŒ ‚ğPublic‚Éw’è‚·‚ééŒ¾
-	ParametricEQ();					// ‡CƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	~ParametricEQ();				// ‡DƒfƒXƒgƒ‰ƒNƒ^
-	void SetParameter(float samplerate, float freq, float bw, float gain);	// ‡EƒtƒBƒ‹ƒ^‚Ìƒpƒ‰ƒ[ƒ^‚ğ•ÏX‚·‚éŠÖ”
-	void DoProcess(float* bufferPtr, int bufferSize);						// ‡FƒfƒWƒ^ƒ‹ƒtƒBƒ‹ƒ^‚ğ“K—p‚·‚éŠÖ”
+public:								// â€¡Bâ€¢Ãâ€EÅ Ã–â€â€šÃŒÆ’AÆ’NÆ’ZÆ’XÅ’Â â€šÃ°Publicâ€šÃ‰Å½wâ€™Ã¨â€šÂ·â€šÃ©Ã©Å’Â¾
+	ParametricEQ();					// â€¡CÆ’RÆ’â€œÆ’XÆ’gÆ’â€°Æ’NÆ’^
+	~ParametricEQ();				// â€¡DÆ’fÆ’XÆ’gÆ’â€°Æ’NÆ’^
+	void SetParameter(float samplerate, float freq, float bw, float gain);	// â€¡EÆ’tÆ’BÆ’â€¹Æ’^â€šÃŒÆ’pÆ’â€°Æ’[Æ’^â€šÃ°â€¢ÃXâ€šÂ·â€šÃ©Å Ã–â€
+	void DoProcess(float* bufferPtr, int bufferSize);						// â€¡FÆ’fÆ’WÆ’^Æ’â€¹Æ’tÆ’BÆ’â€¹Æ’^â€šÃ°â€œKâ€”pâ€šÂ·â€šÃ©Å Ã–â€
 
 private:
-	float a0, a1, a2, b0, b1, b2;						// ‡G“`’BŠÖ”‚Ìƒpƒ‰ƒ[ƒ^‚ğ•Û‚·‚é•Ï”
-	float in1, in2;										// ‡HƒtƒBƒ‹ƒ^ŒvZ—p‚Ìˆê•Û‘¶•Ï”i“ü—Í‘¤’x‰„Šíj
-	float out1, out2;									// ‡HƒtƒBƒ‹ƒ^ŒvZ—p‚Ìˆê•Û‘¶•Ï”io—Í‘¤’x‰„Šíj
+	float a0, a1, a2, b0, b1, b2;						// â€¡Gâ€œ`â€™BÅ Ã–â€â€šÃŒÆ’pÆ’â€°Æ’[Æ’^â€šÃ°â€¢Ã›Å½â€šÂ·â€šÃ©â€¢Ãâ€
+	float in1, in2;										// â€¡HÆ’tÆ’BÆ’â€¹Æ’^Å’vÅ½Zâ€”pâ€šÃŒË†ÃªÅ½Å¾â€¢Ã›â€˜Â¶â€¢Ãâ€iâ€œÃ¼â€”Ãâ€˜Â¤â€™xâ€°â€Å Ã­j
+	float out1, out2;									// â€¡HÆ’tÆ’BÆ’â€¹Æ’^Å’vÅ½Zâ€”pâ€šÃŒË†ÃªÅ½Å¾â€¢Ã›â€˜Â¶â€¢Ãâ€ioâ€”Ãâ€˜Â¤â€™xâ€°â€Å Ã­j
 };
 
-// ‡@“ñdƒCƒ“ƒNƒ‹[ƒh–h~‚Ì‚½‚ß‚ÌƒvƒŠƒvƒƒZƒbƒTi©“®¶¬j
+// â€¡@â€œÃ±dÆ’CÆ’â€œÆ’NÆ’â€¹[Æ’hâ€“hÅ½~â€šÃŒâ€šÂ½â€šÃŸâ€šÃŒÆ’vÆ’Å Æ’vÆ’Æ’ZÆ’bÆ’TiÅ½Â©â€œÂ®Â¶Â¬j
 #endif  // PARAMETRICEQ_H_INCLUDED
