@@ -20,9 +20,9 @@
 /**
 */
 class SimpleEqualizerAudioProcessorEditor  : public AudioProcessorEditor,
-	private Slider::Listener,
-	private Button::Listener,
-	private Timer
+	private Slider::Listener,// 2-6...
+	private Button::Listener,// 2-6...
+	private Timer// 2-6...
 {
 public:
     SimpleEqualizerAudioProcessorEditor (SimpleEqualizerAudioProcessor&);
@@ -38,6 +38,7 @@ private:
     SimpleEqualizerAudioProcessor& processor;
 
 	///////////////////////////
+	// 2-5...
 	FilmstripSlider Frequency;
 	FilmstripSlider BandWidth;
 	FilmstripSlider Gain;
@@ -53,6 +54,7 @@ private:
 	Image image_bypass;
 	Image image_bg;
 
+	// 2-6...
 	void sliderValueChanged(Slider* changedSlider) override;
 	void buttonClicked(Button* clickedButton) override;
 

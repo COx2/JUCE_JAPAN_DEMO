@@ -16,6 +16,7 @@
 SimpleEqualizerAudioProcessorEditor::SimpleEqualizerAudioProcessorEditor (SimpleEqualizerAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p)
 {
+	// 2-5...
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (480, 144);
@@ -42,14 +43,14 @@ SimpleEqualizerAudioProcessorEditor::SimpleEqualizerAudioProcessorEditor (Simple
 
 
 	// Label
-	FrequencyLabel.setFont(Font("Magneto", 13.0f, Font::plain));
+	FrequencyLabel.setFont(Font(13.0f, Font::plain));
 	FrequencyLabel.setJustificationType(Justification::centredTop);
 	FrequencyLabel.setEditable(false, false, false);
 	FrequencyLabel.setColour(Label::backgroundColourId, Colours::black);
-	FrequencyLabel.setColour(Label::textColourId, Colours::magenta);
+	FrequencyLabel.setColour(Label::textColourId, Colours::cyan);
 	FrequencyLabel.setText("Frequency\n", dontSendNotification);
 
-	BandWidthLabel.setFont(Font("Meiryo UI", 13.0f, Font::plain));
+	BandWidthLabel.setFont(Font(13.0f, Font::plain));
 	BandWidthLabel.setJustificationType(Justification::centredTop);
 	BandWidthLabel.setEditable(false, false, false);
 	BandWidthLabel.setColour(Label::backgroundColourId, Colours::black);
@@ -60,10 +61,10 @@ SimpleEqualizerAudioProcessorEditor::SimpleEqualizerAudioProcessorEditor (Simple
 	GainLabel.setJustificationType(Justification::centredTop);
 	GainLabel.setEditable(false, false, false);
 	GainLabel.setColour(Label::backgroundColourId, Colours::black);
-	GainLabel.setColour(Label::textColourId, Colours::yellow);
+	GainLabel.setColour(Label::textColourId, Colours::cyan);
 	GainLabel.setText("Gain\n", dontSendNotification);
 
-	BypassLabel.setFont(Font("Futura", 13.0f, Font::plain));
+	BypassLabel.setFont(Font(13.0f, Font::plain));
 	BypassLabel.setJustificationType(Justification::centredTop);
 	BypassLabel.setEditable(false, false, false);
 	BypassLabel.setColour(Label::backgroundColourId, Colours::black);
@@ -84,6 +85,7 @@ SimpleEqualizerAudioProcessorEditor::SimpleEqualizerAudioProcessorEditor (Simple
 	addAndMakeVisible(&BypassLabel);
 	addAndMakeVisible(&Bypass);
 
+	// 2-6...
 	// addListener
 	Frequency.addListener(this);
 	BandWidth.addListener(this);
@@ -177,7 +179,7 @@ void SimpleEqualizerAudioProcessorEditor::timerCallback()
 	Gain.setValue(processor.getParameter(SimpleEqualizerAudioProcessor::Gain), dontSendNotification);
 	
 	// Set to Button
-	Bypass.setToggleState(processor.getParameter(SimpleEqualizerAudioProcessor::MasterBypass) >= 1.0f ? true : false, dontSendNotification);
+	Bypass.setToggleState(processor.getParameter(SimpleEqualizerAudioProcessor::MasterBypass) != 1.0f ? false : true, dontSendNotification);
 
 	// Set to Label
 	FrequencyLabel.setText("Frequency\n"
