@@ -110,7 +110,11 @@ void SimpleEqualizerAudioProcessorEditor::paint (Graphics& g)
 
 	image_bg = ImageCache::getFromMemory(BinaryData::SimpleEqualizer_bg_png, BinaryData::SimpleEqualizer_bg_pngSize);
 
-	g.drawImageWithin(image_bg, 0, 0, getWidth(), getHeight(), RectanglePlacement::yTop, false);
+	g.drawImageWithin(image_bg,
+		0, 0,
+		image_bg.getWidth(), image_bg.getHeight()+64,
+		RectanglePlacement::fillDestination,
+		false);
 }
 
 void SimpleEqualizerAudioProcessorEditor::resized()
@@ -118,9 +122,9 @@ void SimpleEqualizerAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 	int _destX, _destY;
-	int buttonWidth = 64, buttonHeight = 64;
-	int knobWidth = 96, knobHeight = 96;
-	int labelWidth = knobWidth, labelHeight = 32;
+	const int buttonWidth = 64, buttonHeight = 64;
+	const int knobWidth = 96, knobHeight = 96;
+	const int labelWidth = knobWidth, labelHeight = 32;
 
 	_destX = 24;
 	_destY = 8;
