@@ -108,6 +108,8 @@ void SimpleEqualizerAudioProcessorEditor::paint (Graphics& g)
     //g.setFont (15.0f);
     //g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 
+	g.fillAll(Colours::black);
+
 	image_bg = ImageCache::getFromMemory(BinaryData::SimpleEqualizer_bg_png, BinaryData::SimpleEqualizer_bg_pngSize);
 
 	g.drawImageWithin(image_bg,
