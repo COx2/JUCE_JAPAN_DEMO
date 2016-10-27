@@ -79,14 +79,6 @@
  //#define JUCE_USE_ANDROID_OPENSLES
 #endif
 
-#ifndef    JUCE_USE_CDREADER
- //#define JUCE_USE_CDREADER
-#endif
-
-#ifndef    JUCE_USE_CDBURNER
- //#define JUCE_USE_CDBURNER
-#endif
-
 //==============================================================================
 // juce_audio_formats flags:
 
@@ -108,6 +100,13 @@
 
 #ifndef    JUCE_USE_WINDOWS_MEDIA_FORMAT
  //#define JUCE_USE_WINDOWS_MEDIA_FORMAT
+#endif
+
+//==============================================================================
+// juce_audio_plugin_client flags:
+
+#ifndef    JUCE_FORCE_USE_LEGACY_PARAM_IDS
+ //#define JUCE_FORCE_USE_LEGACY_PARAM_IDS
 #endif
 
 //==============================================================================
@@ -150,6 +149,14 @@
 
 #ifndef    JUCE_USE_CURL
  //#define JUCE_USE_CURL
+#endif
+
+#ifndef    JUCE_CATCH_UNHANDLED_EXCEPTIONS
+ //#define JUCE_CATCH_UNHANDLED_EXCEPTIONS
+#endif
+
+#ifndef    JUCE_ALLOW_STATIC_NULL_VARIABLES
+ //#define JUCE_ALLOW_STATIC_NULL_VARIABLES
 #endif
 
 //==============================================================================
@@ -253,10 +260,10 @@
  #define JucePlugin_ManufacturerEmail      "***@****.***"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       'Manu'
+ #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             'Yqn4'
+ #define JucePlugin_PluginCode             0x59716e34 // 'Yqn4'
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                0
