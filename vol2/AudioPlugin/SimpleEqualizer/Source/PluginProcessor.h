@@ -84,6 +84,8 @@ private:
 	float UserParams[totalNumParam];
 	ParametricEQ parametricEQ[2]; //Create PeakingEQ for 2ch
 
+	IIRFilter iirFilter[2];
+
 	//GUI
 	bool UIUpdateFlag;
 

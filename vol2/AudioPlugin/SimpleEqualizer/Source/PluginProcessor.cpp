@@ -137,10 +137,14 @@ void SimpleEqualizerAudioProcessor::processBlock (AudioSampleBuffer& buffer, Mid
 		float _sampleRate = getSampleRate();
 		UserParams[SampleRate] = _sampleRate;
 
-		float _frequency = 20.0f * pow(1000.0, UserParams[Frequency]);
-		float _bandWidth = 0.1f * pow(60.0, UserParams[BandWidth]);
+		float _frequency = 20.0f * pow(1000.0f, UserParams[Frequency]);
+		float _bandWidth = 0.1f * pow(60.0f, UserParams[BandWidth]);
+		float _q = 0.2f * pow(100.0, UserParams[BandWidth]);
 		float _gain = 48.0f * (UserParams[Gain] - 0.5f);
 		if (channel < 2) {
+			//iirFilter[channel].setCoefficients(IIRCoefficients::makeLowPass(_sampleRate, _frequency));
+			//iirFilter[channel].processSamples(buffer.getWritePointer(channel), buffer.getNumSamples());
+
 			parametricEQ[channel].SetParameter(_sampleRate, _frequency, _bandWidth, _gain);
 			parametricEQ[channel].DoProcess(buffer.getWritePointer(channel), buffer.getNumSamples());
 		}
@@ -266,10 +270,10 @@ const String SimpleEqualizerAudioProcessor::getParameterText(int index)
 		return UserParams[MasterBypass] != 1.0f ? "EFFECT" : "BYPASS";
 
 	case Parameters::Frequency:
-		return String((int)(pow(1000.0, UserParams[Frequency]) * 20.0)) + String(" Hz");
+		return String((int)(pow(1000.0f, UserParams[Frequency]) * 20.0f)) + String(" Hz");
 
 	case Parameters::BandWidth:
-		return String(pow(60.0, UserParams[BandWidth]) * 0.1f, 2) + String(" Octave");
+		return String(pow(60.0f, UserParams[BandWidth]) * 0.1f, 2) + String(" Octave");
 
 	case Parameters::Gain:
 		return String((48.0f * (UserParams[Gain] - 0.5f)), 1) + String(" dB");

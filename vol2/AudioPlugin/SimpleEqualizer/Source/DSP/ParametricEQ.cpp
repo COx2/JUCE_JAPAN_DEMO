@@ -9,7 +9,7 @@
 */
 
 #include "ParametricEQ.h"
-#include <Math.h>
+#include <math.h>
 
 // ‡@ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Æ•Ï”‚Ì‰Šú‰»
 ParametricEQ::ParametricEQ()
@@ -35,7 +35,7 @@ void ParametricEQ::SetParameter(float samplerate, float frequency, float bw, flo
 	float omega = 2.0f * 3.14159265f *  frequency / samplerate;					//	ŠpŽü”g”ƒÖ‚ÌŒvŽZ
 	float sinw = sin(omega);													//	sin(ƒÖ)‚ÌŒvŽZ
 	float cosw = cos(omega);													//	cos(ƒÖ)‚ÌŒvŽZ
-	float alpha = sinw * sinh(log(2.0f) / 2.0 * bw * omega / sinw);				//
+	float alpha = sinw * sinh(log(2.0f) / 2.0f * bw * omega / sinw);			//
 	float A = pow(10.0f, (gain / 40.0f));										//
 
 	a0 = 1.0f + alpha / A;
