@@ -9,7 +9,7 @@
 */
 
 #include "ParametricEQ.h"
-#include <Math.h>
+#include <math.h>
 
 // ‡@ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Æ•Ï”‚Ì‰Šú‰»
 ParametricEQ::ParametricEQ()

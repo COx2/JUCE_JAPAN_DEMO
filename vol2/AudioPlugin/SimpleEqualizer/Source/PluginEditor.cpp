@@ -114,7 +114,7 @@ void SimpleEqualizerAudioProcessorEditor::paint (Graphics& g)
 
 	g.drawImageWithin(image_bg,
 		0, 0,
-		image_bg.getWidth(), image_bg.getHeight()+64,
+		image_bg.getWidth(), image_bg.getHeight(),
 		RectanglePlacement::yTop,
 		false);
 }
