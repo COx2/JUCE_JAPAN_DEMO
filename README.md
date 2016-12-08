@@ -1,7 +1,7 @@
-## JUCE_JAPAN_DEMO ##
+## JUCE JAPAN DEMO ##
 Demo projects of Juce Japan.
 
-Project Name : JUCE_JAPAN_DEMO
+Project Name : JUCE JAPAN DEMO
 
 Product Name : None
 
@@ -11,7 +11,7 @@ License : GPL v3
 
 [JUCE JAPAN / Outlaw Faction](http://oufac.com/ "Outlaw Faction")
 
-## What's an DistortionFilter? ##
+## What's an JUCE JAPAN DEMO? ##
 
 The JUCE JAPAN DEMO is demo projects correspondig to the book "JUCE JAPAN".
 
