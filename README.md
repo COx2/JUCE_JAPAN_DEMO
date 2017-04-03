@@ -1,3 +1,5 @@
+[![Github All Releases](https://img.shields.io/github/downloads/COx2/JUCE_JAPAN_DEMO/total.svg)]()  [![GitHub release](https://img.shields.io/github/release/COx2/JUCE_JAPAN_DEMO.svg)](https://github.com/COx2/JUCE_JAPAN_DEMO/releases)
+
 ## JUCE JAPAN DEMO ##
 Demo projects of Juce Japan.
 
