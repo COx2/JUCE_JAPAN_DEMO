@@ -13,7 +13,7 @@ License : GPL v3
 
 [JUCE JAPAN / Outlaw Faction](http://oufac.com/ "Outlaw Faction")
 
-## What's an JUCE JAPAN DEMO? ##
+## What's the JUCE JAPAN DEMO? ##
 
 The JUCE JAPAN DEMO is demo projects correspondig to the book "JUCE JAPAN".
 
