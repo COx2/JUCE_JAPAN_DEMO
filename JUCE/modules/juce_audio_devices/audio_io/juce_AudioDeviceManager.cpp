@@ -2,25 +2,26 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-   ------------------------------------------------------------------------------
-
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
+
+namespace juce
+{
 
 AudioDeviceManager::AudioDeviceSetup::AudioDeviceSetup()
     : sampleRate (0),
@@ -381,7 +382,7 @@ AudioIODeviceType* AudioDeviceManager::findType (const String& inputName, const 
     return nullptr;
 }
 
-void AudioDeviceManager::getAudioDeviceSetup (AudioDeviceSetup& setup)
+void AudioDeviceManager::getAudioDeviceSetup (AudioDeviceSetup& setup) const
 {
     setup = currentSetup;
 }
@@ -436,7 +437,7 @@ String AudioDeviceManager::setAudioDeviceSetup (const AudioDeviceSetup& newSetup
     jassert (&newSetup != &currentSetup);    // this will have no effect
 
     if (newSetup == currentSetup && currentAudioDevice != nullptr)
-        return String();
+        return {};
 
     if (! (newSetup == currentSetup))
         sendChangeMessage();
@@ -456,7 +457,7 @@ String AudioDeviceManager::setAudioDeviceSetup (const AudioDeviceSetup& newSetup
         if (treatAsChosenDevice)
             updateXml();
 
-        return String();
+        return {};
     }
 
     if (currentSetup.inputDeviceName != newInputDeviceName
@@ -730,6 +731,9 @@ void AudioDeviceManager::audioDeviceIOCallbackInt (const float** inputChannelDat
         const double msTaken = Time::getMillisecondCounterHiRes() - callbackStartTime;
         const double filterAmount = 0.2;
         cpuUsageMs += filterAmount * (msTaken - cpuUsageMs);
+
+        if (msTaken > msPerBlock)
+            xruns++;
     }
     else
     {
@@ -755,13 +759,14 @@ void AudioDeviceManager::audioDeviceIOCallbackInt (const float** inputChannelDat
 void AudioDeviceManager::audioDeviceAboutToStartInt (AudioIODevice* const device)
 {
     cpuUsageMs = 0;
+    xruns = 0;
 
     const double sampleRate = device->getCurrentSampleRate();
     const int blockSize = device->getCurrentBufferSizeSamples();
 
     if (sampleRate > 0.0 && blockSize > 0)
     {
-        const double msPerBlock = 1000.0 * blockSize / sampleRate;
+        msPerBlock = 1000.0 * blockSize / sampleRate;
         timeToCpuScale = (msPerBlock > 0.0) ? (1.0 / msPerBlock) : 0.0;
     }
 
@@ -778,6 +783,7 @@ void AudioDeviceManager::audioDeviceStoppedInt()
 {
     cpuUsageMs = 0;
     timeToCpuScale = 0;
+    xruns = 0;
     sendChangeMessage();
 
     const ScopedLock sl (audioCallbackLock);
@@ -931,7 +937,7 @@ void AudioDeviceManager::LevelMeter::updateLevel (const float* const* channelDat
             for (int i = 0; i < numChannels; ++i)
                 s += std::abs (channelData[i][j]);
 
-            s /= numChannels;
+            s /= (float) numChannels;
 
             const double decayFactor = 0.99992;
 
@@ -997,8 +1003,16 @@ void AudioDeviceManager::playTestSound()
     }
 }
 
+int AudioDeviceManager::getXRunCount() const noexcept
+{
+    auto deviceXRuns = (currentAudioDevice != nullptr ? currentAudioDevice->getXRunCount() : -1);
+    return (deviceXRuns >= 0 ? deviceXRuns : xruns);
+}
+
 double AudioDeviceManager::getCurrentInputLevel() const noexcept    { return inputLevelMeter.getCurrentLevel(); }
 double AudioDeviceManager::getCurrentOutputLevel() const noexcept   { return outputLevelMeter.getCurrentLevel(); }
 
 void AudioDeviceManager::enableInputLevelMeasurement  (bool enable) noexcept  { inputLevelMeter.setEnabled (enable); }
 void AudioDeviceManager::enableOutputLevelMeasurement (bool enable) noexcept  { outputLevelMeter.setEnabled (enable); }
+
+} // namespace juce
