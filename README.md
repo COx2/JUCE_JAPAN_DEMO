@@ -11,6 +11,8 @@ Current Version : V1.0.0
 
 License : GPL v3
 
+Dependencies : [JUCE v5.2](https://github.com/WeAreROLI/JUCE/tree/5.2.0)
+
 [JUCE JAPAN / Outlaw Faction](http://oufac.com/ "Outlaw Faction")
 
 ## What's the JUCE JAPAN DEMO? ##
