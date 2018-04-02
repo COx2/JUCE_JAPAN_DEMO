@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="OneshotSampler" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.2.1" companyName="JUCE JAPAN" companyWebsite="http://www.oufac.com"
+              jucerVersion="5.3.0" companyName="JUCE JAPAN" companyWebsite="http://www.oufac.com"
               buildVST3="1" pluginIsSynth="1" pluginWantsMidiIn="1" pluginManufacturer="JUCE JAPAN"
               bundleIdentifier="com.JuceJapan.OneshotSampler" reportAppUsage="0">
   <MAINGROUP id="u7J0rK" name="OneshotSampler">
@@ -13,6 +13,9 @@
       <FILE id="b5ysKV" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="peimgD" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+    <GROUP id="{C0B8AD97-6CDE-BC8E-C137-113DB7527C2B}" name="Resource">
+      <FILE id="Bcn8pT" name="sine.wav" compile="0" resource="1" file="Resource/sine.wav"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

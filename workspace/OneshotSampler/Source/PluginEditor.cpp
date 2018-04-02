@@ -27,6 +27,10 @@ OneshotSamplerAudioProcessorEditor::OneshotSamplerAudioProcessorEditor (OneshotS
     addAndMakeVisible(sampleSelectButton);
     sampleSelectButton.setButtonText("Sample Select");
     sampleSelectButton.addListener(this);
+
+    addAndMakeVisible(sineWaveButton);
+    sineWaveButton.setButtonText("Sine Wave");
+    sineWaveButton.addListener(this);
     
     setSize (800, 600);
 }
@@ -49,7 +53,9 @@ void OneshotSamplerAudioProcessorEditor::resized()
     // subcomponents in your editor..
     
     sampleSelectButton.setBoundsRelative(0.6, 0.2, 0.2, 0.2);
-    
+
+	sineWaveButton.setBoundsRelative(0.2, 0.2, 0.2, 0.2);
+
     keyboardComponent.setBoundsRelative(0.0, 0.7, 1.0, 0.3);
     
 }
@@ -58,10 +64,13 @@ void OneshotSamplerAudioProcessorEditor::resized()
 void OneshotSamplerAudioProcessorEditor::buttonClicked(Button* button)
 {
     if (button == &sampleSelectButton)
-        setupSampler();
+        loadSampleFile();
+
+    else if (button == &sineWaveButton)
+        loadSineWave();
 }
 
-void OneshotSamplerAudioProcessorEditor::setupSampler()
+void OneshotSamplerAudioProcessorEditor::loadSampleFile()
 {
     AudioFormatManager formatManager;
     
@@ -76,11 +85,28 @@ void OneshotSamplerAudioProcessorEditor::setupSampler()
         File file(chooser.getResult());
         
         AudioFormatReader* reader = formatManager.createReaderFor(file);
-        
+
         if (reader != nullptr)
         {
             processor.setupSampler(reader);
         }
+    }
+}
+
+void OneshotSamplerAudioProcessorEditor::loadSineWave()
+{
+    AudioFormatManager formatManager;
+
+    // サポートするファイルフォーマットを登録(JUCE標準対応)
+    formatManager.registerBasicFormats();
+
+    MemoryInputStream* inputStream = new MemoryInputStream(BinaryData::sine_wav, BinaryData::sine_wavSize, false);
+
+    AudioFormatReader* reader = formatManager.createReaderFor(inputStream);
+
+    if (reader != nullptr)
+    {
+        processor.setupSampler(reader, inputStream);
     }
 
 }

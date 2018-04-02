@@ -29,7 +29,8 @@ public:
 
 private:
     void buttonClicked(Button* button) override;
-    void setupSampler();
+    void loadSampleFile();
+    void loadSineWave();
     
     
     // This reference is provided as a quick way for your editor to
@@ -37,7 +38,8 @@ private:
     OneshotSamplerAudioProcessor& processor;
     
     TextButton sampleSelectButton;
-    
+    TextButton sineWaveButton;
+
     MidiKeyboardComponent keyboardComponent;     // MIDIKeyboadComponentクラスのポインタ
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OneshotSamplerAudioProcessorEditor)

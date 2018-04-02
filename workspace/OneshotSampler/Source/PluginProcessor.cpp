@@ -23,6 +23,7 @@ OneshotSamplerAudioProcessor::OneshotSamplerAudioProcessor()
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        )
+    , currentStream(nullptr)
 #endif
 {
 }
@@ -240,4 +241,16 @@ void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader* reader_)
     synth.addSound(new SamplerSound("default", *reader, allNotes, 60, 0, 0.1, 10.0));
     
     isBusy = false;
+}
+
+void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader* reader_, MemoryInputStream* newStream)
+{
+    if (currentStream)
+    {
+        delete currentStream;
+        currentStream = nullptr;
+    }
+
+    currentStream = newStream;
+    setupSampler(reader_);
 }

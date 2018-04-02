@@ -58,12 +58,14 @@ public:
 
     MidiKeyboardState* getMidiKeyboardState() { return &keyboardState; };
     void setupSampler(AudioFormatReader* reader);
+    void setupSampler(AudioFormatReader* reader, MemoryInputStream* currentStream_);
     
 private:
     //==============================================================================
     Synthesiser synth;
     MidiKeyboardState keyboardState;              // MIDIデータをMIDIキーボードに最適なデータに変換して保持するクラス
     ScopedPointer<AudioFormatReader> reader;
+    MemoryInputStream* currentStream;
     bool isBusy;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OneshotSamplerAudioProcessor)
