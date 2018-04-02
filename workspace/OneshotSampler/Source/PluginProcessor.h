@@ -64,8 +64,8 @@ private:
     //==============================================================================
     Synthesiser synth;
     MidiKeyboardState keyboardState;              // MIDIデータをMIDIキーボードに最適なデータに変換して保持するクラス
-    ScopedPointer<AudioFormatReader> reader;
-    MemoryInputStream* currentStream;
+    AudioFormatReader* currentReader;
+
     bool isBusy;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OneshotSamplerAudioProcessor)

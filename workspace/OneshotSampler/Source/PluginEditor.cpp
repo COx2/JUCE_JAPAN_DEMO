@@ -100,13 +100,13 @@ void OneshotSamplerAudioProcessorEditor::loadSineWave()
     // サポートするファイルフォーマットを登録(JUCE標準対応)
     formatManager.registerBasicFormats();
 
-    MemoryInputStream* inputStream = new MemoryInputStream(BinaryData::sine_wav, BinaryData::sine_wavSize, false);
+    MemoryInputStream* inputStream = new MemoryInputStream(BinaryData::sine_wav, BinaryData::sine_wavSize, true);
 
     AudioFormatReader* reader = formatManager.createReaderFor(inputStream);
 
     if (reader != nullptr)
     {
-        processor.setupSampler(reader, inputStream);
+        processor.setupSampler(reader);
     }
 
 }

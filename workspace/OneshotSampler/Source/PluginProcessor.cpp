@@ -23,13 +23,18 @@ OneshotSamplerAudioProcessor::OneshotSamplerAudioProcessor()
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        )
-    , currentStream(nullptr)
+    ,currentReader(nullptr)
 #endif
 {
 }
 
 OneshotSamplerAudioProcessor::~OneshotSamplerAudioProcessor()
 {
+    if (currentReader)
+    {
+        delete currentReader;
+        currentReader = nullptr;
+    }
 }
 
 //==============================================================================
@@ -216,19 +221,24 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 }
 
 
-void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader* reader_)
+void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader* newReader)
 {
     isBusy = true;
 
     synth.clearVoices();
     synth.clearSounds();
 
-    reader = reader_;
-        
+    if (currentReader)
+    {
+        delete currentReader;
+        currentReader = nullptr;
+    }
+    currentReader = newReader;
+
     // allow our sound to be played on all notes
     BigInteger allNotes;
     allNotes.setRange(0, 128, true);
-        
+
     // Monophonic
 //    synth.addVoice(new SamplerVoice());
     
@@ -238,19 +248,7 @@ void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader* reader_)
     }
     
     // finally, add our sound
-    synth.addSound(new SamplerSound("default", *reader, allNotes, 60, 0, 0.1, 10.0));
+    synth.addSound(new SamplerSound("default", *currentReader, allNotes, 60, 0, 0.1, 10.0));
     
     isBusy = false;
-}
-
-void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader* reader_, MemoryInputStream* newStream)
-{
-    if (currentStream)
-    {
-        delete currentStream;
-        currentStream = nullptr;
-    }
-
-    currentStream = newStream;
-    setupSampler(reader_);
 }
