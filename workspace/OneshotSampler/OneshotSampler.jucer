@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT name="OneshotSampler" projectType="audioplug" buildStandalone="1"
+<JUCERPROJECT name="OneShotSampler" projectType="audioplug" buildStandalone="1"
               jucerVersion="5.3.0" companyName="JUCE JAPAN" companyWebsite="http://www.oufac.com"
               buildVST3="1" pluginIsSynth="1" pluginWantsMidiIn="1" pluginManufacturer="JUCE JAPAN"
               bundleIdentifier="com.JuceJapan.OneshotSampler" reportAppUsage="0">
-  <MAINGROUP id="u7J0rK" name="OneshotSampler">
+  <MAINGROUP id="u7J0rK" name="OneShotSampler">
     <GROUP id="{B2955811-74BA-9042-14C2-8D9640899D72}" name="Source">
       <FILE id="qXxFj4" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
