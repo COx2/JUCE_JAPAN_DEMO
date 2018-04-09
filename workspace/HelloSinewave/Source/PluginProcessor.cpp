@@ -146,18 +146,13 @@ void HelloSinewaveAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
 	// for Effector Project.
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
-        {
-            //channelData[sample] = sinf(PI * 2 * sample / buffer.getNumSamples() * 2) * level;
-        }
+		float* channelData = buffer.getWritePointer (channel);
     }
 
 	// for Synthesizer/Effector Project.
 	for (int channel = 0; channel < totalNumOutputChannels; ++channel)
 	{
-		auto* channelData = buffer.getWritePointer(channel);
+		float* channelData = buffer.getWritePointer(channel);
 
 		for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
 		{

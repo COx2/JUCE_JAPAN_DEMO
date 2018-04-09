@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="HelloSinewave" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.2.1" reportAppUsage="0" buildVST3="1" buildVST="1"
+              jucerVersion="5.3.0" reportAppUsage="0" buildVST3="1" buildVST="1"
               buildAU="1" buildAUv3="1" companyName="JUCE JAPAN" pluginWantsMidiIn="1"
               pluginProducesMidiOut="1">
   <MAINGROUP id="Ew2wTB" name="HelloSinewave">

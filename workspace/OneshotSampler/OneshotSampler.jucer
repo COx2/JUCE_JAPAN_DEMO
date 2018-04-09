@@ -15,6 +15,7 @@
       <FILE id="peimgD" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
     <GROUP id="{C0B8AD97-6CDE-BC8E-C137-113DB7527C2B}" name="Resource">
+      <FILE id="UMZxa8" name="square.wav" compile="0" resource="1" file="Resource/square.wav"/>
       <FILE id="Bcn8pT" name="sine.wav" compile="0" resource="1" file="Resource/sine.wav"/>
     </GROUP>
   </MAINGROUP>
