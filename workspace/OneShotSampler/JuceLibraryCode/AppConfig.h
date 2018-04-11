@@ -311,10 +311,10 @@
  #define JucePlugin_Enable_IAA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "OneshotSampler"
+ #define JucePlugin_Name                   "OneShotSampler"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "OneshotSampler"
+ #define JucePlugin_Desc                   "OneShotSampler"
 #endif
 #ifndef  JucePlugin_Manufacturer
  #define JucePlugin_Manufacturer           "JUCE JAPAN"
@@ -329,7 +329,7 @@
  #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x52386b71 // 'R8kq'
+ #define JucePlugin_PluginCode             0x436b7338 // 'Cks8'
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                1
@@ -368,10 +368,10 @@
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         OneshotSamplerAU
+ #define JucePlugin_AUExportPrefix         OneShotSamplerAU
 #endif
 #ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "OneshotSamplerAU"
+ #define JucePlugin_AUExportPrefixQuoted   "OneShotSamplerAU"
 #endif
 #ifndef  JucePlugin_AUManufacturerCode
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
@@ -419,5 +419,5 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "JUCE JAPAN: OneshotSampler"
+ #define JucePlugin_IAAName                "JUCE JAPAN: OneShotSampler"
 #endif

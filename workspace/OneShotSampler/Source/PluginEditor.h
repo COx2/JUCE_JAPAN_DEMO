@@ -29,10 +29,7 @@ public:
 
 private:
     void buttonClicked(Button* button) override;
-    void loadSampleFile();
-    void loadSineWave();
-    
-    
+
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     OneshotSamplerAudioProcessor& processor;

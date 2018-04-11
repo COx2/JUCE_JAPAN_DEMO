@@ -12,7 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-
 //==============================================================================
 /**
 */
@@ -57,16 +56,15 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     MidiKeyboardState* getMidiKeyboardState() { return &keyboardState; };
-    void setupSampler(AudioFormatReader* reader);
-    void setupSampler(AudioFormatReader* reader, MemoryInputStream* currentStream_);
-    
+    void setupSampler(AudioFormatReader& newReader);
+	void loadSampleFile();
+	void loadSineWave();
+
 private:
     //==============================================================================
     Synthesiser synth;
     MidiKeyboardState keyboardState;              // MIDIデータをMIDIキーボードに最適なデータに変換して保持するクラス
-    AudioFormatReader* currentReader;
-
-    bool isBusy;
+    bool isChanging;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OneshotSamplerAudioProcessor)
 };

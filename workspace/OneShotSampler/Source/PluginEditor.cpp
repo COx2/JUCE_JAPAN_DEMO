@@ -63,50 +63,10 @@ void OneshotSamplerAudioProcessorEditor::resized()
 // ボタンコンポーネントがクリックされたときのイベントハンドラ（コールバック関数）
 void OneshotSamplerAudioProcessorEditor::buttonClicked(Button* button)
 {
-    if (button == &sampleSelectButton)
-        loadSampleFile();
-
-    else if (button == &sineWaveButton)
-        loadSineWave();
-}
-
-void OneshotSamplerAudioProcessorEditor::loadSampleFile()
-{
-    AudioFormatManager formatManager;
-    
-    // サポートするファイルフォーマットを登録(JUCE標準対応)
-    formatManager.registerBasicFormats();
-    
-    FileChooser chooser("Select a audio file to play...",
-                        File::nonexistent, formatManager.getWildcardForAllFormats());
-    
-    if (chooser.browseForFileToOpen())
-    {
-        File file(chooser.getResult());
-        
-        AudioFormatReader* reader = formatManager.createReaderFor(file);
-
-        if (reader != nullptr)
-        {
-            processor.setupSampler(reader);
-        }
-    }
-}
-
-void OneshotSamplerAudioProcessorEditor::loadSineWave()
-{
-    AudioFormatManager formatManager;
-
-    // サポートするファイルフォーマットを登録(JUCE標準対応)
-    formatManager.registerBasicFormats();
-
-    MemoryInputStream* inputStream = new MemoryInputStream(BinaryData::sine_wav, BinaryData::sine_wavSize, true);
-
-    AudioFormatReader* reader = formatManager.createReaderFor(inputStream);
-
-    if (reader != nullptr)
-    {
-        processor.setupSampler(reader);
-    }
-
+	if (button == &sampleSelectButton) {
+		processor.loadSampleFile();
+	}
+	else if (button == &sineWaveButton) {
+		processor.loadSineWave();
+	}
 }
