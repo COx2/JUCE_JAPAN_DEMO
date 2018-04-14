@@ -13,24 +13,27 @@
 
 
 //==============================================================================
+
+// MIDIKeyboadComponentクラスのインスタンスを作成. 引数には入力するMIDIデータを保持するオブジェクトを与える
 OneshotSamplerAudioProcessorEditor::OneshotSamplerAudioProcessorEditor (OneshotSamplerAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
-    ,keyboardComponent(*p.getMidiKeyboardState(), MidiKeyboardComponent::horizontalKeyboard)
+    : AudioProcessorEditor (&p)
+	, processor(p)
+    , keyboardComponent(p.getMidiKeyboardState(), MidiKeyboardComponent::horizontalKeyboard) 
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    
-    // MIDIKeyboadComponentクラスのインスタンスを作成. 引数には入力するMIDIデータを保持するオブジェクトを与える
-    // MIDIKeyboadComponentを子オブジェクトとして配置・表示する
-    addAndMakeVisible(keyboardComponent);
-    
-    addAndMakeVisible(sampleSelectButton);
+
     sampleSelectButton.setButtonText("Sample Select");
     sampleSelectButton.addListener(this);
 
-    addAndMakeVisible(sineWaveButton);
+
     sineWaveButton.setButtonText("Sine Wave");
     sineWaveButton.addListener(this);
+
+	// MIDIKeyboadComponentを子オブジェクトとして配置・表示する
+	addAndMakeVisible(keyboardComponent);
+	addAndMakeVisible(sampleSelectButton);
+	addAndMakeVisible(sineWaveButton);
     
     setSize (800, 600);
 }

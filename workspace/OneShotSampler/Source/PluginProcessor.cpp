@@ -195,6 +195,9 @@ void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader& newReader)
     BigInteger allNotes;
     allNotes.setRange(0, 128, true);
 
+	// finally, add our sound
+	synth.addSound(new SamplerSound("default", newReader, allNotes, 60, 0, 0.1, 10.0));
+
     // Monophonic
 //    synth.addVoice(new SamplerVoice());
     
@@ -202,9 +205,6 @@ void OneshotSamplerAudioProcessor::setupSampler(AudioFormatReader& newReader)
     for (int i = 0; i < 128; i++) {
         synth.addVoice(new SamplerVoice());
     }
-    
-    // finally, add our sound
-    synth.addSound(new SamplerSound("default", newReader, allNotes, 60, 0, 0.1, 10.0));
     
 	isChanging = false;
 }
@@ -251,5 +251,4 @@ void OneshotSamplerAudioProcessor::loadSineWave()
 
 		delete reader;
 	}
-
 }

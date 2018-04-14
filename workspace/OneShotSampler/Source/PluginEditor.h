@@ -37,7 +37,7 @@ private:
     TextButton sampleSelectButton;
     TextButton sineWaveButton;
 
-    MidiKeyboardComponent keyboardComponent;     // MIDIKeyboadComponentクラスのポインタ
-    
+	MidiKeyboardComponent keyboardComponent;     // MIDIKeyboadComponentクラスのポインタ
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OneshotSamplerAudioProcessorEditor)
 };

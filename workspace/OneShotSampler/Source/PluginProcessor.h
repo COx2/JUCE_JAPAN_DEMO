@@ -55,7 +55,7 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    MidiKeyboardState* getMidiKeyboardState() { return &keyboardState; };
+	MidiKeyboardState& getMidiKeyboardState() { return keyboardState; };
     void setupSampler(AudioFormatReader& newReader);
 	void loadSampleFile();
 	void loadSineWave();
