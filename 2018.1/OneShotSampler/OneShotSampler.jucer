@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT name="OneShotSampler" projectType="audioplug" buildStandalone="1"
+              jucerVersion="5.3.1" companyName="JUCE JAPAN" companyCopyright="JUCE JAPAN"
+              companyWebsite="http://www.oufac.com" reportAppUsage="0" bundleIdentifier="com.JuceJapan.OneShotSampler"
+              pluginFormats="buildAU,buildStandalone,buildVST,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginName="OneShotSampler" pluginDesc="OneShotSampler" pluginManufacturer="JUCE JAPAN"
+              pluginAUMainType="'aumu'" pluginVSTCategory="kPlugCategSynth"
+              pluginVST3Category="Instrument,Sampler">
+  <MAINGROUP id="zvOZDl" name="OneShotSampler">
+    <GROUP id="{EB3BF86D-5904-468E-18C8-A6F8A89AF004}" name="Reource">
+      <FILE id="XDvPyC" name="sine.wav" compile="0" resource="1" file="Resource/sine.wav"/>
+    </GROUP>
+    <GROUP id="{FE757F29-9630-8691-098F-47C0232E0C1B}" name="Source">
+      <FILE id="x12vUV" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="eK5VcG" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="naMdT3" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="HGZubu" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="C:/SDKs/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2017 targetFolder="Builds/VisualStudio2017">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="C:/SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="C:/SDKs/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2017>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
