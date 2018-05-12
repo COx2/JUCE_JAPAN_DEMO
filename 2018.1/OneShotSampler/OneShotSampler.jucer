@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="OneShotSampler" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.3.1" companyName="JUCE JAPAN" companyCopyright="JUCE JAPAN"
+              jucerVersion="5.3.2" companyName="JUCE JAPAN" companyCopyright="JUCE JAPAN"
               companyWebsite="http://www.oufac.com" reportAppUsage="0" bundleIdentifier="com.JuceJapan.OneShotSampler"
-              pluginFormats="buildAU,buildStandalone,buildVST,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginFormats="buildVST,buildVST3,buildAU,buildStandalone" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               pluginName="OneShotSampler" pluginDesc="OneShotSampler" pluginManufacturer="JUCE JAPAN"
               pluginAUMainType="'aumu'" pluginVSTCategory="kPlugCategSynth"
               pluginVST3Category="Instrument,Sampler" buildVST="1" buildVST3="1"
-              buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0" enableIAA="0">
+              buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0" enableIAA="0"
+              id="X2KnhD">
   <MAINGROUP id="zvOZDl" name="OneShotSampler">
     <GROUP id="{EB3BF86D-5904-468E-18C8-A6F8A89AF004}" name="Reource">
       <FILE id="XDvPyC" name="sine.wav" compile="0" resource="1" file="Resource/sine.wav"/>

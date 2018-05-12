@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="HelloSinewave" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.3.1" reportAppUsage="0" buildVST3="1" buildVST="1"
+              jucerVersion="5.3.2" reportAppUsage="0" buildVST3="1" buildVST="1"
               buildAU="1" buildAUv3="1" companyName="JUCE JAPAN" pluginWantsMidiIn="1"
               pluginProducesMidiOut="1" pluginFormats="buildVST,buildVST3,buildAU,buildAUv3,buildStandalone"
-              pluginCharacteristicsValue="pluginWantsMidiIn,pluginProducesMidiOut">
+              pluginCharacteristicsValue="pluginWantsMidiIn,pluginProducesMidiOut"
+              id="nKhXQe">
   <MAINGROUP id="Ew2wTB" name="HelloSinewave">
     <GROUP id="{AFAE2751-21EA-EEDE-D389-83245AD03188}" name="Source">
       <FILE id="vFAy2Q" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -152,4 +153,7 @@
     <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <JUCEOPTIONS/>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>

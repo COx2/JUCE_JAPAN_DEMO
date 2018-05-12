@@ -130,8 +130,6 @@ bool HelloSinewaveAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 }
 #endif
 
-const float PI = 3.14159265358979323846;
-
 void HelloSinewaveAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
@@ -156,7 +154,7 @@ void HelloSinewaveAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
 
 		for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
 		{
-			channelData[sample] = sinf(PI * 2.0f * sample / buffer.getNumSamples()) * level;
+			channelData[sample] = sinf(MathConstants<float>::pi * 2.0f * sample / buffer.getNumSamples()) * level;
 		}
 	}
 }

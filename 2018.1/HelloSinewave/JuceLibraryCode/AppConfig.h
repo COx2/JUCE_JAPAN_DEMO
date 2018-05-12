@@ -170,6 +170,10 @@
  //#define JUCE_PLUGINHOST_AU 0
 #endif
 
+#ifndef    JUCE_PLUGINHOST_LADSPA
+ //#define JUCE_PLUGINHOST_LADSPA 0
+#endif
+
 //==============================================================================
 // juce_audio_utils flags:
 
@@ -333,7 +337,7 @@
  #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x4970387a // 'Ip8z'
+ #define JucePlugin_PluginCode             0x4e6b6878 // 'Nkhx'
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                0
