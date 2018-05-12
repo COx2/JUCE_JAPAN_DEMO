@@ -134,60 +134,58 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 	{
 		if (angleDelta != 0.0f)
 		{
-			if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE) // [7]
+			while (--numSamples >= 0) // 通常のキーON時はここを通る
+
 			{
-				//リリースタイムでここを通る
-				//サンプルの数だけ回す
-				while (--numSamples >= 0)
+				levelDiff *= 0.99f;
+
+				float modulationFactor = (float)sin(lfoAngle) * _lfoParams->LfoLevel->get();
+
+				float currentSample = 0.0f;
+
+				if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveLevel")
 				{
-					levelDiff *= 0.99f;
+					currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get() * modulationFactor;
+
+					currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get() * modulationFactor;
+
+					currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get() * modulationFactor;
+
+					currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get() * modulationFactor;
+				}
+				else
+				{
+					currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get();
+
+					currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get();
+
+					currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get();
+
+					currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get();
+
+				}
+
+				currentSample += (whiteNoise.nextFloat() * 2.0f - 1.0f) * _oscParams->NoiseLevel->get();
+
+				currentSample *= level + levelDiff;
+				currentSample *= ampEnv.getValue();
+
+				for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;)
+					outputBuffer.addSample(channelNum, startSample, currentSample); //バッファに対して加算処理を行う。加算じゃないとダメ
+
+				if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveAngle")
+				{
+					currentAngle += angleDelta * pow(2.0, pitchBend) * (1 + modulationFactor);
+				}
+				else
+				{
+					currentAngle += angleDelta * pow(2.0, pitchBend);
+				}
+				lfoAngle += (_lfoParams->LfoSpeed->get() / getSampleRate()) * MathConstants<double>::twoPi;
+				ampEnv.cycle(); // [8]
 					
-					float modulationFactor = (float)sin(lfoAngle) * _lfoParams->LfoLevel->get();
-
-					float currentSample = 0.0f;
-
-					if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveLevel")
-					{
-						currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get() * modulationFactor;
-
-						currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get() * modulationFactor;
-
-						currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get() * modulationFactor;
-
-						currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get() * modulationFactor;
-					}
-					else
-					{
-						currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get();
-
-						currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get();
-
-						currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get();
-
-						currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get();
-
-					}
-
-					currentSample += (whiteNoise.nextFloat() * 2.0f - 1.0f) * _oscParams->NoiseLevel->get();
-
-					currentSample *= level + levelDiff;
-					currentSample *= ampEnv.getValue();
-
-					// チャンネルの数だけ回す
-					for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;)
-						outputBuffer.addSample(channelNum, startSample, currentSample); //バッファに対して加算処理を行う。加算じゃないとダメ
-					
-					if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveAngle")
-					{
-						currentAngle += angleDelta * pow(2.0, pitchBend) * (1 + modulationFactor);
-					}
-					else
-					{
-						currentAngle += angleDelta * pow(2.0, pitchBend);
-					}
-					lfoAngle += (_lfoParams->LfoSpeed->get() / getSampleRate()) * MathConstants<double>::twoPi;
-					ampEnv.cycle(); // [8]
-
+				if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE) // [7]
+				{
 					if (ampEnv.getValue() <= 0.005) //リリースが十分に小さければ
 					{
 						ampEnv.releaseEnd();
@@ -197,86 +195,20 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 						currentAngle = 0.0;
 						break;
 					}
-
-					if (abs(levelDiff) < 0.0001f)
-					{
-						levelDiff = 0.0f;
-					}
-
-					if (currentAngle > MathConstants<double>::twoPi)
-					{
-						currentAngle -= MathConstants<double>::twoPi;
-					}
-
-					++startSample;
 				}
-			}
-			else
-			{
-				//通常のキーON時はここを通る
-				while (--numSamples >= 0) // [6]
+
+				if (abs(levelDiff) < 0.0001f)
 				{
-					levelDiff *= 0.99f;
-
-					float modulationFactor = (float)sin(lfoAngle) * _lfoParams->LfoLevel->get();
-
-					float currentSample = 0.0f;
-
-					if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveLevel")
-					{
-						currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get() * modulationFactor;
-
-						currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get() * modulationFactor;
-
-						currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get() * modulationFactor;
-
-						currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get() * modulationFactor;
-					}
-					else
-					{
-						currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get();
-
-						currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get();
-
-						currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get();
-
-						currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get();
-
-					}
-
-					currentSample += (whiteNoise.nextFloat() * 2.0f - 1.0f) * _oscParams->NoiseLevel->get();
-
-					currentSample *= level + levelDiff;
-					currentSample *= ampEnv.getValue();
-
-					for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;)
-						outputBuffer.addSample(channelNum, startSample, currentSample); //バッファに対して加算処理を行う。加算じゃないとダメ
-
-					if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveAngle")
-					{
-						currentAngle += angleDelta * pow(2.0, pitchBend) * (1 + modulationFactor);
-					}
-					else
-					{
-						currentAngle += angleDelta * pow(2.0, pitchBend);
-					}
-					lfoAngle += (_lfoParams->LfoSpeed->get() / getSampleRate()) * MathConstants<double>::twoPi;
-					ampEnv.cycle(); // [8]
-
-
-					if (abs(levelDiff) < 0.0001f)
-					{
-						levelDiff = 0.0f;
-					}
-
-					if (currentAngle > MathConstants<double>::twoPi)
-					{
-						currentAngle -= MathConstants<double>::twoPi;
-					}
-
-					++startSample;
-
+					levelDiff = 0.0f;
 				}
+
+				if (currentAngle > MathConstants<double>::twoPi)
+				{
+					currentAngle -= MathConstants<double>::twoPi;
+				}
+
+				++startSample;
+
 			}
 		}
 	}

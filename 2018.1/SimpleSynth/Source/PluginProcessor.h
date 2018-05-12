@@ -59,8 +59,6 @@ public:
 
 	//==============================================================================
 	MidiKeyboardState& getKeyboardState() { return keyboardState; }
-	void addParameterArray(AudioParameterFloat** parameterArray,int arraySize);
-	
 
 	//Parameterの用意[1]
 	const StringArray LFO_TARGETS{ "None", "WaveLevel", "WaveAngle" };
@@ -81,17 +79,17 @@ private:
 	//歪み用の関数[2]
 	static float clippingFunction(float inputValue);
 
+	//[3]のオブジェクトの初期化に必要な情報を保持する構造体[4]
+	dsp::ProcessSpec spec;
+
 	dsp::WaveShaper<float> clipper, limiter;
 	dsp::Gain<float> drive, masterVolume;
 
 	//IIRFilterをマルチチャンネル対応にしておく
 	dsp::ProcessorDuplicator < dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> iirFilter;
-	//dsp::ProcessorDuplicator < dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>> svFilter;
 
 	dsp::Reverb reverb;
 
-	//[3]のオブジェクトの初期化に必要な情報を保持する構造体[4]
-	dsp::ProcessSpec spec;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleSynthAudioProcessor)

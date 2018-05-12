@@ -31,12 +31,12 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 		new AudioParameterFloat("SAWWAVE_LEVEL",	"SawWave-Level", 0.0f, 1.0f, 1.0f),
 		new AudioParameterFloat("TRIWAVE_LEVEL",	"TriWave-Level", 0.0f, 1.0f, 1.0f),
 		new AudioParameterFloat("SQUAREWAVE_LEVEL", "SquareWave-Level", 0.0f, 1.0f, 1.0f),
-		new AudioParameterFloat("NOISE_LEVEL", "Noise-Level",  0.0f, 1.0f, 0.0f),
+		new AudioParameterFloat("NOISE_LEVEL", "Noise-Level",  0.0f, 1.0f, 0.0f)
 	}
 	, lfoParameters{
 		new AudioParameterChoice("LFO_TARGET", "Lfo-Target", LFO_TARGETS, 0),
-		new AudioParameterFloat("LFO_SPEED", "Lfo-Speed",  0.0f, 20.0f, 0.0f),
-		new AudioParameterFloat("LFO_LEVEL", "Lfo-Level",  0.0f, 1.0f, 0.0f),
+		new AudioParameterFloat("LFO_LEVEL", "Lfo-Level",  0.0f, 1.0f, 0.5f),
+		new AudioParameterFloat("LFO_SPEED", "Lfo-Speed",  0.0f, 20.0f, 0.2f)
 	}
 	, ampEnvParameters{
 		new AudioParameterFloat("AMPENV_ATTACK", "Attack", 0.01f, 3.0f, 0.1f),
@@ -60,28 +60,12 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 	, driveParameter(new AudioParameterFloat("DRIVE", "Drive", -24.f, 12.f, 0.0f))
 	, masterVolumePrameter(new AudioParameterFloat("MASTER_VOLUME", "Volume", -36.f, 6.f, -3.0f))
 {
-	addParameter(oscParameters.SineWaveLevel);
-	addParameter(oscParameters.SawWaveLevel);
-	addParameter(oscParameters.TriWaveLevel);
-	addParameter(oscParameters.SquareWaveLevel);
-	addParameter(oscParameters.NoiseLevel);
-	addParameter(lfoParameters.LfoTarget);
-	addParameter(lfoParameters.LfoSpeed);
-	addParameter(lfoParameters.LfoLevel);
-	addParameter(ampEnvParameters.Attack);
-	addParameter(ampEnvParameters.Decay);
-	addParameter(ampEnvParameters.Sustain);
-	addParameter(ampEnvParameters.Release);
+	oscParameters.addAllParameters(*this);
+	lfoParameters.addAllParameters(*this);
+	ampEnvParameters.addAllParameters(*this);
 	addParameter(driveParameter);
-	addParameter(filterParameters.Type);
-	addParameter(filterParameters.Frequency);
-	addParameter(filterParameters.Q);
-	addParameter(reverbParameters.RoomSize);
-	addParameter(reverbParameters.Damping);
-	addParameter(reverbParameters.WetLevel);
-	addParameter(reverbParameters.DryLevel);
-	addParameter(reverbParameters.Width);
-	addParameter(reverbParameters.FreezeMode);
+	filterParameters.addAllParameters(*this);
+	reverbParameters.addAllParameters(*this);
 	addParameter(masterVolumePrameter);
 }
 
@@ -184,9 +168,6 @@ void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 
 	iirFilter.prepare(spec);
 
-	//svFilter.state = new dsp::StateVariableFilter::Parameters<float>;
-	//svFilter.prepare(spec);
-
 	reverb.prepare(spec);
 
 	limiter.prepare(spec);
@@ -260,6 +241,8 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 
     }
 
+	//================================ ボイスセクション ====================================
+
 	synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
 
@@ -280,8 +263,6 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 			, filterParameters.Frequency->get()
 			, filterParameters.Q->get()
 		);
-
-		//iirFilter.state->makeLowPass(spec.sampleRate, filterParameters.Frequency->get(), filterParameters.Q->get());
 	}
 	else if (filterParameters.Type->getCurrentChoiceName() == "High-Pass") 
 	{
@@ -289,8 +270,6 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 			, filterParameters.Frequency->get()
 			, filterParameters.Q->get()
 		);
-
-		//iirFilter.state->makeHighPass(spec.sampleRate, filterParameters.Frequency->get(), filterParameters.Q->get());
 	}
 	else if (filterParameters.Type->getCurrentChoiceName() == "Band-Pass")
 	{
@@ -298,29 +277,8 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 			, filterParameters.Frequency->get()
 			, filterParameters.Q->get()
 		);
-
-		//iirFilter.state->makeBandPass(spec.sampleRate, filterParameters.Frequency->get(), filterParameters.Q->get());
 	}
 	iirFilter.process(context);
-
-
-	//if (filterParameters.Type->getCurrentChoiceName() == "Low-Pass") 
-	//{
-	//	svFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
-	//}
-	//else if (filterParameters.Type->getCurrentChoiceName() == "High-Pass")
-	//{
-	//	svFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
-	//}
-	//else if (filterParameters.Type->getCurrentChoiceName() == "Band-Pass")
-	//{
-	//	svFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
-	//}
-	//svFilter.state->setCutOffFrequency(spec.sampleRate
-	//	, filterParameters.Frequency->get()
-	//	, filterParameters.Q->get()
-	//);
-	//svFilter.process(context);
 
 	juce::dsp::Reverb::Parameters reverbParam;
 	reverbParam.roomSize = reverbParameters.RoomSize->get();
@@ -341,7 +299,7 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 //==============================================================================
 bool SimpleSynthAudioProcessor::hasEditor() const
 {
-	return false;// true; // (change this to false if you choose to not supply an editor)
+	return true; // (change this to false if you choose to not supply an editor)
 }
 
 AudioProcessorEditor* SimpleSynthAudioProcessor::createEditor()
@@ -357,13 +315,15 @@ void SimpleSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
     // as intermediaries to make it easy to save and load complex data.
 	
 	std::unique_ptr<XmlElement> xml(new XmlElement("SimpleSynthParameters"));
-	oscParameters.storeParameters(*xml);
-	lfoParameters.storeParameters(*xml);
-	ampEnvParameters.storeParameters(*xml);
-	filterParameters.storeParameters(*xml);
-	reverbParameters.storeParameters(*xml);
+
+	oscParameters.saveParameters(*xml);
+	lfoParameters.saveParameters(*xml);
+	ampEnvParameters.saveParameters(*xml);
+	filterParameters.saveParameters(*xml);
+	reverbParameters.saveParameters(*xml);
 	xml->setAttribute(driveParameter->paramID, (double)driveParameter->get());
 	xml->setAttribute(masterVolumePrameter->paramID, (double)masterVolumePrameter->get());
+	
 	copyXmlToBinary(*xml, destData);
 }
 
@@ -378,22 +338,14 @@ void SimpleSynthAudioProcessor::setStateInformation (const void* data, int sizeI
 	{
 		if (xmlState->hasTagName("SimpleSynthParameters")) 
 		{
-			oscParameters.restoreParameters(*xmlState);
-			lfoParameters.restoreParameters(*xmlState);
-			ampEnvParameters.restoreParameters(*xmlState);
-			filterParameters.restoreParameters(*xmlState);
-			reverbParameters.restoreParameters(*xmlState);
+			oscParameters.loadParameters(*xmlState);
+			lfoParameters.loadParameters(*xmlState);
+			ampEnvParameters.loadParameters(*xmlState);
+			filterParameters.loadParameters(*xmlState);
+			reverbParameters.loadParameters(*xmlState);
 			*driveParameter = (float)xmlState->getDoubleAttribute(driveParameter->paramID, 0.0);
 			*masterVolumePrameter = (float)xmlState->getDoubleAttribute(masterVolumePrameter->paramID, -3.0);
 		}
-	}
-}
-
-void SimpleSynthAudioProcessor::addParameterArray(AudioParameterFloat** parameterArray, int arraySize)
-{
-	for (int index = 0; index < arraySize; ++index)
-	{
-		addParameter(parameterArray[index]);
 	}
 }
 

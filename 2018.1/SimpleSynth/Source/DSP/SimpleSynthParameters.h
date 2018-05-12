@@ -15,8 +15,9 @@ struct SynthParametersBase
 {
 	virtual ~SynthParametersBase() {};
 
-	virtual void storeParameters(XmlElement& xml) = 0;
-	virtual void restoreParameters(XmlElement& xml) = 0;
+	virtual void addAllParameters(AudioProcessor& processor) = 0;
+	virtual void saveParameters(XmlElement& xml) = 0; 
+	virtual void loadParameters(XmlElement& xml) = 0;
 };
 
 struct OscillatorParameters : public SynthParametersBase
@@ -33,9 +34,9 @@ struct OscillatorParameters : public SynthParametersBase
 		AudioParameterFloat* squareWaveLevel,
 		AudioParameterFloat* noiseLevel);
 
-	virtual void storeParameters(XmlElement& xml) override;
-
-	virtual void restoreParameters(XmlElement& xml) override;
+	virtual void addAllParameters(AudioProcessor& processor) override;
+	virtual void saveParameters(XmlElement& xml) override;
+	virtual void loadParameters(XmlElement& xml) override;
 
 private:
 	OscillatorParameters() {};
@@ -53,9 +54,9 @@ struct AmpEnvelopePatameters : public SynthParametersBase
 		AudioParameterFloat* sustain,
 		AudioParameterFloat* release);
 
-	virtual void storeParameters(XmlElement& xml) override;
-
-	virtual void restoreParameters(XmlElement& xml) override;
+	virtual void addAllParameters(AudioProcessor& processor) override;
+	virtual void saveParameters(XmlElement& xml) override;
+	virtual void loadParameters(XmlElement& xml) override;
 
 private:
 	AmpEnvelopePatameters() {};
@@ -71,9 +72,9 @@ struct LfoParameters : public SynthParametersBase
 				AudioParameterFloat*  lfoLevel,
 				AudioParameterFloat*  lfoSpeed);
 
-	virtual void storeParameters(XmlElement& xml) override;
-
-	virtual void restoreParameters(XmlElement& xml) override;
+	virtual void addAllParameters(AudioProcessor& processor) override;
+	virtual void saveParameters(XmlElement& xml) override;
+	virtual void loadParameters(XmlElement& xml) override;
 
 private:
 	LfoParameters() {};
@@ -89,9 +90,9 @@ struct FilterPatameters : public SynthParametersBase
 		AudioParameterFloat*  frequency,
 		AudioParameterFloat*  q);
 
-	virtual void storeParameters(XmlElement& xml) override;
-
-	virtual void restoreParameters(XmlElement& xml) override;
+	virtual void addAllParameters(AudioProcessor& processor) override;
+	virtual void saveParameters(XmlElement& xml) override;
+	virtual void loadParameters(XmlElement& xml) override;
 
 private:
 	FilterPatameters() {};
@@ -113,9 +114,9 @@ struct ReverbPatameters : public SynthParametersBase
 				AudioParameterFloat*  width,
 				AudioParameterFloat*  freezeMode);
 
-	virtual void storeParameters(XmlElement& xml) override;
-
-	virtual void restoreParameters(XmlElement& xml) override;
+	virtual void addAllParameters(AudioProcessor& processor) override;
+	virtual void saveParameters(XmlElement& xml) override;
+	virtual void loadParameters(XmlElement& xml) override;
 
 private:
 	ReverbPatameters() {};
