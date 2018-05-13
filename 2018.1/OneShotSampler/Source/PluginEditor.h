@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     This file was auto-generated!
@@ -28,11 +28,11 @@ public:
     void resized() override;
 
 private:
-	void buttonClicked(Button* button) override;  // Button::ListenerƒNƒ‰ƒX‚ÌƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚é
+	void buttonClicked(Button* button) override;  // Button::Listenerã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹
 
-	TextButton sampleSelectButton;					// TextButtonƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒXiƒTƒ“ƒvƒ‹‰¹Œ¹‘I‘ğ—pj
-	TextButton sineWaveButton;						// TextButtonƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒXiƒTƒCƒ“”g‘I‘ğ—pj
-	MidiKeyboardComponent keyboardComponent;     // MidiKeyboadComponentƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	TextButton sampleSelectButton;					// TextButtonã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ï¼ˆã‚µãƒ³ãƒ—ãƒ«éŸ³æºé¸æŠç”¨ï¼‰
+	TextButton sineWaveButton;						// TextButtonã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ï¼ˆã‚µã‚¤ãƒ³æ³¢é¸æŠç”¨ï¼‰
+	MidiKeyboardComponent keyboardComponent;     // MidiKeyboadComponentã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

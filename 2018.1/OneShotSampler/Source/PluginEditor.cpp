@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     This file was auto-generated!
@@ -16,20 +16,20 @@ OneShotSamplerAudioProcessorEditor::OneShotSamplerAudioProcessorEditor (OneShotS
     : AudioProcessorEditor (&p), processor (p)
 	, keyboardComponent(p.getMidiKeyboardState(), MidiKeyboardComponent::horizontalKeyboard)
 {
-	// ‡A ƒeƒLƒXƒgƒ{ƒ^ƒ“ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌÚ×İ’è
+	// â‘¡ ãƒ†ã‚­ã‚¹ãƒˆãƒœã‚¿ãƒ³ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è©³ç´°è¨­å®š
 	sampleSelectButton.setButtonText("Sample Select");
 	sampleSelectButton.addListener(this);
 
-	// ‡A ƒeƒLƒXƒgƒ{ƒ^ƒ“ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌÚ×İ’è
+	// â‘¡ ãƒ†ã‚­ã‚¹ãƒˆãƒœã‚¿ãƒ³ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è©³ç´°è¨­å®š
 	sineWaveButton.setButtonText("Sine Wave");
 	sineWaveButton.addListener(this);
 
-	// ‡BŠeGUIƒRƒ“ƒ|[ƒlƒ“ƒg‚ğqƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä”z’uE•\¦‚·‚é
+	// â‘¢å„GUIã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦é…ç½®ãƒ»è¡¨ç¤ºã™ã‚‹
 	addAndMakeVisible(keyboardComponent);
 	addAndMakeVisible(sampleSelectButton);
 	addAndMakeVisible(sineWaveButton);
 
-	// ‡C ƒEƒCƒ“ƒhƒEƒTƒCƒY‚ğw’è‚·‚é
+	// â‘£ ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’æŒ‡å®šã™ã‚‹
 	setSize(800, 600);
 }
 
@@ -50,7 +50,7 @@ void OneShotSamplerAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-	// ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌÀ•W‚ÆƒTƒCƒY‚ğAƒEƒCƒ“ƒhƒEƒTƒCƒY‚ğŠî€‚Æ‚·‚éƒp[ƒZƒ“ƒg‚É‚æ‚é‘Š‘Î’l‚ÅŒˆ’è‚·‚é
+	// ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åº§æ¨™ã¨ã‚µã‚¤ã‚ºã‚’ã€ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’åŸºæº–ã¨ã™ã‚‹ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆã«ã‚ˆã‚‹ç›¸å¯¾å€¤ã§æ±ºå®šã™ã‚‹
 	sampleSelectButton.setBoundsRelative(0.6, 0.2, 0.2, 0.2);
 	sineWaveButton.setBoundsRelative(0.2, 0.2, 0.2, 0.2);
 	keyboardComponent.setBoundsRelative(0.0, 0.7, 1.0, 0.3);
@@ -58,11 +58,11 @@ void OneShotSamplerAudioProcessorEditor::resized()
 
 void OneShotSamplerAudioProcessorEditor::buttonClicked(Button* button)
 {
-	// ƒNƒŠƒbƒN‚³‚ê‚½ƒ{ƒ^ƒ“‚ªsampleSelectButtonƒIƒuƒWƒFƒNƒg‚¾‚Á‚½ê‡,ŠÖ”loadSampleFile‚ğÀs‚·‚é.
+	// ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸãƒœã‚¿ãƒ³ãŒsampleSelectButtonã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã ã£ãŸå ´åˆ,é–¢æ•°loadSampleFileã‚’å®Ÿè¡Œã™ã‚‹.
 	if (button == &sampleSelectButton) {
 		processor.loadSampleFile();
 	}
-	// ƒNƒŠƒbƒN‚³‚ê‚½ƒ{ƒ^ƒ“‚ªsineWaveButtonƒIƒuƒWƒFƒNƒg‚¾‚Á‚½ê‡,ŠÖ”loadSineWave‚ğÀs‚·‚é. 
+	// ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸãƒœã‚¿ãƒ³ãŒsineWaveButtonã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã ã£ãŸå ´åˆ,é–¢æ•°loadSineWaveã‚’å®Ÿè¡Œã™ã‚‹. 
 	else if (button == &sineWaveButton) {
 		processor.loadSineWave();
 	}

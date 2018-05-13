@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     SimpleVoice.h
@@ -96,7 +96,7 @@ private:
 
 	AmpEnvelope ampEnv;
 
-	// double¸“x‚É‚µ‚È‚¢‚Æƒoƒbƒtƒ@ƒtƒ[‚ª‘Šú‚É”­¶‚·‚é
+	// doubleç²¾åº¦ã«ã—ãªã„ã¨ãƒãƒƒãƒ•ã‚¡ãƒ•ãƒ­ãƒ¼ãŒæ—©æœŸã«ç™ºç”Ÿã™ã‚‹
 	double angleDelta;
 	double currentAngle;
 	double pitchBend;

@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     AmpEnvelope.cpp
@@ -64,7 +64,7 @@ void AmpEnvelope::setParameters(float attackTime, float decayTime, float sustain
 
 void AmpEnvelope::cycle()
 {
-	// 1ƒTƒ“ƒvƒ‹‚²‚Æ‚Ìvalue’l‚Ì•Ï‰»
+	// 1ã‚µãƒ³ãƒ—ãƒ«ã”ã¨ã®valueå€¤ã®å¤‰åŒ–
 
 	switch (_ampState)
 	{

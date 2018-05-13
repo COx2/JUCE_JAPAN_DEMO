@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     SimpleVoice.cpp
@@ -40,11 +40,11 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 
 	if (SimpleSound* sound = dynamic_cast<SimpleSound*> (s))
 	{
-		// ˆÙ‚È‚éƒm[ƒg‚Ìê‡‚ÍstopNote‚ªÀs‚³‚ê‚¸ƒŠƒŠ[ƒXó‘Ô‚Å‚Í‚È‚¢‚Ì‚ÅAŒ»İ‚Ìƒ‰ƒWƒAƒ“‚ğˆÛ
+		// ç•°ãªã‚‹ãƒãƒ¼ãƒˆã®å ´åˆã¯stopNoteãŒå®Ÿè¡Œã•ã‚Œãšãƒªãƒªãƒ¼ã‚¹çŠ¶æ…‹ã§ã¯ãªã„ã®ã§ã€ç¾åœ¨ã®ãƒ©ã‚¸ã‚¢ãƒ³ã‚’ç¶­æŒ
 		if (ampEnv.getState() != AmpEnvelope::AMPENV_STATE::RELEASE
 			&& ampEnv.getState() != AmpEnvelope::AMPENV_STATE::WAIT)
 		{
-			//ƒ{ƒCƒX‚Ì”­‰¹‚ª‰‚ß‚Ä‚Ìê‡‚Íƒ‰ƒWƒAƒ“‚ğ0‚Æ‚µ‚ÄƒŠƒZƒbƒg‚·‚é
+			//ãƒœã‚¤ã‚¹ã®ç™ºéŸ³ãŒåˆã‚ã¦ã®å ´åˆã¯ãƒ©ã‚¸ã‚¢ãƒ³ã‚’0ã¨ã—ã¦ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 			currentAngle = 0.0;
 			lfoAngle = 0.0;
 		}
@@ -52,7 +52,7 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 		if (isVelocitySense) {
 			if (velocity <= 0.01f)
 				velocity = 0.01f;
-			level = velocity * 0.4f; 		// * 0.15‚ğ‚µ‚Ä‚¨‚©‚È‚¢‚ÆA‰ÁZ‡¬‚³‚ê‚é‚Ì‚Å”j’]‚·‚é;
+			level = velocity * 0.4f; 		// * 0.15ã‚’ã—ã¦ãŠã‹ãªã„ã¨ã€åŠ ç®—åˆæˆã•ã‚Œã‚‹ã®ã§ç ´ç¶»ã™ã‚‹;
 		}
 		else 
 		{
@@ -64,11 +64,11 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 		double cyclesPerSample = cyclesPerSecond / getSampleRate();
 
-		// startNote‚Å‚Í‚¶‚ß‚ÄangelDelta‚ªŠm’è‚·‚é
-		// MathConstants<double>::pi‚Í‹L–‚Åà–¾
+		// startNoteã§ã¯ã˜ã‚ã¦angelDeltaãŒç¢ºå®šã™ã‚‹
+		// MathConstants<double>::piã¯è¨˜äº‹ã§èª¬æ˜
 		angleDelta = cyclesPerSample * MathConstants<double>::twoPi;
 
-		// ‚±‚Ì‚ÉƒTƒ“ƒvƒ‹ƒŒ[ƒg‚ÍŠm’è‚µ‚Ä‚¢‚é
+		// ã“ã®æ™‚ã«ã‚µãƒ³ãƒ—ãƒ«ãƒ¬ãƒ¼ãƒˆã¯ç¢ºå®šã—ã¦ã„ã‚‹
 		ampEnv.attackStart((float)getSampleRate());
 		ampEnv.cycle();
 
@@ -82,7 +82,7 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 
 void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 {
-	// ƒVƒ“ƒZƒTƒCƒU[ƒNƒ‰ƒX‚©‚çŒÄ‚Î‚ê‚é‚Æ‚«AƒL[ƒŠƒŠ[ƒX‚¾‚ÆallowTailOff == trueAƒL[ƒŠƒŠ[ƒX’¼Œã‚Ìƒ{ƒCƒXƒXƒ`[ƒ‹‚Å‚ÍallowTailOff == false
+	// ã‚·ãƒ³ã‚»ã‚µã‚¤ã‚¶ãƒ¼ã‚¯ãƒ©ã‚¹ã‹ã‚‰å‘¼ã°ã‚Œã‚‹ã¨ãã€ã‚­ãƒ¼ãƒªãƒªãƒ¼ã‚¹ã ã¨allowTailOff == trueã€ã‚­ãƒ¼ãƒªãƒªãƒ¼ã‚¹ç›´å¾Œã®ãƒœã‚¤ã‚¹ã‚¹ãƒãƒ¼ãƒ«ã§ã¯allowTailOff == false
 	DBG("[VOICE] stopNote()" + juce::String((int)allowTailOff));
 	DBG(juce::String("[VOICE] SropNote: ") + "CurrentSine: " + juce::String(std::to_string(sin(currentAngle))) + ", CurrentAngle: " + juce::String(std::to_string(currentAngle)));
 
@@ -95,7 +95,7 @@ void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 	}
 	else
 	{
-		// ƒŠƒŠ[ƒXó‘Ô‚Å‚È‚¢‚Æ‚«‚ÍangleDelta‚ğƒŠƒZƒbƒg‚¹‚¸‚ÉƒŠƒŠ[ƒXó‘Ô‚ÉˆÚs
+		// ãƒªãƒªãƒ¼ã‚¹çŠ¶æ…‹ã§ãªã„ã¨ãã¯angleDeltaã‚’ãƒªã‚»ãƒƒãƒˆã›ãšã«ãƒªãƒªãƒ¼ã‚¹çŠ¶æ…‹ã«ç§»è¡Œ
 		if (ampEnv.getState() != AmpEnvelope::AMPENV_STATE::RELEASE
 			&& ampEnv.getState() != AmpEnvelope::AMPENV_STATE::WAIT)
 		{
@@ -103,7 +103,7 @@ void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 		}
 		else if(ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE)
 		{
-			// ƒŠƒŠ[ƒXó‘Ô‚É“ü‚Á‚Ä‚¢‚½‚Æ‚«‚ÍangleDelta‚ğƒŠƒZƒbƒg‚·‚é
+			// ãƒªãƒªãƒ¼ã‚¹çŠ¶æ…‹ã«å…¥ã£ã¦ã„ãŸã¨ãã¯angleDeltaã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 			angleDelta = 0.0f;		
 		}
 
@@ -113,7 +113,7 @@ void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 
 void SimpleVoice::pitchWheelMoved(int newPitchWheelValue)
 {
-	// ƒVƒ“ƒZƒTƒCƒU[ƒNƒ‰ƒX‚©‚çŒÄ‚Î‚ê‚é‚Æ‚«AƒL[ƒŠƒŠ[ƒX‚¾‚ÆallowTailOff == trueAƒL[ƒŠƒŠ[ƒX’¼Œã‚Ìƒ{ƒCƒXƒXƒ`[ƒ‹‚Å‚ÍallowTailOff == false
+	// ã‚·ãƒ³ã‚»ã‚µã‚¤ã‚¶ãƒ¼ã‚¯ãƒ©ã‚¹ã‹ã‚‰å‘¼ã°ã‚Œã‚‹ã¨ãã€ã‚­ãƒ¼ãƒªãƒªãƒ¼ã‚¹ã ã¨allowTailOff == trueã€ã‚­ãƒ¼ãƒªãƒªãƒ¼ã‚¹ç›´å¾Œã®ãƒœã‚¤ã‚¹ã‚¹ãƒãƒ¼ãƒ«ã§ã¯allowTailOff == false
 	DBG("[VOICE] pitchWheelMoved(): " + juce::String(newPitchWheelValue));
 
 	pitchBend = ((double)newPitchWheelValue - 8192.0) / 8192.0;
@@ -129,12 +129,12 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 {
 	ampEnv.setParameters(_ampEnvParams->Attack->get(), _ampEnvParams->Decay->get(), _ampEnvParams->Sustain->get(), _ampEnvParams->Release->get());
 
-	// clearCurrentNote()ÀsŒã‚Å‚Í‚±‚±‚Í’Ê‚ê‚È‚¢
+	// clearCurrentNote()å®Ÿè¡Œå¾Œã§ã¯ã“ã“ã¯é€šã‚Œãªã„
 	if (SimpleSound* playingSound = static_cast<SimpleSound*>(getCurrentlyPlayingSound().get()))
 	{
 		if (angleDelta != 0.0f)
 		{
-			while (--numSamples >= 0) // ’Êí‚ÌƒL[ON‚Í‚±‚±‚ğ’Ê‚é
+			while (--numSamples >= 0) // é€šå¸¸ã®ã‚­ãƒ¼ONæ™‚ã¯ã“ã“ã‚’é€šã‚‹
 
 			{
 				levelDiff *= 0.99f;
@@ -171,7 +171,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				currentSample *= ampEnv.getValue();
 
 				for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;)
-					outputBuffer.addSample(channelNum, startSample, currentSample); //ƒoƒbƒtƒ@‚É‘Î‚µ‚Ä‰ÁZˆ—‚ğs‚¤B‰ÁZ‚¶‚á‚È‚¢‚Æƒ_ƒ
+					outputBuffer.addSample(channelNum, startSample, currentSample); //ãƒãƒƒãƒ•ã‚¡ã«å¯¾ã—ã¦åŠ ç®—å‡¦ç†ã‚’è¡Œã†ã€‚åŠ ç®—ã˜ã‚ƒãªã„ã¨ãƒ€ãƒ¡
 
 				if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveAngle")
 				{
@@ -186,7 +186,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 					
 				if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE) // [7]
 				{
-					if (ampEnv.getValue() <= 0.005) //ƒŠƒŠ[ƒX‚ª\•ª‚É¬‚³‚¯‚ê‚Î
+					if (ampEnv.getValue() <= 0.005) //ãƒªãƒªãƒ¼ã‚¹ãŒååˆ†ã«å°ã•ã‘ã‚Œã°
 					{
 						ampEnv.releaseEnd();
 

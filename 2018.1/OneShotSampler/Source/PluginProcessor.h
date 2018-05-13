@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     This file was auto-generated!
@@ -55,23 +55,23 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	// ƒVƒ“ƒZƒTƒCƒU[‚ÌƒZƒbƒgƒAƒbƒvˆ—
-	// ƒTƒ“ƒvƒ‹‰¹Œ¹‚Ìƒ[ƒhASamplerSoundƒIƒuƒWƒFƒNƒg‚Ì¶¬‚ÆƒZƒbƒgASamplerVoiceƒIƒuƒWƒFƒNƒg‚Ì¶¬‚ÆƒZƒbƒg‚ğs‚¤
+	// ã‚·ãƒ³ã‚»ã‚µã‚¤ã‚¶ãƒ¼ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—å‡¦ç†
+	// ã‚µãƒ³ãƒ—ãƒ«éŸ³æºã®ãƒ­ãƒ¼ãƒ‰ã€SamplerSoundã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆã¨ã‚»ãƒƒãƒˆã€SamplerVoiceã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆã¨ã‚»ãƒƒãƒˆã‚’è¡Œã†
 	void setupSampler(AudioFormatReader& newReader);
 
-	// ƒTƒ“ƒvƒ‹‰¹Œ¹‚ğƒtƒ@ƒCƒ‹ƒuƒ‰ƒEƒU‚©‚ç‘I‘ğ‚µ‚Ä“Ç‚İ‚İAƒZƒbƒgƒAƒbƒvˆ—‚ğÀs‚·‚é
+	// ã‚µãƒ³ãƒ—ãƒ«éŸ³æºã‚’ãƒ•ã‚¡ã‚¤ãƒ«ãƒ–ãƒ©ã‚¦ã‚¶ã‹ã‚‰é¸æŠã—ã¦èª­ã¿è¾¼ã¿ã€ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹
 	void loadSampleFile();
 
-	// ƒTƒ“ƒvƒ‹‰¹Œ¹‚ğƒoƒCƒiƒŠƒf[ƒ^‚ÌƒTƒCƒ“”g‚ğ“Ç‚İ‚İAƒZƒbƒgƒAƒbƒvˆ—‚ğÀs‚·‚é
+	// ã‚µãƒ³ãƒ—ãƒ«éŸ³æºã‚’ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ãƒ³æ³¢ã‚’èª­ã¿è¾¼ã¿ã€ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—å‡¦ç†ã‚’å®Ÿè¡Œã™ã‚‹
 	void loadSineWave();
 
-	// MidiKeyboardStateƒIƒuƒWƒFƒNƒg‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
+	// MidiKeyboardStateã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
 	MidiKeyboardState& getMidiKeyboardState() { return keyboardState; };
 
 private:
-	Synthesiser synth;								// SynthesiserƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	MidiKeyboardState keyboardState;				// MidiKeyboardStateƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	bool isChanging;									// processBlock‚Ìˆ—‚ğƒXƒLƒbƒv‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+	Synthesiser synth;								// Synthesiserã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	MidiKeyboardState keyboardState;				// MidiKeyboardStateã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	bool isChanging;									// processBlockã®å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OneShotSamplerAudioProcessor)

@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     This file was auto-generated!
@@ -60,7 +60,7 @@ public:
 	//==============================================================================
 	MidiKeyboardState& getKeyboardState() { return keyboardState; }
 
-	//Parameter‚Ì—pˆÓ[1]
+	//Parameterã®ç”¨æ„[1]
 	const StringArray LFO_TARGETS{ "None", "WaveLevel", "WaveAngle" };
 	const StringArray FILTER_TYPES{ "Low-Pass", "High-Pass", "Band-Pass" };
 
@@ -76,16 +76,16 @@ private:
 	MidiKeyboardState keyboardState;
 	Synthesiser		  synth;
 
-	//˜c‚İ—p‚ÌŠÖ”[2]
+	//æ­ªã¿ç”¨ã®é–¢æ•°[2]
 	static float clippingFunction(float inputValue);
 
-	//[3]‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»‚É•K—v‚Èî•ñ‚ğ•Û‚·‚é\‘¢‘Ì[4]
+	//[3]ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ã«å¿…è¦ãªæƒ…å ±ã‚’ä¿æŒã™ã‚‹æ§‹é€ ä½“[4]
 	dsp::ProcessSpec spec;
 
 	dsp::WaveShaper<float> clipper, limiter;
 	dsp::Gain<float> drive, masterVolume;
 
-	//IIRFilter‚ğƒ}ƒ‹ƒ`ƒ`ƒƒƒ“ƒlƒ‹‘Î‰‚É‚µ‚Ä‚¨‚­
+	//IIRFilterã‚’ãƒãƒ«ãƒãƒãƒ£ãƒ³ãƒãƒ«å¯¾å¿œã«ã—ã¦ãŠã
 	dsp::ProcessorDuplicator < dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> iirFilter;
 
 	dsp::Reverb reverb;

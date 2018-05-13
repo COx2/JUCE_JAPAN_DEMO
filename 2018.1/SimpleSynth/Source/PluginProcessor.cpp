@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     This file was auto-generated!
@@ -146,7 +146,7 @@ void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 
 	synth.setCurrentPlaybackSampleRate(sampleRate);
 
-	// ƒTƒCƒ“”g‚ğŠ„‚è“–‚Ä‚éƒm[ƒg”Ô†‚Ì”ÍˆÍ‚ğ’è‹`‚·‚éBŠÖ”"setRange" ‚É‚Ä0`127‚Ì’l‚ğtrue‚Éİ’è‚·‚éB
+	// ã‚µã‚¤ãƒ³æ³¢ã‚’å‰²ã‚Šå½“ã¦ã‚‹ãƒãƒ¼ãƒˆç•ªå·ã®ç¯„å›²ã‚’å®šç¾©ã™ã‚‹ã€‚é–¢æ•°"setRange" ã«ã¦0ï½127ã®å€¤ã‚’trueã«è¨­å®šã™ã‚‹ã€‚
 	BigInteger sineNotes;
 	sineNotes.setRange(0, 127, true);
 	synth.addSound(new SimpleSound(sineNotes));
@@ -236,19 +236,19 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 
         // ..do something to the data...
 
-		// ƒVƒ“ƒZƒTƒCƒU[‚Åƒoƒbƒtƒ@‚É‘Î‚µ‚Ä‰ÁZˆ—‚ğs‚¤‘O‚Éƒ[ƒƒNƒŠƒA‚ğ‚µ‚Ä‚¨‚­B
+		// ã‚·ãƒ³ã‚»ã‚µã‚¤ã‚¶ãƒ¼ã§ãƒãƒƒãƒ•ã‚¡ã«å¯¾ã—ã¦åŠ ç®—å‡¦ç†ã‚’è¡Œã†å‰ã«ã‚¼ãƒ­ã‚¯ãƒªã‚¢ã‚’ã—ã¦ãŠãã€‚
 		buffer.clear(channel, 0, buffer.getNumSamples());
 
     }
 
-	//================================ ƒ{ƒCƒXƒZƒNƒVƒ‡ƒ“ ====================================
+	//================================ ãƒœã‚¤ã‚¹ã‚»ã‚¯ã‚·ãƒ§ãƒ³ ====================================
 
 	synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
 
-	//================================ ƒGƒtƒFƒNƒgƒZƒNƒVƒ‡ƒ“ ====================================
+	//================================ ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚»ã‚¯ã‚·ãƒ§ãƒ³ ====================================
 
-	// juce::dspƒ‚ƒWƒ…[ƒ‹‚É“n‚¹‚é‚æ‚¤‚É“ü—ÍM†ƒoƒbƒtƒ@‚ğƒ‰ƒbƒv‚·‚é
+	// juce::dspãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã«æ¸¡ã›ã‚‹ã‚ˆã†ã«å…¥åŠ›ä¿¡å·ãƒãƒƒãƒ•ã‚¡ã‚’ãƒ©ãƒƒãƒ—ã™ã‚‹
 	dsp::AudioBlock<float> audioBlock(buffer);
 	dsp::ProcessContextReplacing<float> context(audioBlock);
 
@@ -351,10 +351,10 @@ void SimpleSynthAudioProcessor::setStateInformation (const void* data, int sizeI
 
 float SimpleSynthAudioProcessor::clippingFunction(float inputValue)
 {
-	float threshold = std::tanhf(inputValue); // ‘o‹Èü³Ú...1‚Ì‚É0.8‚Ì’l‚ğ, -1‚Ì‚É-0.8‚Ì’l‚ğæ‚é
+	float threshold = std::tanhf(inputValue); // åŒæ›²ç·šæ­£æ¥...1ã®æ™‚ã«0.8ã®å€¤ã‚’, -1ã®æ™‚ã«-0.8ã®å€¤ã‚’å–ã‚‹
 	float outputValue = inputValue;
 
-	//inputValue‚ª³‚Ì’l‚È‚çthreshold‚à³‚Ì’lCinputValue‚ª•‰‚Ì’l‚È‚çthreshold‚à•‰‚Ì’l‚ğæ‚é‚Ì‚ÅCâ‘Î’l‚Å”äŠr‚·‚é
+	//inputValueãŒæ­£ã®å€¤ãªã‚‰thresholdã‚‚æ­£ã®å€¤ï¼ŒinputValueãŒè² ã®å€¤ãªã‚‰thresholdã‚‚è² ã®å€¤ã‚’å–ã‚‹ã®ã§ï¼Œçµ¶å¯¾å€¤ã§æ¯”è¼ƒã™ã‚‹
 	if (abs(inputValue) >= abs(threshold)) outputValue = threshold;
 
 	return outputValue;

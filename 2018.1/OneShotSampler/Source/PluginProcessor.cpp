@@ -1,4 +1,4 @@
-/*
+ï»¿/*
   ==============================================================================
 
     This file was auto-generated!
@@ -97,10 +97,10 @@ void OneShotSamplerAudioProcessor::prepareToPlay (double sampleRate, int samples
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-	// SynthesiserƒIƒuƒWƒFƒNƒg‚ÉƒzƒXƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğƒZƒbƒg‚·‚é
+	// Synthesiserã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãƒ›ã‚¹ãƒˆã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãƒ¬ãƒ¼ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	synth.setCurrentPlaybackSampleRate(sampleRate);
 
-	// MidiKeyboardStateƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ‰Šú‰»‚·‚é
+	// MidiKeyboardStateã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã™ã‚‹
 	keyboardState.reset();
 }
 
@@ -109,10 +109,10 @@ void OneShotSamplerAudioProcessor::releaseResources()
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 
-	// MidiKeyboardStateƒIƒuƒWƒFƒNƒg‚ğƒI[ƒ‹Eƒm[ƒgEƒIƒtó‘Ô‚É‚·‚é.ˆø”‚É”’l0‚ğ“n‚·‚±‚Æ‚Å‚·‚×‚Ä‚ÌMIDIƒ`ƒƒƒ“ƒlƒ‹‚Éì—p‚·‚é.
+	// MidiKeyboardStateã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚ªãƒ¼ãƒ«ãƒ»ãƒãƒ¼ãƒˆãƒ»ã‚ªãƒ•çŠ¶æ…‹ã«ã™ã‚‹.å¼•æ•°ã«æ•°å€¤0ã‚’æ¸¡ã™ã“ã¨ã§ã™ã¹ã¦ã®MIDIãƒãƒ£ãƒ³ãƒãƒ«ã«ä½œç”¨ã™ã‚‹.
 	keyboardState.allNotesOff(0);
 
-	// MidiKeyboardStateƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ‰Šú‰»‚·‚é
+	// MidiKeyboardStateã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã™ã‚‹
 	keyboardState.reset();
 }
 
@@ -143,14 +143,14 @@ bool OneShotSamplerAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
 void OneShotSamplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
 	if (isChanging) {
-		return;				// ƒXƒLƒbƒv‚·‚éƒtƒ‰ƒO‚ªtrue‚È‚çˆ—‚ğƒXƒLƒbƒv‚·‚é
+		return;				// ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹ãƒ•ãƒ©ã‚°ãŒtrueãªã‚‰å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 	}
 
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-	// MidiKeyboardStateƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚É•Ï‰»‚ª‚ ‚ê‚ÎMIDIƒƒbƒZ[ƒW‚ğæ“¾‚·‚é
+	// MidiKeyboardStateã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çŠ¶æ…‹ã«å¤‰åŒ–ãŒã‚ã‚Œã°MIDIãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
 	keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
     // In case we have more outputs than inputs, this code clears any output
@@ -179,7 +179,7 @@ void OneShotSamplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, Mid
 	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
 		buffer.clear(i, 0, buffer.getNumSamples());
 
-	// SynthesiserƒIƒuƒWƒFƒNƒg‚ÉƒI[ƒfƒBƒIƒoƒbƒtƒ@‚ÌQÆ‚ÆMIDIƒoƒbƒtƒ@‚ÌQÆ‚ğ“n‚µ‚ÄAƒI[ƒfƒBƒIƒŒƒ“ƒ_ƒŠƒ“ƒO‚ğs‚¤
+	// Synthesiserã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒãƒƒãƒ•ã‚¡ã®å‚ç…§ã¨MIDIãƒãƒƒãƒ•ã‚¡ã®å‚ç…§ã‚’æ¸¡ã—ã¦ã€ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚’è¡Œã†
 	synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
 }
@@ -219,25 +219,25 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void OneShotSamplerAudioProcessor::setupSampler(AudioFormatReader& newReader)
 {
-	isChanging = true;					// ŠÖ”processBlock“à‚Ìˆ—‚ğƒXƒLƒbƒv‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO
+	isChanging = true;					// é–¢æ•°processBlockå†…ã®å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚°
 
-										// ‡@SynthesiserƒIƒuƒWƒFƒNƒg‚ªŒ»İ•Û‚·‚éSamplerVoiceƒIƒuƒWƒFƒNƒg‚ÆSamplerSoundƒIƒuƒWƒFƒNƒg‚ğ‚·‚×‚Ä‰ğ•ú‚·‚é
+										// â‘ Synthesiserã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç¾åœ¨ä¿æŒã™ã‚‹SamplerVoiceã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨SamplerSoundã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã™ã¹ã¦è§£æ”¾ã™ã‚‹
 	synth.clearSounds();
 	synth.clearVoices();
 
-	// ‡A“Ç‚İ‚ñ‚¾ƒTƒ“ƒvƒ‹‰¹Œ¹‚ğŠ„‚è“–‚Ä‚éƒm[ƒg”Ô†‚Ì”ÍˆÍ‚ğ’è‹`‚·‚éBŠÖ”"setRange" ‚É‚Ä0`127‚Ì’l‚ğtrue‚Éİ’è‚·‚éB
+	// â‘¡èª­ã¿è¾¼ã‚“ã ã‚µãƒ³ãƒ—ãƒ«éŸ³æºã‚’å‰²ã‚Šå½“ã¦ã‚‹ãƒãƒ¼ãƒˆç•ªå·ã®ç¯„å›²ã‚’å®šç¾©ã™ã‚‹ã€‚é–¢æ•°"setRange" ã«ã¦0ï½127ã®å€¤ã‚’trueã«è¨­å®šã™ã‚‹ã€‚
 	BigInteger allNotes;
 	allNotes.setRange(0, 128, true);
 
-	// ‡BSamplerSoundƒIƒuƒWƒFƒNƒg‚ğSynthesiserƒIƒuƒWƒFƒNƒg‚É’Ç‰Á‚·‚é
+	// â‘¢SamplerSoundã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’Synthesiserã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¿½åŠ ã™ã‚‹
 	synth.addSound(new SamplerSound("default", newReader, allNotes, 60, 0, 0.1, 10.0));
 
-	// ‡CSamplerVoiceƒIƒuƒWƒFƒNƒg‚ğSynthesiserƒIƒuƒWƒFƒNƒg‚É’Ç‰Á‚·‚é
+	// â‘£SamplerVoiceã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’Synthesiserã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¿½åŠ ã™ã‚‹
 	for (int i = 0; i < 128; i++) {
 		synth.addVoice(new SamplerVoice());
 	}
 
-	isChanging = false;						// ŠÖ”processBlock“à‚Ìˆ—‚ğƒXƒLƒbƒv‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO
+	isChanging = false;						// é–¢æ•°processBlockå†…ã®å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚°
 }
 
 void OneShotSamplerAudioProcessor::loadSampleFile()
@@ -254,10 +254,10 @@ void OneShotSamplerAudioProcessor::loadSampleFile()
 
 		if (reader != nullptr)
 		{
-			// ŠÖ”"setupSampler"‚ÉAudioFormatReaderƒIƒuƒWƒFƒNƒg‚ğQÆ“n‚µ‚·‚é
+			// é–¢æ•°"setupSampler"ã«AudioFormatReaderã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‚ç…§æ¸¡ã—ã™ã‚‹
 			setupSampler(*reader);
 
-			// ƒZƒbƒgƒAƒbƒvˆ—‚ªŠ®—¹‚µ‚½‚çAudioFormatReaderƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚é
+			// ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—å‡¦ç†ãŒå®Œäº†ã—ãŸã‚‰AudioFormatReaderã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è§£æ”¾ã™ã‚‹
 			delete reader;
 		}
 	}
@@ -268,10 +268,10 @@ void OneShotSamplerAudioProcessor::loadSineWave()
 	AudioFormatManager formatManager;
 	formatManager.registerBasicFormats();
 
-	// ƒoƒCƒiƒŠƒŠƒ\[ƒX‚É‚ ‚éƒTƒCƒ“”g‚©‚çMemoyInputSteramƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚é
+	// ãƒã‚¤ãƒŠãƒªãƒªã‚½ãƒ¼ã‚¹ã«ã‚ã‚‹ã‚µã‚¤ãƒ³æ³¢ã‹ã‚‰MemoyInputSteramã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	MemoryInputStream* inputStream = new MemoryInputStream(BinaryData::sine_wav, BinaryData::sine_wavSize, true);
 
-	// MemoyInputSteramƒIƒuƒWƒFƒNƒg‚ğˆø”‚É“n‚µ‚ÄAudioFormatReaderƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚é
+	// MemoyInputSteramã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¼•æ•°ã«æ¸¡ã—ã¦AudioFormatReaderã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	AudioFormatReader* reader = formatManager.createReaderFor(inputStream);
 
 	if (reader != nullptr)
