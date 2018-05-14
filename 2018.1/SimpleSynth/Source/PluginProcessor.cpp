@@ -59,6 +59,7 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 	}
 	, driveParameter(new AudioParameterFloat("DRIVE", "Drive", -24.f, 12.f, 0.0f))
 	, masterVolumePrameter(new AudioParameterFloat("MASTER_VOLUME", "Volume", -36.f, 6.f, -3.0f))
+	, scopedDataCollector(audioBufferQueue)
 {
 	oscParameters.addAllParameters(*this);
 	lfoParameters.addAllParameters(*this);
@@ -291,6 +292,8 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	reverb.process(context);
 
 	limiter.process(context);
+
+	scopedDataCollector.process(buffer.getReadPointer(0), (size_t)buffer.getNumSamples());
 
 	masterVolume.setGainDecibels(masterVolumePrameter->get());
 	masterVolume.process(context);

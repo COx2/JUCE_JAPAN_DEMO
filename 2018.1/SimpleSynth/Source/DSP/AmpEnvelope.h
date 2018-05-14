@@ -14,7 +14,7 @@ class AmpEnvelope
 {
 	friend class SimpleVoice;
 
-	enum AMPENV_STATE 
+	enum class AMPENV_STATE 
 	{
 		ATTACK = 0,
 		DECAY,

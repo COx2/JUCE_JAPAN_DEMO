@@ -8,6 +8,12 @@
               pluginManufacturer="JUCE JAPAN">
   <MAINGROUP id="IZtsAI" name="SimpleSynth">
     <GROUP id="{0FF198AF-00FB-C9FF-2361-004F9332861C}" name="Source">
+      <GROUP id="{1EF15716-4953-878F-FF46-72E0314DD4F8}" name="GUI">
+        <FILE id="OiKiyy" name="ScopeComponent.cpp" compile="1" resource="0"
+              file="Source/GUI/ScopeComponent.cpp"/>
+        <FILE id="wPapQE" name="ScopeComponent.h" compile="0" resource="0"
+              file="Source/GUI/ScopeComponent.h"/>
+      </GROUP>
       <GROUP id="{97C69670-A71D-517E-1589-B4DF8AAE0D93}" name="DSP">
         <FILE id="LQAmtS" name="AmpEnvelope.cpp" compile="1" resource="0" file="Source/DSP/AmpEnvelope.cpp"/>
         <FILE id="kOw8q1" name="AmpEnvelope.h" compile="0" resource="0" file="Source/DSP/AmpEnvelope.h"/>

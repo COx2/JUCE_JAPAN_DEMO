@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "DSP/SimpleSynthParameters.h"
+#include "GUI/ScopeComponent.h"
 
 //==============================================================================
 /**
@@ -59,6 +60,8 @@ public:
 
 	//==============================================================================
 	MidiKeyboardState& getKeyboardState() { return keyboardState; }
+	AudioBufferQueue<float>& getAudioBufferQueue() { return audioBufferQueue; }
+
 
 	//Parameterの用意[1]
 	const StringArray LFO_TARGETS{ "None", "WaveLevel", "WaveAngle" };
@@ -90,6 +93,9 @@ private:
 
 	dsp::Reverb reverb;
 
+	// オシロスコープ用バッファーキュー
+	AudioBufferQueue<float> audioBufferQueue;
+	ScopeDataCollector<float> scopedDataCollector;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleSynthAudioProcessor)

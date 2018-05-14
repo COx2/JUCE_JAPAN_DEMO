@@ -13,6 +13,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
+#include "GUI/ScopeComponent.h"
+
 //==============================================================================
 /**
 */
@@ -28,6 +30,8 @@ public:
 
 private:
 	MidiKeyboardComponent keyboardComponent;
+
+	ScopeComponent<float> scopeComponent;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

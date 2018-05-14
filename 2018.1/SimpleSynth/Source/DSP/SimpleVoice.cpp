@@ -238,7 +238,7 @@ double SimpleVoice::calcTriWave(double currentAngle)
 	}
 	else
 	{
-		return -1.0 + (currentAngle - ((MathConstants<double>::pi + MathConstants<double>::halfPi) / MathConstants<double>::halfPi));
+		return -1.0 + ((currentAngle - MathConstants<double>::pi - MathConstants<double>::halfPi) / MathConstants<double>::halfPi);
 	}
 }
 
