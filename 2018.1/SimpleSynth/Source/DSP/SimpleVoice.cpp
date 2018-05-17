@@ -139,7 +139,31 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 			{
 				levelDiff *= 0.99f;
 
-				float modulationFactor = (float)sin(lfoAngle) * _lfoParams->LfoLevel->get();
+				float modulationFactor = 0.0f;
+
+				if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Sine")
+				{
+					modulationFactor = (float)sin(lfoAngle);
+				}
+				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Saw")
+				{
+					modulationFactor = (float)calcSawWave(lfoAngle);
+				}
+				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Tri")
+				{
+					modulationFactor = (float)calcTriWave(lfoAngle);
+				}
+				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Square")
+				{
+					modulationFactor = (float)calcSquareWave(lfoAngle);
+				}
+				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Noise")
+				{
+					modulationFactor = (whiteNoise.nextFloat() * 2.0f - 1.0f);
+				}
+				modulationFactor *= _lfoParams->LfoLevel->get();
+				modulationFactor /= 2.0f;
+				modulationFactor += 0.5f;
 
 				float currentSample = 0.0f;
 
@@ -175,7 +199,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 
 				if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveAngle")
 				{
-					currentAngle += angleDelta * pow(2.0, pitchBend) * (1 + modulationFactor);
+					currentAngle += angleDelta * pow(2.0, pitchBend) * modulationFactor;
 				}
 				else
 				{
@@ -205,6 +229,11 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				if (currentAngle > MathConstants<double>::twoPi)
 				{
 					currentAngle -= MathConstants<double>::twoPi;
+				}
+
+				if (lfoAngle > MathConstants<double>::twoPi)
+				{
+					lfoAngle -= MathConstants<double>::twoPi;
 				}
 
 				++startSample;

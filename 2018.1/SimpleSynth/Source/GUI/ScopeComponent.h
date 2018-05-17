@@ -46,7 +46,7 @@ public:
 
 
 		jassert(size1 <= 1);
-		jassert(size0 == 0);
+		jassert(size2 == 0);
 
 		if (size1 > 0) 
 		{
@@ -167,7 +167,7 @@ public:
 
 		// Spectrumを描画する矩形領域
 		auto spectrumRect = Rectangle<SampleType>{ SampleType(0), h / 2, w, h / 2 };
-		plot(spectrumData.data(), spectrumData.size() / 4, g, spectrumRect);
+		//plot(spectrumData.data(), spectrumData.size() / 4, g, spectrumRect);
 	
 	}
 

@@ -65,6 +65,7 @@ public:
 
 	//Parameterの用意[1]
 	const StringArray LFO_TARGETS{ "None", "WaveLevel", "WaveAngle" };
+	const StringArray LFO_WAVE_TYPES{ "Sine", "Saw", "Tri", "Square", "Noise" };
 	const StringArray FILTER_TYPES{ "Low-Pass", "High-Pass", "Band-Pass" };
 
 	OscillatorParameters oscParameters;

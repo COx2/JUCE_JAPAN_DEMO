@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
+#include "GUI/ParametersComponent.h"
 #include "GUI/ScopeComponent.h"
 
 //==============================================================================
@@ -32,6 +33,16 @@ private:
 	MidiKeyboardComponent keyboardComponent;
 
 	ScopeComponent<float> scopeComponent;
+
+	OscillatorParametersComponent oscParamsComponent;
+
+	AmpEnvelopeParametersComponent ampEnvParamsComponent;
+
+	LfoParametersComponent lfoParamsComponent;
+
+	FilterParametersComponent filterParamsComponent;
+	
+	ReverbParametersComponent reverbParamsComponent;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

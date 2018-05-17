@@ -35,6 +35,7 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 	}
 	, lfoParameters{
 		new AudioParameterChoice("LFO_TARGET", "Lfo-Target", LFO_TARGETS, 0),
+		new AudioParameterChoice("LFO_WAVE_TYPE", "Lfo-WaveType", LFO_WAVE_TYPES, 0),
 		new AudioParameterFloat("LFO_LEVEL", "Lfo-Level",  0.0f, 1.0f, 0.5f),
 		new AudioParameterFloat("LFO_SPEED", "Lfo-Speed",  0.0f, 20.0f, 0.2f)
 	}

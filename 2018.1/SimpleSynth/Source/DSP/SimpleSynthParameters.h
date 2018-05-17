@@ -65,10 +65,12 @@ private:
 struct LfoParameters : public SynthParametersBase
 {
 	AudioParameterChoice* LfoTarget;
+	AudioParameterChoice* LfoWaveType;
 	AudioParameterFloat*  LfoLevel;
 	AudioParameterFloat*  LfoSpeed;
 
 	LfoParameters(AudioParameterChoice* lfoTarget,
+				AudioParameterChoice* lfoWaveType,
 				AudioParameterFloat*  lfoLevel,
 				AudioParameterFloat*  lfoSpeed);
 
