@@ -219,10 +219,10 @@ void LfoParametersComponent::paint(Graphics & g)
 
 void LfoParametersComponent::resized()
 {
-	targetSelector.setBoundsRelative(0.05f, 0.2f, 0.25f, 0.6f);
-	waveTypeSelector.setBoundsRelative(0.30f, 0.2f, 0.25f, 0.6f);
-	levelSlider.setBoundsRelative(0.60f, 0.1f, 0.15f, 0.8f);
-	speedSlider.setBoundsRelative(0.80f, 0.1f, 0.15f, 0.8f);
+	targetSelector.setBoundsRelative(0.0f, 0.0f, 1.0f, 0.2f);
+	waveTypeSelector.setBoundsRelative(0.0f, 0.2f, 1.0f, 0.2f);
+	levelSlider.setBoundsRelative(0.0f, 0.4f, 1.0f, 0.3f);
+	speedSlider.setBoundsRelative(0.0f, 0.7f, 1.0f, 0.3f);
 }
 
 void LfoParametersComponent::timerCallback()
@@ -294,9 +294,9 @@ void FilterParametersComponent::paint(Graphics & g)
 
 void FilterParametersComponent::resized()
 {
-	typeSelector.setBoundsRelative(0.05f, 0.2f, 0.45f, 0.3f);
-	frequencySlider.setBoundsRelative(0.60f, 0.1f, 0.15f, 0.8f);
-	qSlider.setBoundsRelative(0.80f, 0.1f, 0.15f, 0.8f);
+	typeSelector.setBoundsRelative(0.0f, 0.0f, 1.0f, 0.3f);
+	frequencySlider.setBoundsRelative(0.0f, 0.3f, 1.0f, 0.3f);
+	qSlider.setBoundsRelative(0.0f, 0.6f, 1.0f, 0.3f);
 }
 
 void FilterParametersComponent::timerCallback()
@@ -376,11 +376,11 @@ void ReverbParametersComponent::paint(Graphics & g)
 
 void ReverbParametersComponent::resized()
 {
-	roomSizeSlider.setBoundsRelative(0.05f, 0.1f, 0.15f, 0.8f);
-	dampingSlider.setBoundsRelative(0.25f, 0.1f, 0.15f, 0.8f);
-	widthSlider.setBoundsRelative(0.45f, 0.1f, 0.15f, 0.8f);
-	wetLevelSlider.setBoundsRelative(0.65f, 0.1f, 0.15f, 0.8f);
-	dryLevelSlider.setBoundsRelative(0.85f, 0.1f, 0.15f, 0.8f);
+	roomSizeSlider.setBoundsRelative(0.0f, 0.0f, 1.0f, 0.2f);
+	dampingSlider.setBoundsRelative(0.0f, 0.2f, 1.0f, 0.2f);
+	widthSlider.setBoundsRelative(0.0f, 0.4f, 1.0f, 0.2f);
+	wetLevelSlider.setBoundsRelative(0.0f, 0.6f, 1.0f, 0.2f);
+	dryLevelSlider.setBoundsRelative(0.0f, 0.8f, 1.0f, 0.2f);
 }
 
 void ReverbParametersComponent::timerCallback()

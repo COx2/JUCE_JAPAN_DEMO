@@ -19,7 +19,7 @@
 //==============================================================================
 /**
 */
-class SimpleSynthAudioProcessorEditor  : public AudioProcessorEditor
+class SimpleSynthAudioProcessorEditor  : public AudioProcessorEditor, juce::Slider::Listener, private juce::Timer
 {
 public:
     SimpleSynthAudioProcessorEditor (SimpleSynthAudioProcessor&);
@@ -30,6 +30,12 @@ public:
     void resized() override;
 
 private:
+	virtual void sliderValueChanged(Slider* slider) override;
+
+	virtual void timerCallback() override;
+
+	float keyboardHeight{80.0f};
+
 	MidiKeyboardComponent keyboardComponent;
 
 	ScopeComponent<float> scopeComponent;
@@ -43,6 +49,12 @@ private:
 	FilterParametersComponent filterParamsComponent;
 	
 	ReverbParametersComponent reverbParamsComponent;
+
+	GridItem item;
+
+	Slider driveSlider;
+	Slider masterVolumeSlider;
+	Slider voiceSizeSlider;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

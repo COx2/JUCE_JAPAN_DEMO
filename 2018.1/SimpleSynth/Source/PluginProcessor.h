@@ -61,7 +61,7 @@ public:
 	//==============================================================================
 	MidiKeyboardState& getKeyboardState() { return keyboardState; }
 	AudioBufferQueue<float>& getAudioBufferQueue() { return audioBufferQueue; }
-
+	void changeVoiceSize();
 
 	//Parameterの用意[1]
 	const StringArray LFO_TARGETS{ "None", "WaveLevel", "WaveAngle" };
@@ -75,6 +75,7 @@ public:
 	ReverbPatameters reverbParameters;
 	AudioParameterFloat* driveParameter;
 	AudioParameterFloat* masterVolumePrameter;
+	AudioParameterInt* voiceSize;
 
 private:
 	MidiKeyboardState keyboardState;
