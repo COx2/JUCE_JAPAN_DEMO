@@ -58,6 +58,10 @@ private:
 	Slider decaySlider;
 	Slider sustainSlider;
 	Slider releaseSlider;
+	Label attackLabel;
+	Label decayLabel;
+	Label sustainLabel;
+	Label releaseLabel;
 };
 
 
@@ -128,4 +132,45 @@ private:
 	Slider dryLevelSlider;
 	Slider widthSlider;
 	Slider freezeModeSlider;
+};
+
+class DriveParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
+{
+public:
+	DriveParametersComponent(AudioParameterFloat* driveParam);
+	~DriveParametersComponent();
+
+	void paint(Graphics& g) override;
+	void resized() override;
+
+private:
+	DriveParametersComponent();
+
+	virtual void timerCallback() override;
+	virtual void sliderValueChanged(Slider* slider) override;
+
+	AudioParameterFloat* _driveParamPtr;
+	Slider driveSlider;
+};
+
+class MiscParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
+{
+public:
+	MiscParametersComponent(AudioParameterFloat* masterVolumeParam, AudioParameterInt* voiceSizeParam);
+	~MiscParametersComponent();
+
+	void paint(Graphics& g) override;
+	void resized() override;
+
+private:
+	MiscParametersComponent();
+
+	virtual void timerCallback() override;
+	virtual void sliderValueChanged(Slider* slider) override;
+
+	AudioParameterFloat* _masterVolumeParamPtr;
+	AudioParameterInt* _voiceSizeParamPtr;
+
+	Slider masterVolumeSlider;
+	Slider voiceSizeSlider;
 };

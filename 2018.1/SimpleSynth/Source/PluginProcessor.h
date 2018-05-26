@@ -75,7 +75,7 @@ public:
 	ReverbPatameters reverbParameters;
 	AudioParameterFloat* driveParameter;
 	AudioParameterFloat* masterVolumePrameter;
-	AudioParameterInt* voiceSize;
+	AudioParameterInt* voiceSizeParameter;
 
 private:
 	MidiKeyboardState keyboardState;

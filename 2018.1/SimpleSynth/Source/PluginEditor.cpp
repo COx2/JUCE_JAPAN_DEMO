@@ -20,26 +20,10 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
 	, lfoParamsComponent(&p.lfoParameters)
 	, filterParamsComponent(&p.filterParameters)
 	, reverbParamsComponent(&p.reverbParameters)
+	, driveParamsComponent(p.driveParameter)
+	, miscParamsComponent(p.masterVolumePrameter, p.voiceSizeParameter)
 	, scopeComponent(p.getAudioBufferQueue())
-	, driveSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, masterVolumeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, voiceSizeSlider(Slider::SliderStyle::IncDecButtons, Slider::TextEntryBoxPosition::TextBoxBelow)
 {
-
-	driveSlider.setRange(processor.driveParameter->range.start, processor.driveParameter->range.end, 0.01);
-	driveSlider.setValue(processor.driveParameter->get(), dontSendNotification);
-	driveSlider.addListener(this);
-	addAndMakeVisible(driveSlider);
-
-	masterVolumeSlider.setRange(processor.masterVolumePrameter->range.start, processor.masterVolumePrameter->range.end, 0.01);
-	masterVolumeSlider.setValue(processor.masterVolumePrameter->get(), dontSendNotification);
-	masterVolumeSlider.addListener(this);
-	addAndMakeVisible(masterVolumeSlider);
-
-	voiceSizeSlider.setRange(processor.voiceSize->getRange().getStart(), processor.voiceSize->getRange().getEnd(), 1.0);
-	voiceSizeSlider.setValue(processor.voiceSize->get(), dontSendNotification);
-	voiceSizeSlider.addListener(this);
-	addAndMakeVisible(voiceSizeSlider);
 
 	keyboardComponent.setKeyWidth(32.0f);
 	addAndMakeVisible(keyboardComponent);
@@ -52,7 +36,11 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
 
 	addAndMakeVisible(filterParamsComponent);
 
+	addAndMakeVisible(driveParamsComponent);
+
 	addAndMakeVisible(reverbParamsComponent);
+
+	addAndMakeVisible(miscParamsComponent);
 
 	addAndMakeVisible(scopeComponent);
 
@@ -72,59 +60,40 @@ SimpleSynthAudioProcessorEditor::~SimpleSynthAudioProcessorEditor()
 void SimpleSynthAudioProcessorEditor::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+	g.fillAll(Colours::black);
 
-    //g.setColour (Colours::white);
-    //g.setFont (15.0f);
-    //g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 }
 
 void SimpleSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-	auto bounds = this->getBounds();
+	auto panelMargin = 2;
 
-	keyboardComponent.setBounds(0.0f, bounds.getHeight() - keyboardHeight, bounds.getWidth(), keyboardHeight);
+	Rectangle<int> bounds = this->getBounds();
+	keyboardComponent.setBounds(bounds.removeFromBottom(keyboardHeight));
 
-	oscParamsComponent.setBounds(0.0f, 0.0f, 280.0f, 240.0f);
+	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() / 2);
+	Rectangle<int> lowerArea = bounds;
 
-	ampEnvParamsComponent.setBounds(280.0f, 0.0f, 200.0f, 240.0f);
+	oscParamsComponent.setBounds(upperArea.removeFromLeft(280).reduced(panelMargin));
 
-	lfoParamsComponent.setBounds(480.0f, 0.0f, 160.0f, 540.0f);
+	ampEnvParamsComponent.setBounds(upperArea.removeFromLeft(200).reduced(panelMargin));
 
-	filterParamsComponent.setBounds(640.0, 0.0f, 160.0f, 460.0f);
+	lfoParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
 
-	driveSlider.setBounds(640.0f, 460.0f, 80.0f, 80.0f);
+	filterParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
 
-	reverbParamsComponent.setBounds(800.0f, 0.0f, 80.0f, 540.0f);
 
-	masterVolumeSlider.setBounds(880.0f, 0.0f, 80.0f, 80.0f);
-	voiceSizeSlider.setBounds(880.0f, 80.0f, 80.0f, 260.0f);
+	scopeComponent.setBounds(lowerArea.removeFromLeft(400).reduced(panelMargin));
 
-	scopeComponent.setBounds(0.0f, 240.0f, 480.0f, 300.0f);
-}
+	driveParamsComponent.setBounds(lowerArea.removeFromLeft(80).reduced(panelMargin));
+	
+	reverbParamsComponent.setBounds(lowerArea.removeFromLeft(240).reduced(panelMargin));
 
-void SimpleSynthAudioProcessorEditor::sliderValueChanged(Slider * slider)
-{
-	if (slider == &driveSlider)
-	{
-		*processor.driveParameter = driveSlider.getValue();
-	}
-	else if (slider == &masterVolumeSlider)
-	{
-		*processor.masterVolumePrameter = masterVolumeSlider.getValue();
-	}
-	else if (slider == &voiceSizeSlider)
-	{
-		*processor.voiceSize = voiceSizeSlider.getValue();
-		processor.changeVoiceSize();
-	}
+	miscParamsComponent.setBounds(lowerArea.reduced(panelMargin));
 }
 
 void SimpleSynthAudioProcessorEditor::timerCallback()
 {
-	driveSlider.setValue(processor.driveParameter->get(), dontSendNotification);
-	masterVolumeSlider.setValue(processor.masterVolumePrameter->get(), dontSendNotification);
-	voiceSizeSlider.setValue(processor.voiceSize->get(), dontSendNotification);
 }

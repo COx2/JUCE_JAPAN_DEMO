@@ -151,22 +151,46 @@ public:
 
 	void paint(Graphics& g) override
 	{
-		g.fillAll(juce::Colours::black);
+		{
+			float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+			Colour panelColour = juce::Colour(36, 36, 36);
+			g.setColour(panelColour);
+			g.fillRoundedRectangle(x, y, width, height, 10.000f);
 
-		auto area = getLocalBounds();
-		auto h = (SampleType)area.getHeight();
-		auto w = (SampleType)area.getWidth();
+			//Colour strokeColour = Colours::white;
+			//g.setColour(strokeColour);
+			//g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+		}
 
+		{
+			int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+			String text(TRANS("SCOPE"));
+			Colour fillColour = Colours::white;
+			g.setColour(fillColour);
+			g.setFont(Font(22.0f, Font::plain).withTypefaceStyle("Regular"));
+			g.drawText(text, x, y, width, height, Justification::centred, true);
+		}
+
+		
+		Rectangle<int> drawArea = getLocalBounds();
+		drawArea.reduce(drawArea.getWidth()* 0.1f, drawArea.getHeight()* 0.1f);
+		g.setColour(juce::Colours::darkgrey);
+		g.fillRect(drawArea);
+
+		auto drawX = (SampleType)drawArea.getX();
+		auto drawY = (SampleType)drawArea.getY();
+		auto drawH = (SampleType)drawArea.getHeight();
+		auto drawW = (SampleType)drawArea.getWidth();
+
+		// Oscilloscopeを描画
 		g.setColour(juce::Colours::cyan);
+		auto scopeRect = Rectangle<SampleType>{ drawX, drawY, drawW, drawH / 1 };
+		plot(sampleData.data(), sampleData.size(), g, scopeRect, SampleType(0.4), drawH / 2);
 
-		// Oscilloscopeを描画する矩形領域
-		auto scopeRect = Rectangle<SampleType>{ SampleType(0), SampleType(0), w, h / 1 };
-		plot(sampleData.data(), sampleData.size(), g, scopeRect, SampleType(0.4), h / 2);
 
-		g.setColour(juce::Colours::white);
-
-		// Spectrumを描画する矩形領域
-		auto spectrumRect = Rectangle<SampleType>{ SampleType(0), h / 2, w, h / 2 };
+		// Spectrumを描画
+		//g.setColour(juce::Colours::white);
+		//auto spectrumRect = Rectangle<SampleType>{ drawX, drawH / 2, drawW, drawH / 2 };
 		//plot(spectrumData.data(), spectrumData.size() / 4, g, spectrumRect);
 	
 	}

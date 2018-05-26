@@ -19,7 +19,7 @@
 //==============================================================================
 /**
 */
-class SimpleSynthAudioProcessorEditor  : public AudioProcessorEditor, juce::Slider::Listener, private juce::Timer
+class SimpleSynthAudioProcessorEditor  : public AudioProcessorEditor, private juce::Timer
 {
 public:
     SimpleSynthAudioProcessorEditor (SimpleSynthAudioProcessor&);
@@ -30,8 +30,6 @@ public:
     void resized() override;
 
 private:
-	virtual void sliderValueChanged(Slider* slider) override;
-
 	virtual void timerCallback() override;
 
 	float keyboardHeight{80.0f};
@@ -50,9 +48,10 @@ private:
 	
 	ReverbParametersComponent reverbParamsComponent;
 
-	GridItem item;
+	DriveParametersComponent driveParamsComponent;
 
-	Slider driveSlider;
+	MiscParametersComponent miscParamsComponent;
+
 	Slider masterVolumeSlider;
 	Slider voiceSizeSlider;
 

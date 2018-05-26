@@ -60,7 +60,7 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 	}
 	, driveParameter(new AudioParameterFloat("DRIVE", "Drive", -24.f, 12.f, 0.0f))
 	, masterVolumePrameter(new AudioParameterFloat("MASTER_VOLUME", "Volume", -36.f, 6.f, -3.0f))
-	, voiceSize(new AudioParameterInt("VOICE_SIZE", "Voice-Size", 1, 128, 8))
+	, voiceSizeParameter(new AudioParameterInt("VOICE_SIZE", "Voice-Size", 1, 128, 8))
 	, scopedDataCollector(audioBufferQueue)
 {
 	oscParameters.addAllParameters(*this);
@@ -154,7 +154,7 @@ void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 	sineNotes.setRange(0, 127, true);
 	synth.addSound(new SimpleSound(sineNotes));
 
-	int numVoices = voiceSize->get();
+	int numVoices = voiceSizeParameter->get();
 	for (int i = 0; i < numVoices; ++i)
 	{
 		synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters, &ampEnvParameters, true));
@@ -211,6 +211,11 @@ bool SimpleSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 
 void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+	if ((int)voiceSizeParameter != synth.getNumVoices()) 
+	{
+		changeVoiceSize();
+	}
+
 
 	keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
@@ -328,7 +333,7 @@ void SimpleSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
 	reverbParameters.saveParameters(*xml);
 	xml->setAttribute(driveParameter->paramID, (double)driveParameter->get());
 	xml->setAttribute(masterVolumePrameter->paramID, (double)masterVolumePrameter->get());
-	xml->setAttribute(voiceSize->paramID, (double)voiceSize->get());
+	xml->setAttribute(voiceSizeParameter->paramID, (double)voiceSizeParameter->get());
 
 	copyXmlToBinary(*xml, destData);
 }
@@ -351,16 +356,16 @@ void SimpleSynthAudioProcessor::setStateInformation (const void* data, int sizeI
 			reverbParameters.loadParameters(*xmlState);
 			*driveParameter = (float)xmlState->getDoubleAttribute(driveParameter->paramID, 0.0);
 			*masterVolumePrameter = (float)xmlState->getDoubleAttribute(masterVolumePrameter->paramID, -3.0);
-			*voiceSize = (int)xmlState->getDoubleAttribute(voiceSize->paramID, 1);
+			*voiceSizeParameter = (int)xmlState->getDoubleAttribute(voiceSizeParameter->paramID, 1);
 		}
 	}
 }
 
 void SimpleSynthAudioProcessor::changeVoiceSize()
 {
-	while (synth.getNumVoices() != voiceSize->get())
+	while (synth.getNumVoices() != voiceSizeParameter->get())
 	{
-		if (synth.getNumVoices() > voiceSize->get())
+		if (synth.getNumVoices() > voiceSizeParameter->get())
 		{
 			synth.removeVoice(synth.getNumVoices() - 1);
 		}

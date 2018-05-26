@@ -10,38 +10,53 @@
 
 #include "ParametersComponent.h"
 
+namespace {
+	Colour panelColour = juce::Colour(36, 36, 36);
+	Font panelFont = Font(22.0f, Font::plain).withTypefaceStyle("Regular");
+}
+
 OscillatorParametersComponent::OscillatorParametersComponent(OscillatorParameters* oscParams)
 	: _oscParamsPtr(oscParams)
-	, sineWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, sawWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, triWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, squareWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, noiseLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
+	, sineWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+	, sawWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+	, triWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+	, squareWaveLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+	, noiseLevel(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
 
 	sineWaveLevel.setRange(_oscParamsPtr->SineWaveLevel->range.start, _oscParamsPtr->SineWaveLevel->range.end, 0.01);
 	sineWaveLevel.setValue(_oscParamsPtr->SineWaveLevel->get(), dontSendNotification);
+	sineWaveLevel.setPopupDisplayEnabled(true, true, this);
+	sineWaveLevel.setPopupMenuEnabled(true);
 	sineWaveLevel.addListener(this);
 	addAndMakeVisible(sineWaveLevel);
 
 	sawWaveLevel.setRange(_oscParamsPtr->SawWaveLevel->range.start, _oscParamsPtr->SawWaveLevel->range.end, 0.01);
 	sawWaveLevel.setValue(_oscParamsPtr->SawWaveLevel->get(), dontSendNotification);
+	sawWaveLevel.setPopupDisplayEnabled(true, true, this);
+	sawWaveLevel.setPopupMenuEnabled(true);
 	sawWaveLevel.addListener(this);
 	addAndMakeVisible(sawWaveLevel);
 
 	triWaveLevel.setRange(_oscParamsPtr->TriWaveLevel->range.start, _oscParamsPtr->TriWaveLevel->range.end, 0.01);
 	triWaveLevel.setValue(_oscParamsPtr->TriWaveLevel->get(), dontSendNotification);
+	triWaveLevel.setPopupDisplayEnabled(true, true, this);
+	triWaveLevel.setPopupMenuEnabled(true);
 	triWaveLevel.addListener(this);
 	addAndMakeVisible(triWaveLevel);
 
 	squareWaveLevel.setRange(_oscParamsPtr->SquareWaveLevel->range.start, _oscParamsPtr->SquareWaveLevel->range.end, 0.01);
 	squareWaveLevel.setValue(_oscParamsPtr->SquareWaveLevel->get(), dontSendNotification);
+	squareWaveLevel.setPopupDisplayEnabled(true, true, this);
+	squareWaveLevel.setPopupMenuEnabled(true);
 	squareWaveLevel.addListener(this);
 	addAndMakeVisible(squareWaveLevel);
 
 
 	noiseLevel.setRange(_oscParamsPtr->NoiseLevel->range.start, _oscParamsPtr->NoiseLevel->range.end, 0.01);
 	noiseLevel.setValue(_oscParamsPtr->NoiseLevel->get(), dontSendNotification);
+	noiseLevel.setPopupDisplayEnabled(true, true, this);
+	noiseLevel.setPopupMenuEnabled(true);
 	noiseLevel.addListener(this);
 	addAndMakeVisible(noiseLevel);
 
@@ -54,7 +69,27 @@ OscillatorParametersComponent::~OscillatorParametersComponent()
 
 void OscillatorParametersComponent::paint(Graphics & g)
 {
-	g.fillAll(juce::Colours::green);
+	{
+		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(panelColour);
+		g.fillRoundedRectangle(x, y, width, height, 10.0f);
+	}
+
+	//{
+	//	float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+	//	Colour strokeColour = Colours::white;
+	//	g.setColour(strokeColour);
+	//	g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+	//}
+
+	{
+		int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+		String text(TRANS("OSC"));
+		Colour fillColour = Colours::white;
+		g.setColour(fillColour);
+		g.setFont(panelFont);
+		g.drawText(text, x, y, width, height, Justification::centred, true);
+	}
 
 }
 
@@ -102,28 +137,39 @@ void OscillatorParametersComponent::sliderValueChanged(Slider* slider)
 
 AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatameters * ampEnvParams)
 	:_ampEnvParamsPtr(ampEnvParams)
-	, attackSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, decaySlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, sustainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, releaseSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::TextBoxBelow)
+	, attackSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+	, decaySlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+	, sustainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+	, releaseSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
 	attackSlider.setRange(_ampEnvParamsPtr->Attack->range.start, _ampEnvParamsPtr->Attack->range.end, 0.01);
 	attackSlider.setValue(_ampEnvParamsPtr->Attack->get(), dontSendNotification);
+	attackSlider.setPopupDisplayEnabled(true, true, this);
+	attackSlider.setPopupMenuEnabled(true);
+	attackSlider.setTextValueSuffix(" seconds");
 	attackSlider.addListener(this);
 	addAndMakeVisible(attackSlider);
 
 	decaySlider.setRange(_ampEnvParamsPtr->Decay->range.start, _ampEnvParamsPtr->Decay->range.end, 0.01);
 	decaySlider.setValue(_ampEnvParamsPtr->Decay->get(), dontSendNotification);
+	decaySlider.setPopupDisplayEnabled(true, true, this);
+	decaySlider.setPopupMenuEnabled(true);
+	decaySlider.setTextValueSuffix(" seconds");
 	decaySlider.addListener(this);
 	addAndMakeVisible(decaySlider);
 
 	sustainSlider.setRange(_ampEnvParamsPtr->Sustain->range.start, _ampEnvParamsPtr->Sustain->range.end, 0.01);
 	sustainSlider.setValue(_ampEnvParamsPtr->Sustain->get(), dontSendNotification);
+	sustainSlider.setPopupDisplayEnabled(true, true, this);
+	sustainSlider.setPopupMenuEnabled(true);
 	sustainSlider.addListener(this);
 	addAndMakeVisible(sustainSlider);
 
 	releaseSlider.setRange(_ampEnvParamsPtr->Release->range.start, _ampEnvParamsPtr->Release->range.end, 0.01);
 	releaseSlider.setValue(_ampEnvParamsPtr->Release->get(), dontSendNotification);
+	releaseSlider.setPopupDisplayEnabled(true, true, this);
+	releaseSlider.setPopupMenuEnabled(true);
+	releaseSlider.setTextValueSuffix(" seconds");
 	releaseSlider.addListener(this);
 	addAndMakeVisible(releaseSlider);
 
@@ -136,7 +182,27 @@ AmpEnvelopeParametersComponent::~AmpEnvelopeParametersComponent()
 
 void AmpEnvelopeParametersComponent::paint(Graphics & g)
 {
-	g.fillAll(juce::Colours::orange);
+	{
+		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(panelColour);
+		g.fillRoundedRectangle(x, y, width, height, 10.000f);
+	}
+
+	//{
+	//	float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+	//	Colour strokeColour = Colours::white;
+	//	g.setColour(strokeColour);
+	//	g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+	//}
+
+	{
+		int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+		String text(TRANS("AMP"));
+		Colour fillColour = Colours::white;
+		g.setColour(fillColour);
+		g.setFont(panelFont);
+		g.drawText(text, x, y, width, height, Justification::centred, true);
+	}
 
 }
 
@@ -180,8 +246,8 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 	:_lfoParamsPtr(lfoParams)
 	, targetSelector("LFO-Target")
 	, waveTypeSelector("LFO-WaveType")
-	, levelSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, speedSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
+	, levelSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, speedSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
 
 	targetSelector.addItemList(_lfoParamsPtr->LfoTarget->getAllValueStrings(), 1);
@@ -196,12 +262,15 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 
 	levelSlider.setRange(_lfoParamsPtr->LfoLevel->range.start, _lfoParamsPtr->LfoLevel->range.end, 0.01);
 	levelSlider.setValue(_lfoParamsPtr->LfoLevel->get(), dontSendNotification);
+	levelSlider.setPopupDisplayEnabled(true, true, this);
 	levelSlider.addListener(this);
 	addAndMakeVisible(levelSlider);
 
 	speedSlider.setRange(_lfoParamsPtr->LfoSpeed->range.start, _lfoParamsPtr->LfoSpeed->range.end, 0.01);
 	speedSlider.setValue(_lfoParamsPtr->LfoSpeed->get(), dontSendNotification);
 	speedSlider.setSkewFactor(0.5, false);
+	speedSlider.setPopupDisplayEnabled(true, true, this);
+	speedSlider.setTextValueSuffix(" hz");
 	speedSlider.addListener(this);
 	addAndMakeVisible(speedSlider);
 
@@ -214,7 +283,27 @@ LfoParametersComponent::~LfoParametersComponent()
 
 void LfoParametersComponent::paint(Graphics & g)
 {
-	g.fillAll(juce::Colours::skyblue);
+	{
+		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(panelColour);
+		g.fillRoundedRectangle(x, y, width, height, 10.000f);
+	}
+
+	//{
+	//	float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+	//	Colour strokeColour = Colours::white;
+	//	g.setColour(strokeColour);
+	//	g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+	//}
+
+	{
+		int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+		String text(TRANS("LFO"));
+		Colour fillColour = Colours::white;
+		g.setColour(fillColour);
+		g.setFont(panelFont);
+		g.drawText(text, x, y, width, height, Justification::centred, true);
+	}
 }
 
 void LfoParametersComponent::resized()
@@ -260,8 +349,8 @@ void LfoParametersComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterParams)
 	:_filterParamsPtr(filterParams)
 	, typeSelector("Filter-Type")
-	, frequencySlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, qSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
+	, frequencySlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, qSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
 	typeSelector.addItemList(_filterParamsPtr->Type->getAllValueStrings(), 1);
 	typeSelector.setSelectedItemIndex(_filterParamsPtr->Type->getIndex(), dontSendNotification);
@@ -271,11 +360,14 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	frequencySlider.setRange(_filterParamsPtr->Frequency->range.start, _filterParamsPtr->Frequency->range.end, 0.01);
 	frequencySlider.setValue(_filterParamsPtr->Frequency->get(), dontSendNotification);
 	frequencySlider.setSkewFactor(0.3, false);
+	frequencySlider.setPopupDisplayEnabled(true, true, this);
+	frequencySlider.setTextValueSuffix(" hz");
 	frequencySlider.addListener(this);
 	addAndMakeVisible(frequencySlider);
 
 	qSlider.setRange(_filterParamsPtr->Q->range.start, _filterParamsPtr->Q->range.end, 0.01);
 	qSlider.setValue(_filterParamsPtr->Q->get(), dontSendNotification);
+	qSlider.setPopupDisplayEnabled(true, true, this);
 	qSlider.addListener(this);
 	addAndMakeVisible(qSlider);
 
@@ -288,7 +380,27 @@ FilterParametersComponent::~FilterParametersComponent()
 
 void FilterParametersComponent::paint(Graphics & g)
 {
-	g.fillAll(juce::Colours::peru);
+	{
+		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(panelColour);
+		g.fillRoundedRectangle(x, y, width, height, 10.0f);
+	}
+
+	//{
+	//	float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+	//	Colour strokeColour = Colours::white;
+	//	g.setColour(strokeColour);
+	//	g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+	//}
+
+	{
+		int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+		String text(TRANS("FILTER"));
+		Colour fillColour = Colours::white;
+		g.setColour(fillColour);
+		g.setFont(panelFont);
+		g.drawText(text, x, y, width, height, Justification::centred, true);
+	}
 
 }
 
@@ -328,36 +440,41 @@ void FilterParametersComponent::comboBoxChanged(ComboBox * comboBoxThatHasChange
 
 ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbParams)
 	: _reverbParamsPtr(reverbParams)
-	, roomSizeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, dampingSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, wetLevelSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, dryLevelSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, widthSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
-	, freezeModeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::TextBoxBelow)
+	, roomSizeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, dampingSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, wetLevelSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, dryLevelSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, widthSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, freezeModeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
 
 	roomSizeSlider.setRange(_reverbParamsPtr->RoomSize->range.start, _reverbParamsPtr->RoomSize->range.end, 0.01);
 	roomSizeSlider.setValue(_reverbParamsPtr->RoomSize->get(), dontSendNotification);
+	roomSizeSlider.setPopupDisplayEnabled(true, true, this);
 	roomSizeSlider.addListener(this);
 	addAndMakeVisible(roomSizeSlider);
 
 	dampingSlider.setRange(_reverbParamsPtr->Damping->range.start, _reverbParamsPtr->Damping->range.end, 0.01);
 	dampingSlider.setValue(_reverbParamsPtr->Damping->get(), dontSendNotification);
+	dampingSlider.setPopupDisplayEnabled(true, true, this);
 	dampingSlider.addListener(this);
 	addAndMakeVisible(dampingSlider);
 
 	wetLevelSlider.setRange(_reverbParamsPtr->WetLevel->range.start, _reverbParamsPtr->WetLevel->range.end, 0.01);
 	wetLevelSlider.setValue(_reverbParamsPtr->WetLevel->get(), dontSendNotification);
+	wetLevelSlider.setPopupDisplayEnabled(true, true, this);
 	wetLevelSlider.addListener(this);
 	addAndMakeVisible(wetLevelSlider);
 
 	dryLevelSlider.setRange(_reverbParamsPtr->DryLevel->range.start, _reverbParamsPtr->DryLevel->range.end, 0.01);
 	dryLevelSlider.setValue(_reverbParamsPtr->DryLevel->get(), dontSendNotification);
+	dryLevelSlider.setPopupDisplayEnabled(true, true, this);
 	dryLevelSlider.addListener(this);
 	addAndMakeVisible(dryLevelSlider);
 
 	widthSlider.setRange(_reverbParamsPtr->Width->range.start, _reverbParamsPtr->Width->range.end, 0.01);
 	widthSlider.setValue(_reverbParamsPtr->Width->get(), dontSendNotification);
+	widthSlider.setPopupDisplayEnabled(true, true, this);
 	widthSlider.addListener(this);
 	addAndMakeVisible(widthSlider);
 
@@ -370,7 +487,27 @@ ReverbParametersComponent::~ReverbParametersComponent()
 
 void ReverbParametersComponent::paint(Graphics & g)
 {
-	g.fillAll(juce::Colours::palevioletred);
+	{
+		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(panelColour);
+		g.fillRoundedRectangle(x, y, width, height, 10.0f);
+	}
+
+	//{
+	//	float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+	//	Colour strokeColour = Colours::white;
+	//	g.setColour(strokeColour);
+	//	g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+	//}
+
+	{
+		int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+		String text(TRANS("REVERB"));
+		Colour fillColour = Colours::white;
+		g.setColour(fillColour);
+		g.setFont(panelFont);
+		g.drawText(text, x, y, width, height, Justification::centred, true);
+	}
 
 }
 
@@ -413,5 +550,122 @@ void ReverbParametersComponent::sliderValueChanged(Slider * slider)
 	else if (slider == &widthSlider)
 	{
 		*_reverbParamsPtr->Width = widthSlider.getValue();
+	}
+}
+
+DriveParametersComponent::DriveParametersComponent(AudioParameterFloat* driveParam)
+	:_driveParamPtr(driveParam)
+	, driveSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+{
+	driveSlider.setRange(_driveParamPtr->range.start, _driveParamPtr->range.end, 0.01);
+	driveSlider.setValue(_driveParamPtr->get(), dontSendNotification);
+	driveSlider.setPopupDisplayEnabled(true, true, this);
+	driveSlider.setTextValueSuffix(" dB");
+	driveSlider.addListener(this);
+	addAndMakeVisible(driveSlider);
+
+}
+
+DriveParametersComponent::~DriveParametersComponent()
+{
+}
+
+void DriveParametersComponent::paint(Graphics & g)
+{
+	{
+		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(panelColour);
+		g.fillRoundedRectangle(x, y, width, height, 10.0f);
+	}
+
+	//{
+	//	float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+	//	Colour strokeColour = Colours::white;
+	//	g.setColour(strokeColour);
+	//	g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+	//}
+
+	{
+		int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+		String text(TRANS("DRIVE"));
+		Colour fillColour = Colours::white;
+		g.setColour(fillColour);
+		g.setFont(panelFont);
+		g.drawText(text, x, y, width, height, Justification::centred, true);
+	}
+}
+
+void DriveParametersComponent::resized()
+{
+	driveSlider.setBounds(0, 40, 80, 80);
+}
+
+void DriveParametersComponent::timerCallback()
+{
+	driveSlider.setValue(_driveParamPtr->get(), dontSendNotification);
+}
+
+void DriveParametersComponent::sliderValueChanged(Slider * slider)
+{
+	if (slider == &driveSlider)
+	{
+		*_driveParamPtr = driveSlider.getValue();
+	}
+}
+
+MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolumeParam, AudioParameterInt* voiceSizeParam)
+	:_masterVolumeParamPtr(masterVolumeParam)
+	, _voiceSizeParamPtr(voiceSizeParam)
+	, masterVolumeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
+	, voiceSizeSlider(Slider::SliderStyle::IncDecButtons, Slider::TextEntryBoxPosition::TextBoxBelow)
+{
+	masterVolumeSlider.setRange(_masterVolumeParamPtr->range.start, _masterVolumeParamPtr->range.end, 0.01);
+	masterVolumeSlider.setValue(_masterVolumeParamPtr->get(), dontSendNotification);
+	masterVolumeSlider.setPopupDisplayEnabled(true, true, this);
+	masterVolumeSlider.setTextValueSuffix(" dB");
+	masterVolumeSlider.addListener(this);
+	addAndMakeVisible(masterVolumeSlider);
+
+	voiceSizeSlider.setRange(_voiceSizeParamPtr->getRange().getStart(), _voiceSizeParamPtr->getRange().getEnd(), 1.0);
+	voiceSizeSlider.setValue(_voiceSizeParamPtr->get(), dontSendNotification);
+	voiceSizeSlider.setTooltip("Size of synthesiser voice");
+	voiceSizeSlider.addListener(this);
+	addAndMakeVisible(voiceSizeSlider);
+}
+
+MiscParametersComponent::~MiscParametersComponent()
+{
+}
+
+void MiscParametersComponent::paint(Graphics & g)
+{
+	{
+		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(panelColour);
+		g.fillRoundedRectangle(x, y, width, height, 10.0f);
+	}
+}
+
+void MiscParametersComponent::resized()
+{
+	masterVolumeSlider.setBounds(0, 80, getWidth(), 80);
+	voiceSizeSlider.setBounds(0, 160, getWidth(), 80);
+}
+
+void MiscParametersComponent::timerCallback()
+{
+	masterVolumeSlider.setValue(_masterVolumeParamPtr->get(), dontSendNotification);
+	voiceSizeSlider.setValue(_voiceSizeParamPtr->get(), dontSendNotification);
+}
+
+void MiscParametersComponent::sliderValueChanged(Slider * slider)
+{
+	if (slider == &masterVolumeSlider)
+	{
+		*_masterVolumeParamPtr = masterVolumeSlider.getValue();
+	}
+	else if (slider == &voiceSizeSlider)
+	{
+		*_voiceSizeParamPtr = voiceSizeSlider.getValue();
 	}
 }
