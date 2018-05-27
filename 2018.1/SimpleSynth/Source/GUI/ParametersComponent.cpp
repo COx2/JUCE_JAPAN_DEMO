@@ -681,6 +681,7 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	freezeModeSlider.setRange(_reverbParamsPtr->FreezeMode->range.start, _reverbParamsPtr->FreezeMode->range.end, 0.01);
 	freezeModeSlider.setValue(_reverbParamsPtr->FreezeMode->get(), dontSendNotification);
 	freezeModeSlider.setPopupDisplayEnabled(true, true, this);
+	freezeModeSlider.setDoubleClickReturnValue(true, 0.0);
 	freezeModeSlider.setPopupMenuEnabled(true);
 	freezeModeSlider.addListener(this);
 	addAndMakeVisible(freezeModeSlider);
@@ -801,6 +802,7 @@ void ReverbParametersComponent::timerCallback()
 	wetLevelSlider.setValue(_reverbParamsPtr->WetLevel->get(), dontSendNotification);
 	dryLevelSlider.setValue(_reverbParamsPtr->DryLevel->get(), dontSendNotification);
 	widthSlider.setValue(_reverbParamsPtr->Width->get(), dontSendNotification);
+	freezeModeSlider.setValue(_reverbParamsPtr->FreezeMode->get(), dontSendNotification);
 }
 
 void ReverbParametersComponent::sliderValueChanged(Slider * slider)
@@ -824,6 +826,10 @@ void ReverbParametersComponent::sliderValueChanged(Slider * slider)
 	else if (slider == &widthSlider)
 	{
 		*_reverbParamsPtr->Width = (float)widthSlider.getValue();
+	}
+	else if (slider == &freezeModeSlider)
+	{
+		*_reverbParamsPtr->FreezeMode = (float)freezeModeSlider.getValue();
 	}
 }
 
