@@ -13,15 +13,15 @@
 #include <iostream>
 #include <string>
 
-SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, bool velocitySense)
-	: _oscParams(oscParams)
-	, _lfoParams(lfoParams)
-	, _ampEnvParams(ampEnvParams)
+SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, AudioParameterBool* velocitySenseParam)
+	: _oscParamsPtr(oscParams)
+	, _lfoParamsPtr(lfoParams)
+	, _ampEnvParamsPtr(ampEnvParams)
+	, _velocitySenseParamPtr(velocitySenseParam)
 	, ampEnv(ampEnvParams->Attack->get(), ampEnvParams->Decay->get(), ampEnvParams->Sustain->get(), ampEnvParams->Release->get())
 	, currentAngle(0.0)
 	, lastLevel(0.0f)
 	, pitchBend(0.0f)
-	, isVelocitySense(velocitySense)
 {
 }
 
@@ -49,7 +49,7 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 			lfoAngle = 0.0;
 		}
 
-		if (isVelocitySense) {
+		if (_velocitySenseParamPtr->get()) {
 			if (velocity <= 0.01f)
 				velocity = 0.01f;
 			level = velocity * 0.4f; 		// * 0.15をしておかないと、加算合成されるので破綻する;
@@ -127,7 +127,7 @@ void SimpleVoice::controllerMoved(int controllerNumber, int newControllerValue)
 
 void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 {
-	ampEnv.setParameters(_ampEnvParams->Attack->get(), _ampEnvParams->Decay->get(), _ampEnvParams->Sustain->get(), _ampEnvParams->Release->get());
+	ampEnv.setParameters(_ampEnvParamsPtr->Attack->get(), _ampEnvParamsPtr->Decay->get(), _ampEnvParamsPtr->Sustain->get(), _ampEnvParamsPtr->Release->get());
 
 	// clearCurrentNote()実行後ではここは通れない
 	if (SimpleSound* playingSound = static_cast<SimpleSound*>(getCurrentlyPlayingSound().get()))
@@ -141,55 +141,55 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 
 				float modulationFactor = 0.0f;
 
-				if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Sine")
+				if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Sine")
 				{
 					modulationFactor = (float)sin(lfoAngle);
 				}
-				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Saw")
+				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Saw")
 				{
 					modulationFactor = (float)calcSawWave(lfoAngle);
 				}
-				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Tri")
+				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Tri")
 				{
 					modulationFactor = (float)calcTriWave(lfoAngle);
 				}
-				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Square")
+				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Square")
 				{
 					modulationFactor = (float)calcSquareWave(lfoAngle);
 				}
-				else if (_lfoParams->LfoWaveType->getCurrentChoiceName() == "Noise")
+				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Noise")
 				{
 					modulationFactor = (whiteNoise.nextFloat() * 2.0f - 1.0f);
 				}
-				modulationFactor *= _lfoParams->LfoLevel->get();
+				modulationFactor *= _lfoParamsPtr->LfoAmount->get();
 				modulationFactor /= 2.0f;
 				modulationFactor += 0.5f;
 
 				float currentSample = 0.0f;
 
-				if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveLevel")
+				if (_lfoParamsPtr->LfoTarget->getCurrentChoiceName() == "WaveLevel")
 				{
-					currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get() * modulationFactor;
+					currentSample += (float)sin(currentAngle) * _oscParamsPtr->SineWaveLevel->get() * modulationFactor;
 
-					currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get() * modulationFactor;
+					currentSample += (float)calcSawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get() * modulationFactor;
 
-					currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get() * modulationFactor;
+					currentSample += (float)calcTriWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get() * modulationFactor;
 
-					currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get() * modulationFactor;
+					currentSample += (float)calcSquareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get() * modulationFactor;
 				}
 				else
 				{
-					currentSample += (float)sin(currentAngle) * _oscParams->SineWaveLevel->get();
+					currentSample += (float)sin(currentAngle) * _oscParamsPtr->SineWaveLevel->get();
 
-					currentSample += (float)calcSawWave(currentAngle) * _oscParams->SawWaveLevel->get();
+					currentSample += (float)calcSawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get();
 
-					currentSample += (float)calcTriWave(currentAngle) * _oscParams->TriWaveLevel->get();
+					currentSample += (float)calcTriWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get();
 
-					currentSample += (float)calcSquareWave(currentAngle) * _oscParams->SquareWaveLevel->get();
+					currentSample += (float)calcSquareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get();
 
 				}
 
-				currentSample += (whiteNoise.nextFloat() * 2.0f - 1.0f) * _oscParams->NoiseLevel->get();
+				currentSample += (whiteNoise.nextFloat() * 2.0f - 1.0f) * _oscParamsPtr->NoiseLevel->get();
 
 				currentSample *= level + levelDiff;
 				currentSample *= ampEnv.getValue();
@@ -197,7 +197,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;)
 					outputBuffer.addSample(channelNum, startSample, currentSample); //バッファに対して加算処理を行う。加算じゃないとダメ
 
-				if (_lfoParams->LfoTarget->getCurrentChoiceName() == "WaveAngle")
+				if (_lfoParamsPtr->LfoTarget->getCurrentChoiceName() == "WaveAngle")
 				{
 					currentAngle += angleDelta * pow(2.0, pitchBend) * modulationFactor;
 				}
@@ -205,7 +205,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				{
 					currentAngle += angleDelta * pow(2.0, pitchBend);
 				}
-				lfoAngle += (_lfoParams->LfoSpeed->get() / getSampleRate()) * MathConstants<double>::twoPi;
+				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / getSampleRate()) * MathConstants<double>::twoPi;
 				ampEnv.cycle(); // [8]
 					
 				if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE) // [7]

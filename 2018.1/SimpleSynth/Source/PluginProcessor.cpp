@@ -61,6 +61,7 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 	, driveParameter(new AudioParameterFloat("DRIVE", "Drive", -24.f, 12.f, 0.0f))
 	, masterVolumePrameter(new AudioParameterFloat("MASTER_VOLUME", "Volume", -36.f, 6.f, -3.0f))
 	, voiceSizeParameter(new AudioParameterInt("VOICE_SIZE", "Voice-Size", 1, 128, 8))
+	, velocitySenseParameter(new AudioParameterBool("VELOCITY_SENSE", "Velocity-Sense", true))
 	, scopedDataCollector(audioBufferQueue)
 {
 	oscParameters.addAllParameters(*this);
@@ -70,6 +71,8 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 	filterParameters.addAllParameters(*this);
 	reverbParameters.addAllParameters(*this);
 	addParameter(masterVolumePrameter);
+	addParameter(voiceSizeParameter);
+	addParameter(velocitySenseParameter);
 }
 
 SimpleSynthAudioProcessor::~SimpleSynthAudioProcessor()
@@ -157,7 +160,7 @@ void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 	int numVoices = voiceSizeParameter->get();
 	for (int i = 0; i < numVoices; ++i)
 	{
-		synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters, &ampEnvParameters, true));
+		synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters, &ampEnvParameters, velocitySenseParameter));
 	}
 
 	spec.sampleRate = sampleRate;
@@ -211,7 +214,7 @@ bool SimpleSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 
 void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-	if ((int)voiceSizeParameter != synth.getNumVoices()) 
+	if ((int)voiceSizeParameter->get() != synth.getNumVoices()) 
 	{
 		changeVoiceSize();
 	}
@@ -334,6 +337,7 @@ void SimpleSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
 	xml->setAttribute(driveParameter->paramID, (double)driveParameter->get());
 	xml->setAttribute(masterVolumePrameter->paramID, (double)masterVolumePrameter->get());
 	xml->setAttribute(voiceSizeParameter->paramID, (double)voiceSizeParameter->get());
+	xml->setAttribute(velocitySenseParameter->paramID, (double)velocitySenseParameter->get());
 
 	copyXmlToBinary(*xml, destData);
 }
@@ -357,6 +361,7 @@ void SimpleSynthAudioProcessor::setStateInformation (const void* data, int sizeI
 			*driveParameter = (float)xmlState->getDoubleAttribute(driveParameter->paramID, 0.0);
 			*masterVolumePrameter = (float)xmlState->getDoubleAttribute(masterVolumePrameter->paramID, -3.0);
 			*voiceSizeParameter = (int)xmlState->getDoubleAttribute(voiceSizeParameter->paramID, 1);
+			*velocitySenseParameter = (int)xmlState->getDoubleAttribute(velocitySenseParameter->paramID, 1);
 		}
 	}
 }
@@ -371,7 +376,7 @@ void SimpleSynthAudioProcessor::changeVoiceSize()
 		}
 		else
 		{
-			synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters, &ampEnvParameters, true));
+			synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters, &ampEnvParameters, velocitySenseParameter));
 		}
 	}
 }

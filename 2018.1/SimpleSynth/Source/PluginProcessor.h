@@ -76,6 +76,7 @@ public:
 	AudioParameterFloat* driveParameter;
 	AudioParameterFloat* masterVolumePrameter;
 	AudioParameterInt* voiceSizeParameter;
+	AudioParameterBool* velocitySenseParameter;
 
 private:
 	MidiKeyboardState keyboardState;

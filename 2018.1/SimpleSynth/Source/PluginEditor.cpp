@@ -21,7 +21,7 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
 	, filterParamsComponent(&p.filterParameters)
 	, reverbParamsComponent(&p.reverbParameters)
 	, driveParamsComponent(p.driveParameter)
-	, miscParamsComponent(p.masterVolumePrameter, p.voiceSizeParameter)
+	, miscParamsComponent(p.masterVolumePrameter, p.voiceSizeParameter, p.velocitySenseParameter)
 	, scopeComponent(p.getAudioBufferQueue())
 {
 
@@ -73,25 +73,27 @@ void SimpleSynthAudioProcessorEditor::resized()
 	Rectangle<int> bounds = this->getBounds();
 	keyboardComponent.setBounds(bounds.removeFromBottom(keyboardHeight));
 
-	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() / 2);
+	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
+	{
+		oscParamsComponent.setBounds(upperArea.removeFromLeft(280).reduced(panelMargin));
+
+		lfoParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
+
+		ampEnvParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
+
+		filterParamsComponent.setBounds(upperArea.reduced(panelMargin));
+	}
+
 	Rectangle<int> lowerArea = bounds;
+	{
+		scopeComponent.setBounds(lowerArea.removeFromLeft(420).reduced(panelMargin));
 
-	oscParamsComponent.setBounds(upperArea.removeFromLeft(280).reduced(panelMargin));
+		driveParamsComponent.setBounds(lowerArea.removeFromLeft(100).reduced(panelMargin));
 
-	ampEnvParamsComponent.setBounds(upperArea.removeFromLeft(200).reduced(panelMargin));
+		reverbParamsComponent.setBounds(lowerArea.removeFromLeft(280).reduced(panelMargin));
 
-	lfoParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
-
-	filterParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
-
-
-	scopeComponent.setBounds(lowerArea.removeFromLeft(400).reduced(panelMargin));
-
-	driveParamsComponent.setBounds(lowerArea.removeFromLeft(80).reduced(panelMargin));
-	
-	reverbParamsComponent.setBounds(lowerArea.removeFromLeft(240).reduced(panelMargin));
-
-	miscParamsComponent.setBounds(lowerArea.reduced(panelMargin));
+		miscParamsComponent.setBounds(lowerArea.reduced(panelMargin));
+	}
 }
 
 void SimpleSynthAudioProcessorEditor::timerCallback()

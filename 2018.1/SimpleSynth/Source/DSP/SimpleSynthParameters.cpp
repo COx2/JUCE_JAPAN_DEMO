@@ -71,8 +71,8 @@ void AmpEnvelopePatameters::loadParameters(XmlElement & xml)
 	*Release = (float)xml.getDoubleAttribute(Release->paramID, 0.01);
 }
 
-LfoParameters::LfoParameters(AudioParameterChoice* lfoTarget, AudioParameterChoice* lfoWaveType, AudioParameterFloat* lfoLevel, AudioParameterFloat* lfoSpeed)
-	: LfoTarget(lfoTarget), LfoWaveType(lfoWaveType), LfoLevel(lfoLevel), LfoSpeed(lfoSpeed)
+LfoParameters::LfoParameters(AudioParameterChoice* lfoTarget, AudioParameterChoice* lfoWaveType, AudioParameterFloat* lfoAmount, AudioParameterFloat* lfoSpeed)
+	: LfoTarget(lfoTarget), LfoWaveType(lfoWaveType), LfoAmount(lfoAmount), LfoSpeed(lfoSpeed)
 {
 }
 
@@ -80,7 +80,7 @@ void LfoParameters::addAllParameters(AudioProcessor& processor)
 {
 	processor.addParameter(LfoTarget);
 	processor.addParameter(LfoWaveType);
-	processor.addParameter(LfoLevel);
+	processor.addParameter(LfoAmount);
 	processor.addParameter(LfoSpeed);
 }
 
@@ -88,7 +88,7 @@ void LfoParameters::saveParameters(XmlElement & xml)
 {
 	xml.setAttribute(LfoTarget->paramID, LfoTarget->getIndex());
 	xml.setAttribute(LfoWaveType->paramID, LfoWaveType->getIndex());
-	xml.setAttribute(LfoLevel->paramID, (double)LfoLevel->get());
+	xml.setAttribute(LfoAmount->paramID, (double)LfoAmount->get());
 	xml.setAttribute(LfoSpeed->paramID, (double)LfoSpeed->get());
 }
 
@@ -96,7 +96,7 @@ void LfoParameters::loadParameters(XmlElement & xml)
 {
 	*LfoTarget = xml.getIntAttribute(LfoTarget->paramID, 0);
 	*LfoWaveType = xml.getIntAttribute(LfoWaveType->paramID, 0);
-	*LfoLevel = (float)xml.getDoubleAttribute(LfoLevel->paramID, 0.3);
+	*LfoAmount = (float)xml.getDoubleAttribute(LfoAmount->paramID, 0.3);
 	*LfoSpeed = (float)xml.getDoubleAttribute(LfoSpeed->paramID, 2.0);
 }
 

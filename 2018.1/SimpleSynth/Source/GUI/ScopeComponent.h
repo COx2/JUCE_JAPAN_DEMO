@@ -151,29 +151,29 @@ public:
 
 	void paint(Graphics& g) override
 	{
+		int panelNameHeight = 42;
+		int localMargin = 2;
+		Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
 		{
 			float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
 			Colour panelColour = juce::Colour(36, 36, 36);
 			g.setColour(panelColour);
-			g.fillRoundedRectangle(x, y, width, height, 10.000f);
-
-			//Colour strokeColour = Colours::white;
-			//g.setColour(strokeColour);
-			//g.drawRoundedRectangle(x, y, width, height, 10.000f, 4.000f);
+			g.fillRoundedRectangle(x, y, width, height, 10.0f);
 		}
 
 		{
-			int x = 0.0f, y = 0.0f, width = getWidth(), height = 32;
+			Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
 			String text(TRANS("SCOPE"));
 			Colour fillColour = Colours::white;
 			g.setColour(fillColour);
-			g.setFont(Font(22.0f, Font::plain).withTypefaceStyle("Regular"));
-			g.drawText(text, x, y, width, height, Justification::centred, true);
+			g.setFont(panelNameFont);
+			g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
 		}
 
 		
 		Rectangle<int> drawArea = getLocalBounds();
-		drawArea.reduce(drawArea.getWidth()* 0.1f, drawArea.getHeight()* 0.1f);
+		drawArea.removeFromTop(panelNameHeight);
+		drawArea.reduce(drawArea.getWidth()* 0.05f, drawArea.getHeight()* 0.1f);
 		g.setColour(juce::Colours::darkgrey);
 		g.fillRect(drawArea);
 

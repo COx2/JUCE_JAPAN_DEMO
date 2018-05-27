@@ -20,7 +20,7 @@ class SimpleVoice : public SynthesiserVoice
 public:
 	//==============================================================================
 	/** Creates a voice. */
-	SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, bool velocitySense = true);
+	SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, AudioParameterBool* velocitySenseParam);
 
 	//SimpleVoice(OscillatorParameters* oscParams, AmpEnvelopeParameters* ampEnvParams, bool velocitySense = true);
 
@@ -108,9 +108,8 @@ private:
 
 	Random whiteNoise;
 
-	OscillatorParameters* _oscParams;
-	LfoParameters* _lfoParams;
-	AmpEnvelopePatameters* _ampEnvParams;
-
-	bool isVelocitySense;
+	OscillatorParameters* _oscParamsPtr;
+	LfoParameters* _lfoParamsPtr;
+	AmpEnvelopePatameters* _ampEnvParamsPtr;
+	AudioParameterBool* _velocitySenseParamPtr;
 };

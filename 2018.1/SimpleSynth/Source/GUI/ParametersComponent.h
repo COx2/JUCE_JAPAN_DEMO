@@ -30,11 +30,17 @@ private:
 	virtual void sliderValueChanged(Slider* slider) override;
 
 	OscillatorParameters* _oscParamsPtr;
-	Slider sineWaveLevel;
-	Slider sawWaveLevel;
-	Slider triWaveLevel;
-	Slider squareWaveLevel;
-	Slider noiseLevel;
+	Slider sineWaveLevelSlider;
+	Slider sawWaveLevelSlider;
+	Slider triWaveLevelSlider;
+	Slider squareWaveLevelSlider;
+	Slider noiseLevelSlider;
+
+	Label sineWaveLevelLabel;
+	Label sawWaveLevelLabel;
+	Label triWaveLevelLabel;
+	Label squareWaveLevelLabel;
+	Label noiseLevelLabel;
 };
 
 
@@ -84,8 +90,13 @@ private:
 	LfoParameters* _lfoParamsPtr;
 	ComboBox targetSelector;
 	ComboBox waveTypeSelector;
-	Slider levelSlider;
+	Slider amountSlider;
 	Slider speedSlider;
+
+	Label targetLabel;
+	Label waveTypeLabel;
+	Label amountLabel;
+	Label speedLabel;
 };
 
 class FilterParametersComponent : public juce::Component, juce::Slider::Listener, juce::ComboBox::Listener, private juce::Timer
@@ -108,6 +119,10 @@ private:
 	ComboBox typeSelector;
 	Slider frequencySlider;
 	Slider qSlider;
+
+	Label typeLabel;
+	Label frequencyLabel;
+	Label qLabel;
 };
 
 class ReverbParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
@@ -132,6 +147,13 @@ private:
 	Slider dryLevelSlider;
 	Slider widthSlider;
 	Slider freezeModeSlider;
+
+	Label roomSizeLabel;
+	Label dampingLabel;
+	Label wetLevelLabel;
+	Label dryLevelLabel;
+	Label widthLabel;
+	Label freezeModeLabel;
 };
 
 class DriveParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
@@ -150,13 +172,14 @@ private:
 	virtual void sliderValueChanged(Slider* slider) override;
 
 	AudioParameterFloat* _driveParamPtr;
-	Slider driveSlider;
+	Slider gainSlider;
+	Label gainLabel;
 };
 
-class MiscParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
+class MiscParametersComponent : public juce::Component, juce::Slider::Listener, juce::Button::Listener, private juce::Timer
 {
 public:
-	MiscParametersComponent(AudioParameterFloat* masterVolumeParam, AudioParameterInt* voiceSizeParam);
+	MiscParametersComponent(AudioParameterFloat* masterVolumeParam, AudioParameterInt* voiceSizeParam, AudioParameterBool* velocitySenseParam);
 	~MiscParametersComponent();
 
 	void paint(Graphics& g) override;
@@ -167,10 +190,16 @@ private:
 
 	virtual void timerCallback() override;
 	virtual void sliderValueChanged(Slider* slider) override;
+	virtual void buttonClicked(Button* button) override;
 
 	AudioParameterFloat* _masterVolumeParamPtr;
 	AudioParameterInt* _voiceSizeParamPtr;
+	AudioParameterBool* _velocitySenseParamPtr;
 
 	Slider masterVolumeSlider;
 	Slider voiceSizeSlider;
+	ToggleButton velocitySenseButton;
+
+	Label masterVolumeLabel;
+	Label voiceSizeLabel;
 };

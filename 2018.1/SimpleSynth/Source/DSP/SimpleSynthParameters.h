@@ -66,12 +66,12 @@ struct LfoParameters : public SynthParametersBase
 {
 	AudioParameterChoice* LfoTarget;
 	AudioParameterChoice* LfoWaveType;
-	AudioParameterFloat*  LfoLevel;
+	AudioParameterFloat*  LfoAmount;
 	AudioParameterFloat*  LfoSpeed;
 
 	LfoParameters(AudioParameterChoice* lfoTarget,
 				AudioParameterChoice* lfoWaveType,
-				AudioParameterFloat*  lfoLevel,
+				AudioParameterFloat*  LfoAmount,
 				AudioParameterFloat*  lfoSpeed);
 
 	virtual void addAllParameters(AudioProcessor& processor) override;
