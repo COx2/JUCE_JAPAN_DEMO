@@ -10,9 +10,6 @@
 
 #include "SimpleVoice.h"
 
-#include <iostream>
-#include <string>
-
 SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, AudioParameterBool* velocitySenseParam)
 	: _oscParamsPtr(oscParams)
 	, _lfoParamsPtr(lfoParams)
@@ -36,8 +33,6 @@ bool SimpleVoice::canPlaySound(SynthesiserSound* sound)
 void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound* s, int currentPitchWheelPosition)
 {
 	// velocity = 0...1 
-	DBG("[VOICE] startNote(): Note:" + juce::String(midiNoteNumber) + ", Vel:" + juce::String(velocity));
-
 	if (SimpleSound* sound = dynamic_cast<SimpleSound*> (s))
 	{
 		// 異なるノートの場合はstopNoteが実行されずリリース状態ではないので、現在のラジアンを維持
@@ -74,18 +69,12 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 
 		levelDiff = lastLevel - level;
 
-
-
-		DBG(juce::String("[VOICE] StartNote: ") + "CurrentSine: " + juce::String(std::to_string(sin(currentAngle))) + ", CurrentAngle: " + juce::String(std::to_string(currentAngle)) );
 	}
 }
 
 void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 {
 	// シンセサイザークラスから呼ばれるとき、キーリリースだとallowTailOff == true、キーリリース直後のボイススチールではallowTailOff == false
-	DBG("[VOICE] stopNote()" + juce::String((int)allowTailOff));
-	DBG(juce::String("[VOICE] SropNote: ") + "CurrentSine: " + juce::String(std::to_string(sin(currentAngle))) + ", CurrentAngle: " + juce::String(std::to_string(currentAngle)));
-
 	lastLevel = level;
 
 	if (allowTailOff)
@@ -114,11 +103,8 @@ void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 void SimpleVoice::pitchWheelMoved(int newPitchWheelValue)
 {
 	// シンセサイザークラスから呼ばれるとき、キーリリースだとallowTailOff == true、キーリリース直後のボイススチールではallowTailOff == false
-	DBG("[VOICE] pitchWheelMoved(): " + juce::String(newPitchWheelValue));
-
 	pitchBend = ((double)newPitchWheelValue - 8192.0) / 8192.0;
 
-	DBG("[VOICE] pitchBend: " + juce::String(powf(2.0f, pitchBend)));
 }
 
 void SimpleVoice::controllerMoved(int controllerNumber, int newControllerValue)

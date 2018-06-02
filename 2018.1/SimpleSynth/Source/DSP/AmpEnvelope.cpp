@@ -9,31 +9,33 @@
 */
 
 #include "AmpEnvelope.h"
-#include "JuceHeader.h"
-
-#include <iostream>
-#include <string>
 
 namespace {
 	const float AMP_MAX = 1.0f;
 	const float AMP_MIN = 0.0f;
+	const float ATTACK_MIN = 0.01f;
+	const float DECAY_MIN = 0.01f;
 }
 
 AmpEnvelope::AmpEnvelope(float attackTime, float decayTime, float sustain, float releaseTime)
 	: _attackTime(attackTime), _decayTime(decayTime), _sustainValue(sustain), _releaseTime(releaseTime)
 	, _sampleRate(0.0f), _value(0.0f), _valueOnReleaseStart(0.0f), _ampState(AMPENV_STATE::WAIT)
 {
-	if (_attackTime <= 0.1f)
-		_attackTime = 0.1f;
+	if (_attackTime <= ATTACK_MIN) {
+		_attackTime = ATTACK_MIN;
+	}
 
-	if (_decayTime <= 0.1f)
-		_decayTime = 0.1f;
+	if (_decayTime <= DECAY_MIN) {
+		_decayTime = DECAY_MIN;
+	}
 
-	if (_sustainValue > AMP_MAX)
+	if (_sustainValue > AMP_MAX) {
 		_sustainValue = AMP_MAX;
+	}
 
-	if (_sustainValue < AMP_MIN)
+	if (_sustainValue < AMP_MIN) {
 		_sustainValue = AMP_MIN;
+	}
 
 }
 
@@ -49,23 +51,26 @@ void AmpEnvelope::setParameters(float attackTime, float decayTime, float sustain
 	_releaseTime = releaseTime;
 
 
-	if (_attackTime <= 0.1f)
-		_attackTime = 0.1f;
+	if (_attackTime <= ATTACK_MIN) {
+		_attackTime = ATTACK_MIN;
+	}
 
-	if (_decayTime <= 0.1f)
-		_decayTime = 0.1f;
+	if (_decayTime <= DECAY_MIN) {
+		_decayTime = DECAY_MIN;
+	}
 
-	if (_sustainValue > AMP_MAX)
+	if (_sustainValue > AMP_MAX) {
 		_sustainValue = AMP_MAX;
+	}
 	
-	if (_sustainValue < AMP_MIN)
+	if (_sustainValue < AMP_MIN) {
 		_sustainValue = AMP_MIN;
+	}
 }
 
 void AmpEnvelope::cycle()
 {
 	// 1サンプルごとのvalue値の変化
-
 	switch (_ampState)
 	{
 	case AMPENV_STATE::ATTACK:
@@ -115,10 +120,7 @@ float AmpEnvelope::getValue()
 
 void AmpEnvelope::attackStart(float sampleRate)
 {
-	DBG("[ADSR] AmpEnvelope::attackStart()");
-
-	if (_ampState != AMPENV_STATE::RELEASE)
-	{
+	if (_ampState != AMPENV_STATE::RELEASE){
 		_value = AMP_MIN;
 	}
 
@@ -126,28 +128,20 @@ void AmpEnvelope::attackStart(float sampleRate)
 
 	_ampState = AMPENV_STATE::ATTACK;
 
-	DBG(juce::String("[ADSR] Value:") + juce::String(std::to_string(_value)));
 }
 
 void AmpEnvelope::releaseStart()
 {
-	DBG("[ADSR] AmpEnvelope::releaseStart()");
-
 	if (_ampState != AMPENV_STATE::RELEASE && _ampState != AMPENV_STATE::WAIT) {
 		_ampState = AMPENV_STATE::RELEASE;
 		_valueOnReleaseStart = _value;
 	}
 
-	DBG(juce::String("[ADSR] Value:") + juce::String(std::to_string(_value)));
 }
 
 void AmpEnvelope::releaseEnd()
 {
-	DBG("[ADSR] AmpEnvelope::releaseEnd()");
-
 	_value = AMP_MIN;
 
 	_ampState = AMPENV_STATE::WAIT;
-
-	DBG(juce::String("[ADSR] Value:") + juce::String(std::to_string(_value)));
 }
