@@ -90,23 +90,22 @@ public:
 
 
 private:
-	double calcSawWave(double currentAngle);
-	double calcTriWave(double currentAngle);
-	double calcSquareWave(double currentAngle);
+	float calcSineWave(float currentAngle);
+	float calcSawWave(float currentAngle);
+	float calcTriWave(float currentAngle);
+	float calcSquareWave(float currentAngle);
 
-	AmpEnvelope ampEnv;
-
-	// double精度にしないとバッファフローが早期に発生する
-	double angleDelta;
-	double currentAngle;
-	double pitchBend;
-	double lfoAngle;
-
+	float angleDelta;
+	float currentAngle;
+	float pitchBend;
+	float lfoAngle;
 	float level;
 	float lastLevel;
 	float levelDiff;
 
 	Random whiteNoise;
+
+	AmpEnvelope ampEnv;
 
 	OscillatorParameters* _oscParamsPtr;
 	LfoParameters* _lfoParamsPtr;

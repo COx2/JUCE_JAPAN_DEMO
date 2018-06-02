@@ -15,6 +15,7 @@ namespace {
 	const float AMP_MIN = 0.0f;
 	const float ATTACK_MIN = 0.01f;
 	const float DECAY_MIN = 0.01f;
+	const float RELEASE_MIN = 0.01f;
 }
 
 AmpEnvelope::AmpEnvelope(float attackTime, float decayTime, float sustain, float releaseTime)
@@ -27,6 +28,10 @@ AmpEnvelope::AmpEnvelope(float attackTime, float decayTime, float sustain, float
 
 	if (_decayTime <= DECAY_MIN) {
 		_decayTime = DECAY_MIN;
+	}
+
+	if (_releaseTime <= RELEASE_MIN) {
+		_releaseTime = RELEASE_MIN;
 	}
 
 	if (_sustainValue > AMP_MAX) {
@@ -57,6 +62,10 @@ void AmpEnvelope::setParameters(float attackTime, float decayTime, float sustain
 
 	if (_decayTime <= DECAY_MIN) {
 		_decayTime = DECAY_MIN;
+	}
+
+	if (_releaseTime <= RELEASE_MIN) {
+		_releaseTime = RELEASE_MIN;
 	}
 
 	if (_sustainValue > AMP_MAX) {
