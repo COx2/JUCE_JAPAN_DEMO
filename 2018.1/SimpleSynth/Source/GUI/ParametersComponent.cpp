@@ -950,6 +950,8 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	voiceSizeLabel.setJustificationType(Justification::centred);
 	voiceSizeLabel.setEditable(false, false, false);
 	addAndMakeVisible(voiceSizeLabel);
+
+	startTimerHz(30.0f);
 }
 
 MiscParametersComponent::~MiscParametersComponent()

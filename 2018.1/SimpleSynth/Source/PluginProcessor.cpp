@@ -336,8 +336,8 @@ void SimpleSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
 	reverbParameters.saveParameters(*xml);
 	xml->setAttribute(driveParameter->paramID, (double)driveParameter->get());
 	xml->setAttribute(masterVolumePrameter->paramID, (double)masterVolumePrameter->get());
-	xml->setAttribute(voiceSizeParameter->paramID, (double)voiceSizeParameter->get());
-	xml->setAttribute(velocitySenseParameter->paramID, (double)velocitySenseParameter->get());
+	xml->setAttribute(voiceSizeParameter->paramID, voiceSizeParameter->get());
+	xml->setAttribute(velocitySenseParameter->paramID, velocitySenseParameter->get());
 
 	copyXmlToBinary(*xml, destData);
 }
@@ -360,8 +360,8 @@ void SimpleSynthAudioProcessor::setStateInformation (const void* data, int sizeI
 			reverbParameters.loadParameters(*xmlState);
 			*driveParameter = (float)xmlState->getDoubleAttribute(driveParameter->paramID, 0.0);
 			*masterVolumePrameter = (float)xmlState->getDoubleAttribute(masterVolumePrameter->paramID, -3.0);
-			*voiceSizeParameter = (int)xmlState->getDoubleAttribute(voiceSizeParameter->paramID, 1);
-			*velocitySenseParameter = (int)xmlState->getDoubleAttribute(velocitySenseParameter->paramID, 1);
+			*voiceSizeParameter = xmlState->getIntAttribute(voiceSizeParameter->paramID, 1);
+			*velocitySenseParameter = xmlState->getBoolAttribute(velocitySenseParameter->paramID, true);
 		}
 	}
 }
