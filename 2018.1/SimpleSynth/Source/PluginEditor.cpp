@@ -49,11 +49,25 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
     setSize (960, 540 + keyboardHeight);
 
 	startTimerHz(30);
+
+	// assign custom look and feel.
+	customLookAndFeel = new LookAndFeel_V4(LookAndFeel_V4::getGreyColourScheme());
+	customLookAndFeel->setColour(TooltipWindow::ColourIds::textColourId, Colours::white);
+	customLookAndFeel->setColour(Slider::ColourIds::rotarySliderFillColourId, Colours::green);
+	customLookAndFeel->setColour(Slider::ColourIds::trackColourId, Colours::yellow);
+
+	for (auto* child : getChildren()) {
+		child->setLookAndFeel(customLookAndFeel);
+	}
 }
 
 SimpleSynthAudioProcessorEditor::~SimpleSynthAudioProcessorEditor()
 {
+	for (auto* child : getChildren()) {
+		child->setLookAndFeel(nullptr);
+	}
 
+	delete customLookAndFeel;
 }
 
 //==============================================================================
