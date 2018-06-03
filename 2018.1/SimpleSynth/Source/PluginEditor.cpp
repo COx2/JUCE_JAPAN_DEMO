@@ -26,27 +26,20 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
 {
 
 	keyboardComponent.setKeyWidth(32.0f);
+
 	addAndMakeVisible(keyboardComponent);
-
 	addAndMakeVisible(oscParamsComponent);
-
 	addAndMakeVisible(ampEnvParamsComponent);
-
 	addAndMakeVisible(lfoParamsComponent);
-
 	addAndMakeVisible(filterParamsComponent);
-
 	addAndMakeVisible(driveParamsComponent);
-
 	addAndMakeVisible(reverbParamsComponent);
-
 	addAndMakeVisible(miscParamsComponent);
-
 	addAndMakeVisible(scopeComponent);
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (960, 540 + keyboardHeight);
+	setSize (960, 540 + keyboardHeight);
 
 	startTimerHz(30);
 
@@ -56,14 +49,14 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
 	customLookAndFeel->setColour(Slider::ColourIds::rotarySliderFillColourId, Colours::green);
 	customLookAndFeel->setColour(Slider::ColourIds::trackColourId, Colours::yellow);
 
-	for (auto* child : getChildren()) {
+	for (Component* child : getChildren()) {
 		child->setLookAndFeel(customLookAndFeel);
 	}
 }
 
 SimpleSynthAudioProcessorEditor::~SimpleSynthAudioProcessorEditor()
 {
-	for (auto* child : getChildren()) {
+	for (Component* child : getChildren()) {
 		child->setLookAndFeel(nullptr);
 	}
 
@@ -82,7 +75,7 @@ void SimpleSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-	auto panelMargin = 2;
+	int panelMargin = 2;
 
 	Rectangle<int> bounds = this->getBounds();
 	keyboardComponent.setBounds(bounds.removeFromBottom(keyboardHeight));
@@ -90,26 +83,19 @@ void SimpleSynthAudioProcessorEditor::resized()
 	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
 	{
 		oscParamsComponent.setBounds(upperArea.removeFromLeft(280).reduced(panelMargin));
-
 		lfoParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
-
 		ampEnvParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
-
 		filterParamsComponent.setBounds(upperArea.reduced(panelMargin));
 	}
 
 	Rectangle<int> lowerArea = bounds;
 	{
 		scopeComponent.setBounds(lowerArea.removeFromLeft(420).reduced(panelMargin));
-
 		driveParamsComponent.setBounds(lowerArea.removeFromLeft(100).reduced(panelMargin));
-
 		reverbParamsComponent.setBounds(lowerArea.removeFromLeft(280).reduced(panelMargin));
-
 		miscParamsComponent.setBounds(lowerArea.reduced(panelMargin));
 	}
 }
 
 void SimpleSynthAudioProcessorEditor::timerCallback()
-{
-}
+{}

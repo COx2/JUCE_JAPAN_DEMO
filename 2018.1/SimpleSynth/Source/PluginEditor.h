@@ -35,25 +35,15 @@ private:
 	float keyboardHeight{80.0f};
 
 	MidiKeyboardComponent keyboardComponent;
-
 	ScopeComponent<float> scopeComponent;
-
 	OscillatorParametersComponent oscParamsComponent;
-
 	AmpEnvelopeParametersComponent ampEnvParamsComponent;
-
 	LfoParametersComponent lfoParamsComponent;
-
 	FilterParametersComponent filterParamsComponent;
-	
 	ReverbParametersComponent reverbParamsComponent;
-
 	DriveParametersComponent driveParamsComponent;
-
 	MiscParametersComponent miscParamsComponent;
 
-	Slider masterVolumeSlider;
-	Slider voiceSizeSlider;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
