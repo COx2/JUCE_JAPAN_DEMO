@@ -13,16 +13,15 @@
 #include "JuceHeader.h"
 #include "../DSP/SimpleSynthParameters.h"
 
-class OscillatorParametersComponent : public juce::Component, juce::Slider::Listener
-									, private juce::Timer
+class OscillatorParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
 	OscillatorParametersComponent(OscillatorParameters* oscParams);
-	~OscillatorParametersComponent();
+	virtual ~OscillatorParametersComponent();
 
-	void paint(Graphics& g) override;
-	void resized() override;
-	
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
+
 private:
 	OscillatorParametersComponent();
 
@@ -30,6 +29,7 @@ private:
 	virtual void sliderValueChanged(Slider* slider) override;
 
 	OscillatorParameters* _oscParamsPtr;
+
 	Slider sineWaveLevelSlider;
 	Slider sawWaveLevelSlider;
 	Slider triWaveLevelSlider;
@@ -44,14 +44,14 @@ private:
 };
 
 
-class AmpEnvelopeParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
+class AmpEnvelopeParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
 	AmpEnvelopeParametersComponent(AmpEnvelopePatameters* ampEnvParams);
-	~AmpEnvelopeParametersComponent();
+	virtual ~AmpEnvelopeParametersComponent();
 
-	void paint(Graphics& g) override;
-	void resized() override;
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
 
 private:
 	AmpEnvelopeParametersComponent();
@@ -60,10 +60,12 @@ private:
 	virtual void sliderValueChanged(Slider* slider) override;
 
 	AmpEnvelopePatameters* _ampEnvParamsPtr;
+
 	Slider attackSlider;
 	Slider decaySlider;
 	Slider sustainSlider;
 	Slider releaseSlider;
+
 	Label attackLabel;
 	Label decayLabel;
 	Label sustainLabel;
@@ -71,14 +73,14 @@ private:
 };
 
 
-class LfoParametersComponent : public juce::Component, juce::Slider::Listener, juce::ComboBox::Listener, private juce::Timer
+class LfoParametersComponent : public Component, Slider::Listener, ComboBox::Listener, private Timer
 {
 public:
 	LfoParametersComponent(LfoParameters* lfoParams);
-	~LfoParametersComponent();
+	virtual ~LfoParametersComponent();
 
-	void paint(Graphics& g) override;
-	void resized() override;
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
 
 private:
 	LfoParametersComponent();
@@ -88,8 +90,10 @@ private:
 	virtual void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
 
 	LfoParameters* _lfoParamsPtr;
+
 	ComboBox targetSelector;
 	ComboBox waveTypeSelector;
+
 	Slider amountSlider;
 	Slider speedSlider;
 
@@ -99,14 +103,14 @@ private:
 	Label speedLabel;
 };
 
-class FilterParametersComponent : public juce::Component, juce::Slider::Listener, juce::ComboBox::Listener, private juce::Timer
+class FilterParametersComponent : public Component, Slider::Listener, ComboBox::Listener, private Timer
 {
 public:
 	FilterParametersComponent(FilterPatameters* filterParams);
-	~FilterParametersComponent();
+	virtual ~FilterParametersComponent();
 
-	void paint(Graphics& g) override;
-	void resized() override;
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
 
 private:
 	FilterParametersComponent();
@@ -116,7 +120,9 @@ private:
 	virtual void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
 
 	FilterPatameters* _filterParamsPtr;
+
 	ComboBox typeSelector;
+
 	Slider frequencySlider;
 	Slider qSlider;
 
@@ -125,14 +131,14 @@ private:
 	Label qLabel;
 };
 
-class ReverbParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
+class ReverbParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
 	ReverbParametersComponent(ReverbPatameters* reverbParams);
-	~ReverbParametersComponent();
+	virtual ~ReverbParametersComponent();
 
-	void paint(Graphics& g) override;
-	void resized() override;
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
 
 private:
 	ReverbParametersComponent();
@@ -141,6 +147,7 @@ private:
 	virtual void sliderValueChanged(Slider* slider) override;
 
 	ReverbPatameters* _reverbParamsPtr;
+
 	Slider roomSizeSlider;
 	Slider dampingSlider;
 	Slider wetLevelSlider;
@@ -156,14 +163,14 @@ private:
 	Label freezeModeLabel;
 };
 
-class DriveParametersComponent : public juce::Component, juce::Slider::Listener, private juce::Timer
+class DriveParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
 	DriveParametersComponent(AudioParameterFloat* driveParam);
-	~DriveParametersComponent();
+	virtual ~DriveParametersComponent();
 
-	void paint(Graphics& g) override;
-	void resized() override;
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
 
 private:
 	DriveParametersComponent();
@@ -172,18 +179,20 @@ private:
 	virtual void sliderValueChanged(Slider* slider) override;
 
 	AudioParameterFloat* _driveParamPtr;
+
 	Slider gainSlider;
+
 	Label gainLabel;
 };
 
-class MiscParametersComponent : public juce::Component, juce::Slider::Listener, juce::Button::Listener, private juce::Timer
+class MiscParametersComponent : public Component, Slider::Listener, Button::Listener, private Timer
 {
 public:
 	MiscParametersComponent(AudioParameterFloat* masterVolumeParam, AudioParameterInt* voiceSizeParam, AudioParameterBool* velocitySenseParam);
-	~MiscParametersComponent();
+	virtual ~MiscParametersComponent();
 
-	void paint(Graphics& g) override;
-	void resized() override;
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
 
 private:
 	MiscParametersComponent();
@@ -198,6 +207,7 @@ private:
 
 	Slider masterVolumeSlider;
 	Slider voiceSizeSlider;
+
 	ToggleButton velocitySenseButton;
 
 	Label masterVolumeLabel;

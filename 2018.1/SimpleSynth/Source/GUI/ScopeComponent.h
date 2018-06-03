@@ -164,7 +164,7 @@ public:
 		int localMargin = 2;
 		Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
 		{
-			float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+			float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
 			Colour panelColour = juce::Colour(36, 36, 36);
 			g.setColour(panelColour);
 			g.fillRoundedRectangle(x, y, width, height, 10.0f);

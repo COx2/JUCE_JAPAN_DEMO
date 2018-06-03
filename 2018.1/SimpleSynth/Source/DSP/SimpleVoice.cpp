@@ -58,8 +58,8 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 
 		pitchBend = ((float)currentPitchWheelPosition - 8192.0f) / 8192.0f;
 
-		float cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		float cyclesPerSample = cyclesPerSecond / getSampleRate();
+		float cyclesPerSecond = (float)MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		float cyclesPerSample = (float)cyclesPerSecond / (float)getSampleRate();
 
 		// startNoteではじめてangelDeltaが確定する
 		// MathConstants<double>::piは記事で説明
@@ -193,8 +193,9 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				{
 					currentAngle += angleDelta * pow(2.0f, pitchBend);
 				}
-				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / getSampleRate()) * MathConstants<float>::twoPi;
-				ampEnv.cycle(); // [8]
+				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / (float)getSampleRate()) * MathConstants<float>::twoPi;
+
+				ampEnv.cycle();
 					
 				if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE) // [7]
 				{
@@ -231,42 +232,42 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 	}
 }
 
-float SimpleVoice::calcSineWave(float currentAngle)
+float SimpleVoice::calcSineWave(float angle)
 {
-	return sin(currentAngle);
+	return sin(angle);
 }
 
-float SimpleVoice::calcSawWave(float currentAngle)
+float SimpleVoice::calcSawWave(float angle)
 {
-	if (currentAngle <= MathConstants<float>::pi)
+	if (angle <= MathConstants<float>::pi)
 	{
-		return (currentAngle / MathConstants<float>::pi);
+		return (angle / MathConstants<float>::pi);
 	}
 	else
 	{
-		return -1.0 + ((currentAngle - MathConstants<float>::pi) / MathConstants<float>::pi) ;
+		return -1.0f + ((angle - MathConstants<float>::pi) / MathConstants<float>::pi) ;
 	}
 }
 
-float SimpleVoice::calcTriWave(float currentAngle)
+float SimpleVoice::calcTriWave(float angle)
 {
-	if (currentAngle <= MathConstants<float>::halfPi)
+	if (angle <= MathConstants<float>::halfPi)
 	{
-		return (currentAngle / MathConstants<float>::halfPi);
+		return (angle / MathConstants<float>::halfPi);
 	}
-	else if(currentAngle > MathConstants<float>::halfPi && currentAngle <= (MathConstants<float>::pi + MathConstants<float>::halfPi))
+	else if(angle > MathConstants<float>::halfPi && angle <= (MathConstants<float>::pi + MathConstants<float>::halfPi))
 	{
-		return 1.0 - (2.0 * ((currentAngle - MathConstants<float>::halfPi) / MathConstants<float>::pi));
+		return 1.0f - (2.0f * ((angle - MathConstants<float>::halfPi) / MathConstants<float>::pi));
 	}
 	else
 	{
-		return -1.0 + ((currentAngle - MathConstants<float>::pi - MathConstants<float>::halfPi) / MathConstants<float>::halfPi);
+		return -1.0f + ((angle - MathConstants<float>::pi - MathConstants<float>::halfPi) / MathConstants<float>::halfPi);
 	}
 }
 
-float SimpleVoice::calcSquareWave(float currentAngle)
+float SimpleVoice::calcSquareWave(float angle)
 {
-	if (currentAngle <= MathConstants<float>::pi)
+	if (angle <= MathConstants<float>::pi)
 	{
 		return 1.0f;
 	}

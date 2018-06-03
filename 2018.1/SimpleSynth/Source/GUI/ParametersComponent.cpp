@@ -11,13 +11,13 @@
 #include "ParametersComponent.h"
 
 namespace {
-	Colour panelColour = juce::Colour(36, 36, 36);
 	//Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");   // 内部でnewしてるらしいのでメモリリークする
 	//Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
-	int panelNameFontSize = 24.0f;
-	int panelLabelFontSize = 16.0f;
-	int panelNameHeight = 42;
-	int localMargin = 2;
+	const Colour PANEL_COLOUR = juce::Colour(36, 36, 36);
+	const float PANEL_NAME_FONT_SIZE = 24.0f;
+	const float PARAM_LABEL_FONT_SIZE = 16.0f;
+	const int PANEL_NAME_HEIGHT = 42;
+	const int LOCAL_MARGIN = 2;
 }
 
 OscillatorParametersComponent::OscillatorParametersComponent(OscillatorParameters* oscParams)
@@ -28,7 +28,7 @@ OscillatorParametersComponent::OscillatorParametersComponent(OscillatorParameter
 	, squareWaveLevelSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, noiseLevelSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	sineWaveLevelSlider.setRange(_oscParamsPtr->SineWaveLevel->range.start, _oscParamsPtr->SineWaveLevel->range.end, 0.01);
 	sineWaveLevelSlider.setValue(_oscParamsPtr->SineWaveLevel->get(), dontSendNotification);
@@ -66,31 +66,31 @@ OscillatorParametersComponent::OscillatorParametersComponent(OscillatorParameter
 	addAndMakeVisible(noiseLevelSlider);
 
 	sineWaveLevelLabel.setFont(paramLabelFont);
-	sineWaveLevelLabel.setText(TRANS("Sine"), dontSendNotification);
+	sineWaveLevelLabel.setText("Sine", dontSendNotification);
 	sineWaveLevelLabel.setJustificationType(Justification::centred);
 	sineWaveLevelLabel.setEditable(false, false, false);
 	addAndMakeVisible(sineWaveLevelLabel);
 
 	sawWaveLevelLabel.setFont(paramLabelFont);
-	sawWaveLevelLabel.setText(TRANS("Saw"), dontSendNotification);
+	sawWaveLevelLabel.setText("Saw", dontSendNotification);
 	sawWaveLevelLabel.setJustificationType(Justification::centred);
 	sawWaveLevelLabel.setEditable(false, false, false);
 	addAndMakeVisible(sawWaveLevelLabel);
 
 	squareWaveLevelLabel.setFont(paramLabelFont);
-	squareWaveLevelLabel.setText(TRANS("Square"), dontSendNotification);
+	squareWaveLevelLabel.setText("Square", dontSendNotification);
 	squareWaveLevelLabel.setJustificationType(Justification::centred);
 	squareWaveLevelLabel.setEditable(false, false, false);
 	addAndMakeVisible(squareWaveLevelLabel);
 
 	triWaveLevelLabel.setFont(paramLabelFont);
-	triWaveLevelLabel.setText(TRANS("Tri"), dontSendNotification);
+	triWaveLevelLabel.setText("Tri", dontSendNotification);
 	triWaveLevelLabel.setJustificationType(Justification::centred);
 	triWaveLevelLabel.setEditable(false, false, false);
 	addAndMakeVisible(triWaveLevelLabel);
 
 	noiseLevelLabel.setFont(paramLabelFont);
-	noiseLevelLabel.setText(TRANS("Noise"), dontSendNotification);
+	noiseLevelLabel.setText("Noise", dontSendNotification);
 	noiseLevelLabel.setJustificationType(Justification::centred);
 	noiseLevelLabel.setEditable(false, false, false);
 	addAndMakeVisible(noiseLevelLabel);
@@ -104,21 +104,21 @@ OscillatorParametersComponent::~OscillatorParametersComponent()
 
 void OscillatorParametersComponent::paint(Graphics & g)
 {
-	Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
+	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
 
 	{
-		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
-		g.setColour(panelColour);
+		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
+		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-		String text(TRANS("OSC MIX"));
+		String text("OSC MIX");
 		Colour fillColour = Colours::white;
 		g.setColour(fillColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
+		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
 	}
 
 }
@@ -130,31 +130,31 @@ void OscillatorParametersComponent::resized()
 	int labelHeight = 20;
 
 	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-	bounds.removeFromTop(panelNameHeight);
+	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		sineWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		sineWaveLevelSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		sineWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		sineWaveLevelSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		sawWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		sawWaveLevelSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		sawWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		sawWaveLevelSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		triWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		triWaveLevelSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		triWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		triWaveLevelSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		squareWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		squareWaveLevelSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		squareWaveLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		squareWaveLevelSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		noiseLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		noiseLevelSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		noiseLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		noiseLevelSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 }
 
@@ -198,7 +198,7 @@ AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatame
 	, sustainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, releaseSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	attackSlider.setRange(_ampEnvParamsPtr->Attack->range.start, _ampEnvParamsPtr->Attack->range.end, 0.01);
 	attackSlider.setValue(_ampEnvParamsPtr->Attack->get(), dontSendNotification);
@@ -232,25 +232,25 @@ AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatame
 	addAndMakeVisible(releaseSlider);
 
 	attackLabel.setFont(paramLabelFont);
-	attackLabel.setText(TRANS("Attack"), dontSendNotification);
+	attackLabel.setText("Attack", dontSendNotification);
 	attackLabel.setJustificationType(Justification::centred);
 	attackLabel.setEditable(false, false, false);
 	addAndMakeVisible(attackLabel);
 
 	decayLabel.setFont(paramLabelFont);
-	decayLabel.setText(TRANS("Decay"), dontSendNotification);
+	decayLabel.setText("Decay", dontSendNotification);
 	decayLabel.setJustificationType(Justification::centred);
 	decayLabel.setEditable(false, false, false);
 	addAndMakeVisible(decayLabel);
 
 	sustainLabel.setFont(paramLabelFont);
-	sustainLabel.setText(TRANS("Sustain"), dontSendNotification);
+	sustainLabel.setText("Sustain", dontSendNotification);
 	sustainLabel.setJustificationType(Justification::centred);
 	sustainLabel.setEditable(false, false, false);
 	addAndMakeVisible(sustainLabel);
 
 	releaseLabel.setFont(paramLabelFont);
-	releaseLabel.setText(TRANS("Release"), dontSendNotification);
+	releaseLabel.setText("Release", dontSendNotification);
 	releaseLabel.setJustificationType(Justification::centred);
 	releaseLabel.setEditable(false, false, false);
 	addAndMakeVisible(releaseLabel);
@@ -264,21 +264,21 @@ AmpEnvelopeParametersComponent::~AmpEnvelopeParametersComponent()
 
 void AmpEnvelopeParametersComponent::paint(Graphics & g)
 {
-	Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
+	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
 
 	{
-		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
-		g.setColour(panelColour);
+		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
+		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-		String text(TRANS("AMP EG"));
+		String text("AMP EG");
 		Colour fillColour = Colours::white;
 		g.setColour(fillColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
+		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
 	}
 
 }
@@ -290,26 +290,26 @@ void AmpEnvelopeParametersComponent::resized()
 	int labelHeight = 20;
 
 	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-	bounds.removeFromTop(panelNameHeight);
+	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		attackLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		attackSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		attackLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		attackSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		decayLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		decaySlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		decayLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		decaySlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		sustainLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		sustainSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		sustainLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		sustainSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		releaseLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		releaseSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		releaseLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		releaseSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 }
 
@@ -348,7 +348,7 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 	, amountSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, speedSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	targetSelector.addItemList(_lfoParamsPtr->LfoTarget->getAllValueStrings(), 1);
 	targetSelector.setSelectedItemIndex(_lfoParamsPtr->LfoTarget->getIndex(), dontSendNotification);
@@ -380,25 +380,25 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 	addAndMakeVisible(speedSlider);
 
 	targetLabel.setFont(paramLabelFont);
-	targetLabel.setText(TRANS("Target"), dontSendNotification);
+	targetLabel.setText("Target", dontSendNotification);
 	targetLabel.setJustificationType(Justification::centred);
 	targetLabel.setEditable(false, false, false);
 	addAndMakeVisible(targetLabel);
 
 	waveTypeLabel.setFont(paramLabelFont);
-	waveTypeLabel.setText(TRANS("WaveType"), dontSendNotification);
+	waveTypeLabel.setText("WaveType", dontSendNotification);
 	waveTypeLabel.setJustificationType(Justification::centred);
 	waveTypeLabel.setEditable(false, false, false);
 	addAndMakeVisible(waveTypeLabel);
 
 	amountLabel.setFont(paramLabelFont);
-	amountLabel.setText(TRANS("Amount"), dontSendNotification);
+	amountLabel.setText("Amount", dontSendNotification);
 	amountLabel.setJustificationType(Justification::centred);
 	amountLabel.setEditable(false, false, false);
 	addAndMakeVisible(amountLabel);
 
 	speedLabel.setFont(paramLabelFont);
-	speedLabel.setText(TRANS("Speed"), dontSendNotification);
+	speedLabel.setText("Speed", dontSendNotification);
 	speedLabel.setJustificationType(Justification::centred);
 	speedLabel.setEditable(false, false, false);
 	addAndMakeVisible(speedLabel);
@@ -412,21 +412,21 @@ LfoParametersComponent::~LfoParametersComponent()
 
 void LfoParametersComponent::paint(Graphics & g)
 {
-	Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
+	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
 
 	{
-		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
-		g.setColour(panelColour);
-		g.fillRoundedRectangle(x, y, width, height, 10.000f);
+		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
+		g.setColour(PANEL_COLOUR);
+		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-		String text(TRANS("LFO"));
+		String text("LFO");
 		Colour fillColour = Colours::white;
 		g.setColour(fillColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
+		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
 	}
 }
 
@@ -437,30 +437,30 @@ void LfoParametersComponent::resized()
 	int labelHeight = 20;
 
 	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-	bounds.removeFromTop(panelNameHeight);
+	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 
 	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
 	{
-		auto area = upperArea.removeFromLeft(getWidth() * divide);
-		targetLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		targetSelector.setBounds(area.removeFromTop(labelHeight * 2).reduced(localMargin * 2));
+		Rectangle<int> area = upperArea.removeFromLeft(getWidth() * divide);
+		targetLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		targetSelector.setBounds(area.removeFromTop(labelHeight * 2).reduced(LOCAL_MARGIN * 2));
 	}
 	{
-		auto area = upperArea.removeFromLeft(getWidth() * divide);
-		amountLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		amountSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = upperArea.removeFromLeft(getWidth() * divide);
+		amountLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		amountSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 
 	Rectangle<int> lowerArea = bounds;
 	{
-		auto area = lowerArea.removeFromLeft(getWidth() * divide);
-		waveTypeLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		waveTypeSelector.setBounds(area.removeFromTop(labelHeight * 2).reduced(localMargin * 2));
+		Rectangle<int> area = lowerArea.removeFromLeft(getWidth() * divide);
+		waveTypeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		waveTypeSelector.setBounds(area.removeFromTop(labelHeight * 2).reduced(LOCAL_MARGIN * 2));
 	}
 	{
-		auto area = lowerArea.removeFromLeft(getWidth() * divide);
-		speedLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		speedSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = lowerArea.removeFromLeft(getWidth() * divide);
+		speedLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		speedSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 }
 
@@ -502,7 +502,7 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	, frequencySlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, qSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	typeSelector.addItemList(_filterParamsPtr->Type->getAllValueStrings(), 1);
 	typeSelector.setSelectedItemIndex(_filterParamsPtr->Type->getIndex(), dontSendNotification);
@@ -527,19 +527,19 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	addAndMakeVisible(qSlider);
 
 	typeLabel.setFont(paramLabelFont);
-	typeLabel.setText(TRANS("Type"), dontSendNotification);
+	typeLabel.setText("Type", dontSendNotification);
 	typeLabel.setJustificationType(Justification::centred);
 	typeLabel.setEditable(false, false, false);
 	addAndMakeVisible(typeLabel);
 
 	frequencyLabel.setFont(paramLabelFont);
-	frequencyLabel.setText(TRANS("Frequency"), dontSendNotification);
+	frequencyLabel.setText("Frequency", dontSendNotification);
 	frequencyLabel.setJustificationType(Justification::centred);
 	frequencyLabel.setEditable(false, false, false);
 	addAndMakeVisible(frequencyLabel);
 
 	qLabel.setFont(paramLabelFont);
-	qLabel.setText(TRANS("Q"), dontSendNotification);
+	qLabel.setText("Q", dontSendNotification);
 	qLabel.setJustificationType(Justification::centred);
 	qLabel.setEditable(false, false, false);
 	addAndMakeVisible(qLabel);
@@ -553,21 +553,21 @@ FilterParametersComponent::~FilterParametersComponent()
 
 void FilterParametersComponent::paint(Graphics & g)
 {
-	Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
+	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
 
 	{
-		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
-		g.setColour(panelColour);
+		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
+		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-		String text(TRANS("FILTER"));
+		String text("FILTER");
 		Colour fillColour = Colours::white;
 		g.setColour(fillColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
+		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
 	}
 
 }
@@ -579,29 +579,24 @@ void FilterParametersComponent::resized()
 	int labelHeight = 20;
 
 	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-	bounds.removeFromTop(panelNameHeight);
+	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 
-	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
+	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5f);
 	{
-		auto area = upperArea;// .removeFromLeft(getWidth() * divide);
-		typeLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		typeSelector.setBounds(area.removeFromTop(labelHeight * 2).reduced(localMargin * 2));
-	}
-	{
-		auto area = upperArea.removeFromLeft(getWidth() * divide);
-		//frequencyLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		//frequencySlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = upperArea;
+		typeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		typeSelector.setBounds(area.removeFromTop(labelHeight * 2).reduced(LOCAL_MARGIN * 2));
 	}
 	Rectangle<int> lowerArea = bounds;
 	{
-		auto area = lowerArea.removeFromLeft(getWidth() * divide);
-		frequencyLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		frequencySlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = lowerArea.removeFromLeft(getWidth() * divide);
+		frequencyLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		frequencySlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = lowerArea.removeFromLeft(getWidth() * divide);
-		qLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		qSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = lowerArea.removeFromLeft(getWidth() * divide);
+		qLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		qSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 }
 
@@ -641,7 +636,7 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	, widthSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, freezeModeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	roomSizeSlider.setRange(_reverbParamsPtr->RoomSize->range.start, _reverbParamsPtr->RoomSize->range.end, 0.01);
 	roomSizeSlider.setValue(_reverbParamsPtr->RoomSize->get(), dontSendNotification);
@@ -687,37 +682,37 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	addAndMakeVisible(freezeModeSlider);
 
 	roomSizeLabel.setFont(paramLabelFont);
-	roomSizeLabel.setText(TRANS("RoomSize"), dontSendNotification);
+	roomSizeLabel.setText("RoomSize", dontSendNotification);
 	roomSizeLabel.setJustificationType(Justification::centred);
 	roomSizeLabel.setEditable(false, false, false);
 	addAndMakeVisible(roomSizeLabel);
 
 	dampingLabel.setFont(paramLabelFont);
-	dampingLabel.setText(TRANS("Damping"), dontSendNotification);
+	dampingLabel.setText("Damping", dontSendNotification);
 	dampingLabel.setJustificationType(Justification::centred);
 	dampingLabel.setEditable(false, false, false);
 	addAndMakeVisible(dampingLabel);
 
 	wetLevelLabel.setFont(paramLabelFont);
-	wetLevelLabel.setText(TRANS("WetLevel"), dontSendNotification);
+	wetLevelLabel.setText("WetLevel", dontSendNotification);
 	wetLevelLabel.setJustificationType(Justification::centred);
 	wetLevelLabel.setEditable(false, false, false);
 	addAndMakeVisible(wetLevelLabel);
 
 	dryLevelLabel.setFont(paramLabelFont);
-	dryLevelLabel.setText(TRANS("DryLevel"), dontSendNotification);
+	dryLevelLabel.setText("DryLevel", dontSendNotification);
 	dryLevelLabel.setJustificationType(Justification::centred);
 	dryLevelLabel.setEditable(false, false, false);
 	addAndMakeVisible(dryLevelLabel);
 
 	widthLabel.setFont(paramLabelFont);
-	widthLabel.setText(TRANS("Width"), dontSendNotification);
+	widthLabel.setText("Width", dontSendNotification);
 	widthLabel.setJustificationType(Justification::centred);
 	widthLabel.setEditable(false, false, false);
 	addAndMakeVisible(widthLabel);
 
 	freezeModeLabel.setFont(paramLabelFont);
-	freezeModeLabel.setText(TRANS("Freeze"), dontSendNotification);
+	freezeModeLabel.setText("Freeze", dontSendNotification);
 	freezeModeLabel.setJustificationType(Justification::centred);
 	freezeModeLabel.setEditable(false, false, false);
 	addAndMakeVisible(freezeModeLabel);
@@ -732,21 +727,21 @@ ReverbParametersComponent::~ReverbParametersComponent()
 
 void ReverbParametersComponent::paint(Graphics & g)
 {
-	Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
+	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
 
 	{
-		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
-		g.setColour(panelColour);
+		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
+		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-		String text(TRANS("REVERB"));
+		String text("REVERB");
 		Colour fillColour = Colours::white;
 		g.setColour(fillColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
+		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
 	}
 
 }
@@ -758,40 +753,40 @@ void ReverbParametersComponent::resized()
 	int labelHeight = 20;
 
 	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-	bounds.removeFromTop(panelNameHeight);
+	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 
 	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
 	{
-		auto area = upperArea.removeFromLeft(getWidth() * divide);
-		roomSizeLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		roomSizeSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = upperArea.removeFromLeft(getWidth() * divide);
+		roomSizeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		roomSizeSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = upperArea.removeFromLeft(getWidth() * divide);
-		dampingLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		dampingSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = upperArea.removeFromLeft(getWidth() * divide);
+		dampingLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		dampingSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = upperArea.removeFromLeft(getWidth() * divide);
-		widthLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		widthSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = upperArea.removeFromLeft(getWidth() * divide);
+		widthLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		widthSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 
 	Rectangle<int> lowerArea = bounds;
 	{
-		auto area = lowerArea.removeFromLeft(getWidth() * divide);
-		wetLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		wetLevelSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = lowerArea.removeFromLeft(getWidth() * divide);
+		wetLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		wetLevelSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = lowerArea.removeFromLeft(getWidth() * divide);
-		dryLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		dryLevelSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = lowerArea.removeFromLeft(getWidth() * divide);
+		dryLevelLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		dryLevelSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = lowerArea.removeFromLeft(getWidth() * divide);
-		freezeModeLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		freezeModeSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = lowerArea.removeFromLeft(getWidth() * divide);
+		freezeModeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		freezeModeSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 }
 
@@ -837,7 +832,7 @@ DriveParametersComponent::DriveParametersComponent(AudioParameterFloat* drivePar
 	:_driveParamPtr(driveParam)
 	, gainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	gainSlider.setRange(_driveParamPtr->range.start, _driveParamPtr->range.end, 0.01);
 	gainSlider.setValue(_driveParamPtr->get(), dontSendNotification);
@@ -848,7 +843,7 @@ DriveParametersComponent::DriveParametersComponent(AudioParameterFloat* drivePar
 	addAndMakeVisible(gainSlider);
 
 	gainLabel.setFont(paramLabelFont);
-	gainLabel.setText(TRANS("Gain"), dontSendNotification);
+	gainLabel.setText("Gain", dontSendNotification);
 	gainLabel.setJustificationType(Justification::centred);
 	gainLabel.setEditable(false, false, false);
 	addAndMakeVisible(gainLabel);
@@ -862,21 +857,21 @@ DriveParametersComponent::~DriveParametersComponent()
 
 void DriveParametersComponent::paint(Graphics & g)
 {
-	Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");
+	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
 
 	{
-		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
-		g.setColour(panelColour);
+		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
+		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-		String text(TRANS("DRIVE"));
+		String text("DRIVE");
 		Colour fillColour = Colours::white;
 		g.setColour(fillColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
+		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
 	}
 }
 
@@ -889,11 +884,11 @@ void DriveParametersComponent::resized()
 	//	Rectangle<int> bounds = getBounds(); // ウインドウ基準の値
 
 	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-	bounds.removeFromTop(panelNameHeight);
+	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 	{
-		auto area = bounds.removeFromLeft(getWidth() * divide);
-		gainLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		gainSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		gainLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		gainSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 }
 
@@ -918,7 +913,7 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	, voiceSizeSlider(Slider::SliderStyle::IncDecButtons, Slider::TextEntryBoxPosition::TextBoxRight)
 	, velocitySenseButton()
 {
-	Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	masterVolumeSlider.setRange(_masterVolumeParamPtr->range.start, _masterVolumeParamPtr->range.end, 0.01);
 	masterVolumeSlider.setValue(_masterVolumeParamPtr->get(), dontSendNotification);
@@ -935,18 +930,18 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	voiceSizeSlider.addListener(this);
 	addAndMakeVisible(voiceSizeSlider);
 
-	velocitySenseButton.setButtonText(TRANS("Key Velocity Sense"));
+	velocitySenseButton.setButtonText("Key Velocity Sense");
 	velocitySenseButton.addListener(this);
 	addAndMakeVisible(velocitySenseButton);
 
 	masterVolumeLabel.setFont(paramLabelFont);
-	masterVolumeLabel.setText(TRANS("Volume"), dontSendNotification);
+	masterVolumeLabel.setText("Volume", dontSendNotification);
 	masterVolumeLabel.setJustificationType(Justification::centred);
 	masterVolumeLabel.setEditable(false, false, false);
 	addAndMakeVisible(masterVolumeLabel);
 
 	voiceSizeLabel.setFont(paramLabelFont);
-	voiceSizeLabel.setText(TRANS("Voice Size"), dontSendNotification);
+	voiceSizeLabel.setText("Voice Size", dontSendNotification);
 	voiceSizeLabel.setJustificationType(Justification::centred);
 	voiceSizeLabel.setEditable(false, false, false);
 	addAndMakeVisible(voiceSizeLabel);
@@ -961,8 +956,8 @@ MiscParametersComponent::~MiscParametersComponent()
 void MiscParametersComponent::paint(Graphics & g)
 {
 	{
-		float x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
-		g.setColour(panelColour);
+		int x = 0.0f, y = 0.0f, width = getWidth(), height = getHeight();
+		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
 }
@@ -978,19 +973,19 @@ void MiscParametersComponent::resized()
 	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
 	bounds.removeFromTop(4);
 	{
-		auto area = bounds.removeFromTop(getHeight() * divide * 3);
-		masterVolumeLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		masterVolumeSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromTop(getHeight() * divide * 3);
+		masterVolumeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		masterVolumeSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 	{
-		auto area = bounds.removeFromTop(getHeight() * divide * 2);
-		voiceSizeLabel.setBounds(area.removeFromTop(labelHeight).reduced(localMargin));
-		voiceSizeSlider.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromTop(getHeight() * divide * 2);
+		voiceSizeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		voiceSizeSlider.setBounds(area.reduced(LOCAL_MARGIN));
 		voiceSizeSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxRight, false, area.getWidth() * 0.2, voiceSizeSlider.getHeight());
 	}
 	{
-		auto area = bounds.removeFromTop(getHeight() * divide * 2);
-		velocitySenseButton.setBounds(area.reduced(localMargin));
+		Rectangle<int> area = bounds.removeFromTop(getHeight() * divide * 2);
+		velocitySenseButton.setBounds(area.reduced(LOCAL_MARGIN));
 	}
 }
 

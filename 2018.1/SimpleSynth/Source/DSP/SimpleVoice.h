@@ -90,10 +90,10 @@ public:
 
 
 private:
-	float calcSineWave(float currentAngle);
-	float calcSawWave(float currentAngle);
-	float calcTriWave(float currentAngle);
-	float calcSquareWave(float currentAngle);
+	float calcSineWave(float angle);
+	float calcSawWave(float angle);
+	float calcTriWave(float angle);
+	float calcSquareWave(float angle);
 
 	float angleDelta;
 	float currentAngle;
