@@ -262,7 +262,7 @@ private:
 			const float y1 = alignedCentre - gain * data[i - 1];
 			const float x2 = jmap(SampleType(i), SampleType(0), SampleType(numSamples - 1), SampleType(right - w), SampleType(right));
 			const float y2 = alignedCentre - gain * data[i];
-			const float t = 4.0f;
+			const float t = 1.0f;
 			g.drawLine(x1, y1, x2, y2, t);
 		}
 

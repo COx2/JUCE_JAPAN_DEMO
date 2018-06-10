@@ -28,7 +28,6 @@ OscillatorParametersComponent::OscillatorParametersComponent(OscillatorParameter
 	, squareWaveLevelSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, noiseLevelSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	sineWaveLevelSlider.setRange(_oscParamsPtr->SineWaveLevel->range.start, _oscParamsPtr->SineWaveLevel->range.end, 0.01);
 	sineWaveLevelSlider.setValue(_oscParamsPtr->SineWaveLevel->get(), dontSendNotification);
@@ -64,6 +63,8 @@ OscillatorParametersComponent::OscillatorParametersComponent(OscillatorParameter
 	noiseLevelSlider.setPopupMenuEnabled(true);
 	noiseLevelSlider.addListener(this);
 	addAndMakeVisible(noiseLevelSlider);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	sineWaveLevelLabel.setFont(paramLabelFont);
 	sineWaveLevelLabel.setText("Sine", dontSendNotification);
@@ -198,7 +199,6 @@ AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatame
 	, sustainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, releaseSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	attackSlider.setRange(_ampEnvParamsPtr->Attack->range.start, _ampEnvParamsPtr->Attack->range.end, 0.01);
 	attackSlider.setValue(_ampEnvParamsPtr->Attack->get(), dontSendNotification);
@@ -230,6 +230,8 @@ AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatame
 	releaseSlider.setTextValueSuffix(" seconds");
 	releaseSlider.addListener(this);
 	addAndMakeVisible(releaseSlider);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	attackLabel.setFont(paramLabelFont);
 	attackLabel.setText("Attack", dontSendNotification);
@@ -348,7 +350,6 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 	, amountSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, speedSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	targetSelector.addItemList(_lfoParamsPtr->LfoTarget->getAllValueStrings(), 1);
 	targetSelector.setSelectedItemIndex(_lfoParamsPtr->LfoTarget->getIndex(), dontSendNotification);
@@ -369,6 +370,8 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 	amountSlider.setPopupMenuEnabled(true);
 	amountSlider.addListener(this);
 	addAndMakeVisible(amountSlider);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	speedSlider.setRange(_lfoParamsPtr->LfoSpeed->range.start, _lfoParamsPtr->LfoSpeed->range.end, 0.01);
 	speedSlider.setValue(_lfoParamsPtr->LfoSpeed->get(), dontSendNotification);
@@ -502,7 +505,6 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	, frequencySlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, qSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	typeSelector.addItemList(_filterParamsPtr->Type->getAllValueStrings(), 1);
 	typeSelector.setSelectedItemIndex(_filterParamsPtr->Type->getIndex(), dontSendNotification);
@@ -525,6 +527,8 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	qSlider.setPopupMenuEnabled(true);
 	qSlider.addListener(this);
 	addAndMakeVisible(qSlider);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	typeLabel.setFont(paramLabelFont);
 	typeLabel.setText("Type", dontSendNotification);
@@ -636,8 +640,6 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	, widthSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, freezeModeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
-
 	roomSizeSlider.setRange(_reverbParamsPtr->RoomSize->range.start, _reverbParamsPtr->RoomSize->range.end, 0.01);
 	roomSizeSlider.setValue(_reverbParamsPtr->RoomSize->get(), dontSendNotification);
 	roomSizeSlider.setPopupDisplayEnabled(true, true, this);
@@ -680,6 +682,8 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	freezeModeSlider.setPopupMenuEnabled(true);
 	freezeModeSlider.addListener(this);
 	addAndMakeVisible(freezeModeSlider);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	roomSizeLabel.setFont(paramLabelFont);
 	roomSizeLabel.setText("RoomSize", dontSendNotification);
@@ -832,8 +836,6 @@ DriveParametersComponent::DriveParametersComponent(AudioParameterFloat* drivePar
 	:_driveParamPtr(driveParam)
 	, gainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
-
 	gainSlider.setRange(_driveParamPtr->range.start, _driveParamPtr->range.end, 0.01);
 	gainSlider.setValue(_driveParamPtr->get(), dontSendNotification);
 	gainSlider.setPopupDisplayEnabled(true, true, this);
@@ -841,6 +843,8 @@ DriveParametersComponent::DriveParametersComponent(AudioParameterFloat* drivePar
 	gainSlider.setTextValueSuffix(" dB");
 	gainSlider.addListener(this);
 	addAndMakeVisible(gainSlider);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	gainLabel.setFont(paramLabelFont);
 	gainLabel.setText("Gain", dontSendNotification);
@@ -913,7 +917,6 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	, voiceSizeSlider(Slider::SliderStyle::IncDecButtons, Slider::TextEntryBoxPosition::TextBoxRight)
 	, velocitySenseButton()
 {
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	masterVolumeSlider.setRange(_masterVolumeParamPtr->range.start, _masterVolumeParamPtr->range.end, 0.01);
 	masterVolumeSlider.setValue(_masterVolumeParamPtr->get(), dontSendNotification);
@@ -933,6 +936,8 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	velocitySenseButton.setButtonText("Key Velocity Sense");
 	velocitySenseButton.addListener(this);
 	addAndMakeVisible(velocitySenseButton);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	masterVolumeLabel.setFont(paramLabelFont);
 	masterVolumeLabel.setText("Volume", dontSendNotification);
