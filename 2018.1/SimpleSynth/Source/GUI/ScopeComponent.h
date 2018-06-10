@@ -258,15 +258,12 @@ private:
 
 		for (size_t i = 1; i < numSamples; ++i)
 		{
-			// void Graphics::drawLine (float x1, float y1, float x2, float y2) const
-			g.drawLine(
-				{
-					  jmap(SampleType(i - 1), SampleType(0), SampleType(numSamples - 1), SampleType(right - w), SampleType(right))
-					, alignedCentre - gain * data[i - 1]
-					, jmap(SampleType(i), SampleType(0), SampleType(numSamples - 1), SampleType(right - w), SampleType(right))
-					, alignedCentre - gain * data[i] 
-				}
-			);
+			const float x1 = jmap(SampleType(i - 1), SampleType(0), SampleType(numSamples - 1), SampleType(right - w), SampleType(right));
+			const float y1 = alignedCentre - gain * data[i - 1];
+			const float x2 = jmap(SampleType(i), SampleType(0), SampleType(numSamples - 1), SampleType(right - w), SampleType(right));
+			const float y2 = alignedCentre - gain * data[i];
+			const float t = 4.0f;
+			g.drawLine(x1, y1, x2, y2, t);
 		}
 
 	}
