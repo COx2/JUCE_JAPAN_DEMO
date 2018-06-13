@@ -17,6 +17,7 @@ SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoPara
 	, _velocitySenseParamPtr(velocitySenseParam)
 	, ampEnv(ampEnvParams->Attack->get(), ampEnvParams->Decay->get(), ampEnvParams->Sustain->get(), ampEnvParams->Release->get())
 	, currentAngle(0.0f)
+	, lfoAngle(0.0f)
 	, lastLevel(0.0f)
 	, pitchBend(0.0f)
 {}
@@ -29,10 +30,10 @@ bool SimpleVoice::canPlaySound(SynthesiserSound* sound)
 	return dynamic_cast<const SimpleSound*> (sound) != nullptr;
 }
 
-void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound* s, int currentPitchWheelPosition)
+void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
 {
 	// velocity = 0...1 
-	if (SimpleSound* sound = dynamic_cast<SimpleSound*> (s))
+	if (SimpleSound* soundForPlay = dynamic_cast<SimpleSound*> (sound))
 	{
 		// 異なるノートの場合はstopNoteが実行されずリリース状態ではないので、現在のラジアンを維持
 		if (ampEnv.getState() != AmpEnvelope::AMPENV_STATE::RELEASE
@@ -123,7 +124,6 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 		if (angleDelta != 0.0f)
 		{
 			while (--numSamples >= 0) // 通常のキーON時はここを通る
-
 			{
 				levelDiff *= 0.99f;
 
@@ -182,8 +182,11 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				currentSample *= level + levelDiff;
 				currentSample *= ampEnv.getValue();
 
-				for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;)
-					outputBuffer.addSample(channelNum, startSample, currentSample); //バッファに対して加算処理を行う。加算じゃないとダメ
+				//バッファに対して加算処理を行う。1VOICE内でのMIXと複数VOICE間でのMIXなので加算
+				for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;) 
+				{
+					outputBuffer.addSample(channelNum, startSample, currentSample);
+				}
 
 				if (_lfoParamsPtr->LfoTarget->getCurrentChoiceName() == "WaveAngle")
 				{

@@ -11,6 +11,13 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+namespace {
+	const float KEY_HEIGHT = 80.0f;
+	const float KEY_WIDTH = 32.0f;
+	const int PANEL_MARGIN = 2.0f;
+}
+
+
 //==============================================================================
 SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudioProcessor& p)
 	: AudioProcessorEditor(&p), processor(p)
@@ -25,7 +32,7 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
 	, scopeComponent(p.getAudioBufferQueue())
 {
 
-	keyboardComponent.setKeyWidth(32.0f);
+	keyboardComponent.setKeyWidth(KEY_WIDTH);
 
 	addAndMakeVisible(keyboardComponent);
 	addAndMakeVisible(oscParamsComponent);
@@ -39,9 +46,7 @@ SimpleSynthAudioProcessorEditor::SimpleSynthAudioProcessorEditor(SimpleSynthAudi
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-	setSize (960, 540 + keyboardHeight);
-
-	startTimerHz(30);
+	setSize (960, 540 + KEY_HEIGHT);
 
 	// assign custom look and feel.
 	customLookAndFeel = new LookAndFeel_V4(LookAndFeel_V4::getGreyColourScheme());
@@ -66,36 +71,27 @@ SimpleSynthAudioProcessorEditor::~SimpleSynthAudioProcessorEditor()
 //==============================================================================
 void SimpleSynthAudioProcessorEditor::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
 	g.fillAll(Colours::black);
-
 }
 
 void SimpleSynthAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-	int panelMargin = 2;
-
-	Rectangle<int> bounds = this->getBounds();
-	keyboardComponent.setBounds(bounds.removeFromBottom(keyboardHeight));
+	Rectangle<int> bounds = getLocalBounds();
+	keyboardComponent.setBounds(bounds.removeFromBottom(KEY_HEIGHT));
 
 	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
 	{
-		oscParamsComponent.setBounds(upperArea.removeFromLeft(280).reduced(panelMargin));
-		lfoParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
-		ampEnvParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(panelMargin));
-		filterParamsComponent.setBounds(upperArea.reduced(panelMargin));
+		oscParamsComponent.setBounds(upperArea.removeFromLeft(280).reduced(PANEL_MARGIN));
+		lfoParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(PANEL_MARGIN));
+		ampEnvParamsComponent.setBounds(upperArea.removeFromLeft(240).reduced(PANEL_MARGIN));
+		filterParamsComponent.setBounds(upperArea.reduced(PANEL_MARGIN));
 	}
 
 	Rectangle<int> lowerArea = bounds;
 	{
-		scopeComponent.setBounds(lowerArea.removeFromLeft(420).reduced(panelMargin));
-		driveParamsComponent.setBounds(lowerArea.removeFromLeft(100).reduced(panelMargin));
-		reverbParamsComponent.setBounds(lowerArea.removeFromLeft(280).reduced(panelMargin));
-		miscParamsComponent.setBounds(lowerArea.reduced(panelMargin));
+		scopeComponent.setBounds(lowerArea.removeFromLeft(420).reduced(PANEL_MARGIN));
+		driveParamsComponent.setBounds(lowerArea.removeFromLeft(100).reduced(PANEL_MARGIN));
+		reverbParamsComponent.setBounds(lowerArea.removeFromLeft(280).reduced(PANEL_MARGIN));
+		miscParamsComponent.setBounds(lowerArea.reduced(PANEL_MARGIN));
 	}
 }
-
-void SimpleSynthAudioProcessorEditor::timerCallback()
-{}

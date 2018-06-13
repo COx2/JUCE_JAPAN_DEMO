@@ -19,7 +19,7 @@
 //==============================================================================
 /**
 */
-class SimpleSynthAudioProcessorEditor  : public AudioProcessorEditor, private juce::Timer
+class SimpleSynthAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
     SimpleSynthAudioProcessorEditor (SimpleSynthAudioProcessor&);
@@ -30,9 +30,8 @@ public:
     void resized() override;
 
 private:
-	virtual void timerCallback() override;
 
-	float keyboardHeight{80.0f};
+	
 
 	MidiKeyboardComponent keyboardComponent;
 	ScopeComponent<float> scopeComponent;

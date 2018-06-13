@@ -11,8 +11,6 @@
 #include "ParametersComponent.h"
 
 namespace {
-	//Font panelNameFont = Font(24.0f, Font::plain).withTypefaceStyle("Italic");   // 内部でnewしてるらしいのでメモリリークする
-	//Font paramLabelFont = Font(16.0f, Font::plain).withTypefaceStyle("Regular");
 	const Colour PANEL_COLOUR = juce::Colour(36, 36, 36);
 	const float PANEL_NAME_FONT_SIZE = 24.0f;
 	const float PARAM_LABEL_FONT_SIZE = 16.0f;
@@ -115,11 +113,13 @@ void OscillatorParametersComponent::paint(Graphics & g)
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
+
 		String text("OSC MIX");
-		Colour fillColour = Colours::white;
-		g.setColour(fillColour);
+		Colour textColour = Colours::white;
+		g.setColour(textColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
+		g.drawText(text, textArea, Justification::centred, false);
 	}
 
 }
@@ -276,11 +276,13 @@ void AmpEnvelopeParametersComponent::paint(Graphics & g)
 
 	{
 		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
+
 		String text("AMP EG");
-		Colour fillColour = Colours::white;
-		g.setColour(fillColour);
+		Colour textColour = Colours::white;
+		g.setColour(textColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
+		g.drawText(text, textArea, Justification::centred, false);
 	}
 
 }
@@ -424,12 +426,14 @@ void LfoParametersComponent::paint(Graphics & g)
 	}
 
 	{
-		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+		Rectangle<int> bounds = getLocalBounds();
+		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
+
 		String text("LFO");
-		Colour fillColour = Colours::white;
-		g.setColour(fillColour);
+		Colour textColour = Colours::white;
+		g.setColour(textColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
+		g.drawText(text, textArea, Justification::centred, false);
 	}
 }
 
@@ -566,12 +570,14 @@ void FilterParametersComponent::paint(Graphics & g)
 	}
 
 	{
-		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+		Rectangle<int> bounds = getLocalBounds();
+		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
+
 		String text("FILTER");
-		Colour fillColour = Colours::white;
-		g.setColour(fillColour);
+		Colour textColour = Colours::white;
+		g.setColour(textColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
+		g.drawText(text, textArea, Justification::centred, false);
 	}
 
 }
@@ -740,12 +746,14 @@ void ReverbParametersComponent::paint(Graphics & g)
 	}
 
 	{
-		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+		Rectangle<int> bounds = getLocalBounds();
+		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
+
 		String text("REVERB");
-		Colour fillColour = Colours::white;
-		g.setColour(fillColour);
+		Colour textColour = Colours::white;
+		g.setColour(textColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
+		g.drawText(text, textArea, Justification::centred, false);
 	}
 
 }
@@ -870,12 +878,14 @@ void DriveParametersComponent::paint(Graphics & g)
 	}
 
 	{
-		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+		Rectangle<int> bounds = getLocalBounds();
+		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
+
 		String text("DRIVE");
-		Colour fillColour = Colours::white;
-		g.setColour(fillColour);
+		Colour textColour = Colours::white;
+		g.setColour(textColour);
 		g.setFont(panelNameFont);
-		g.drawText(text, bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN), Justification::centred, true);
+		g.drawText(text, textArea, Justification::centred, false);
 	}
 }
 
