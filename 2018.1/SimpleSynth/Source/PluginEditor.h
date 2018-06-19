@@ -30,8 +30,7 @@ public:
     void resized() override;
 
 private:
-
-	
+	SimpleSynthAudioProcessor & processor;
 
 	MidiKeyboardComponent keyboardComponent;
 	ScopeComponent<float> scopeComponent;
@@ -43,10 +42,6 @@ private:
 	DriveParametersComponent driveParamsComponent;
 	MiscParametersComponent miscParamsComponent;
 
-
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
-    SimpleSynthAudioProcessor& processor;
 
 	LookAndFeel* customLookAndFeel;
 

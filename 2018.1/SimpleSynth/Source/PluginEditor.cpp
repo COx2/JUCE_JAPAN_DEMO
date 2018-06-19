@@ -14,7 +14,7 @@
 namespace {
 	const float KEY_HEIGHT = 80.0f;
 	const float KEY_WIDTH = 32.0f;
-	const int PANEL_MARGIN = 2.0f;
+	const int PANEL_MARGIN = 2;
 }
 
 
