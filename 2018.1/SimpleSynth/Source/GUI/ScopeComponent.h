@@ -197,7 +197,7 @@ public:
 		plot(sampleData.data(), sampleData.size(), g, scopeRect, SampleType(0.4), drawH / 2);
 
 
-		// Spectrumを描画
+		//// Spectrumを描画
 		//g.setColour(juce::Colours::white);
 		//auto spectrumRect = Rectangle<SampleType>{ drawX, drawH / 2, drawW, drawH / 2 };
 		//plot(spectrumData.data(), spectrumData.size() / 4, g, spectrumRect);
@@ -210,34 +210,35 @@ private:
 	Queue & audioBufferQueue;
 	std::array<SampleType, Queue::bufferSize> sampleData;
 
-	juce::dsp::FFT fft{ Queue::order };
-	using WindowFunc = juce::dsp::WindowingFunction<SampleType>;
-	WindowFunc windowFunc{ (size_t)fft.getSize(), WindowFunc::hann };
-	std::array<SampleType, 2 * Queue::bufferSize> spectrumData;
+	//juce::dsp::FFT fft{ Queue::order };
+	//using WindowFunc = juce::dsp::WindowingFunction<SampleType>;
+	//WindowFunc windowFunc{ (size_t)fft.getSize(), WindowFunc::hann };
+	//std::array<SampleType, 2 * Queue::bufferSize> spectrumData;
 
 	void timerCallback() override
 	{
 		audioBufferQueue.pop(sampleData.data());
-		FloatVectorOperations::copy(spectrumData.data(), sampleData.data(), (int)sampleData.size());
 
-		auto fftSize = (size_t)fft.getSize();
+		//FloatVectorOperations::copy(spectrumData.data(), sampleData.data(), (int)sampleData.size());
+		//auto fftSize = (size_t)fft.getSize();
 
-		jassert(spectrumData.size() == 2 * fftSize);
-		windowFunc.multiplyWithWindowingTable(spectrumData.data(), fftSize);
-		fft.performFrequencyOnlyForwardTransform(spectrumData.data());
+		//jassert(spectrumData.size() == 2 * fftSize);
+		
+		//windowFunc.multiplyWithWindowingTable(spectrumData.data(), fftSize);
+		//fft.performFrequencyOnlyForwardTransform(spectrumData.data());
+		
+		//static constexpr auto mindB = SampleType(-160); //最小dB
+		//static constexpr auto maxdB = SampleType(0);	//最大dB
 
-		static constexpr auto mindB = SampleType(-160); //最小dB
-		static constexpr auto maxdB = SampleType(0);	//最大dB
-
-		for (auto& s : spectrumData) 
-		{
-			s = jmap(jlimit(mindB, maxdB, juce::Decibels::gainToDecibels(s) - juce::Decibels::gainToDecibels(SampleType(fftSize)))
-				, mindB
-				, maxdB
-				, SampleType(0)
-				, SampleType(1)
-			);
-		}
+		//for (auto& s : spectrumData) 
+		//{
+		//	s = jmap(jlimit(mindB, maxdB, juce::Decibels::gainToDecibels(s) - juce::Decibels::gainToDecibels(SampleType(fftSize)))
+		//		, mindB
+		//		, maxdB
+		//		, SampleType(0)
+		//		, SampleType(1)
+		//	);
+		//}
 
 		repaint();
 	}
