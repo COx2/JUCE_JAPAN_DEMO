@@ -25,53 +25,84 @@ template <typename SampleType>
 class AudioBufferQueue
 {
 public:
-	static constexpr size_t order = 9;
-	static constexpr size_t bufferSize = 1U << order;
-	static constexpr size_t numBuffers = 5;
+	static constexpr size_t order = 9;					// 次のバッファサイズを指定するためのバイトオーダー
+	static constexpr size_t bufferSize = 1U << order;	// オーディオバッファーのコンテナ1つ当たりのサイズ(512)
+	static constexpr size_t numBuffers = 5;				// オーディオバッファーのコンテナの数
 
 	void push(const SampleType* dataToPush, size_t numSamples)
 	{
+		DBG("PUSH");
+
 		jassert(numSamples <= bufferSize);
 
 		int start1, size1, start2, size2;
+
+		// オーディオバッファーのコンテナ実体から書き込むべきコンテナのインデックスを特定する
+		// 第一引数:コンテナを何個分書き込みたいか
+		// 第二引数:コンテナのインデックス値を受け取る
+		// 第三引数:読み込むコンテナの数を受け取る
+		// 第四引数:0が入る
+		// 第五引数:余りのコンテナ
 		abstractFifo.prepareToWrite(1, start1, size1, start2, size2);
-
-		jassert(size1 <= 1);
-		jassert(size2 == 0); //ステレオの場合はsize2 <= 1とすべきかもしれない?
-
-		if (size1 > 0) 
-		{
-			FloatVectorOperations::copy(buffers[(size_t)start1].data(), dataToPush, (int)jmin(bufferSize, numSamples));
-		}
-	
-		abstractFifo.finishedWrite(size1);
-
-	}
-
-	void pop(SampleType* outputBuffer)
-	{
-		int start1, size1, start2, size2;
-		abstractFifo.prepareToRead(1, start1, size1, start2, size2);
-
 
 		jassert(size1 <= 1);
 		jassert(size2 == 0);
 
 		if (size1 > 0) 
 		{
+			// ベクターコンテナをコピーする。オーディオバッファー入力をキューに保持する。
+			// 内部ではmemcpy関数が実行される
+			FloatVectorOperations::copy(buffers[(size_t)start1].data(), dataToPush, (int)jmin(bufferSize, numSamples));
+		}
+	
+		// 引数で渡された値だけ、最後尾のインデックスを移動する
+		// 内部でインデックス値の循環が行われている
+		abstractFifo.finishedWrite(size1);
+
+	}
+
+	void pop(SampleType* outputBuffer)
+	{
+		DBG("POP");
+
+		int start1, size1, start2, size2;
+
+		// オーディオバッファーのコンテナ実体から取り出すべきコンテナのインデックスを特定する
+		// 第一引数:コンテナを何個分まで読みたいか
+		// 第二引数:コンテナのインデックス値を受け取る
+		// 第三引数:読み込むコンテナの数を受け取る
+		// 第四引数:0が入る
+		// 第五引数:余りのコンテナ
+		abstractFifo.prepareToRead(1, start1, size1, start2, size2);
+
+		jassert(size1 <= 1);
+		jassert(size2 == 0);
+
+		if (size1 > 0) 
+		{
+			// ベクターコンテナをコピーする。キューに保持されたバッファーデータを描画用のバッファにコピーする。
+			// 内部ではmemcpy関数が実行される
 			FloatVectorOperations::copy(outputBuffer, buffers[(size_t)start1].data(), (int)bufferSize);
 		}
 
+		// 引数で渡された値だけ、先頭のインデックスを移動する
+		// 内部でインデックス値の循環が行われている
 		abstractFifo.finishedRead(size1);
 
 	}
 
 private:
-	AbstractFifo abstractFifo{ numBuffers };
+	// オーディオバッファー。サンプルデータを保持するコンテナをさらにコンテナ化したもの。
 	std::array <std::array<SampleType, bufferSize>, numBuffers> buffers;
+
+	// 複数のコンテナ間でFIFO形式の配列操作を行うクラス。コンストラクタの引数にFIFO配列のサイズ数を指定する。
+	// 抽象的なFIFO操作を行うための情報を持つクラス。内部にデータは持たないが、FIFO操作によるアドレスの値を特定するための代理人みたいなもの。
+	AbstractFifo abstractFifo{ numBuffers };
+
 };
 
-// オシロスコープパネルに表示するサンプルデータを回収するコレクタークラス
+// オシロスコープパネルに表示するサンプルデータを回収してキューにセットするコレクター
+// このScopeDataCollectorクラスがオーディオバッファからサンプルデータを回収して、
 template<typename SampleType>
 class ScopeDataCollector
 {
@@ -93,6 +124,9 @@ public:
 
 				// 所定のレベル以上の値であればサンプリングするトリガーがオンになり、回収状態に移行する。
 				// オシロスコープでいうトリガーモードに類似
+				// 第一条件：現在のサンプルが閾値を超えていること
+				// 第二条件：前回のサンプルが閾値以下であること
+				// 上記2つの条件により、前回と今回のサンプルの変化により閾値を交差するということがif文の条件となる。
 				if (currentSample >= triggerLevel && prevSample < triggerLevel)
 				{
 					numCollected = 0;
@@ -111,6 +145,7 @@ public:
 			{
 				buffer[numCollected++] = *data++;
 
+				// バッファサイズだけコレクションしたら、キューにプッシュする
 				if (numCollected == buffer.size())
 				{
 					audioBufferQueue.push(buffer.data(), buffer.size());
@@ -123,19 +158,29 @@ public:
 	}
 
 private:
+	// オーディオバッファーのコンテナ群を保持するオブジェクト
 	AudioBufferQueue<SampleType>& audioBufferQueue;
+
+	// オーディオバッファのコンテナ単体オブジェクト
 	std::array<SampleType, AudioBufferQueue<SampleType>::bufferSize> buffer;
+
+	// バッファにセットしたサンプルの数を監視するための変数
 	size_t numCollected;
+
+	// 前回のサンプルデータの値を保持する変数
 	SampleType prevSample = SampleType(100);
 
+	// トリガーが実行される閾値。本実装では±0.001fの閾値を超えた場合をトリガーとして認識する
 	static constexpr auto triggerLevel = SampleType(0.001);
 
+	// オーディオバッファコレクターの状態リスト
 	enum class State
 	{
 		WaitingForTrigger,
 		Collecting
 	};
 
+	// 現在の動作モードを保持する変数
 	State currentState{ State::WaitingForTrigger };
 };
 
@@ -145,6 +190,7 @@ class ScopeComponent : public juce::Component, private Timer
 public:
 	using Queue = AudioBufferQueue<SampleType>;
 
+	// コンストラクタ。初期化子としてDSPで保持するバッファコンテナのアドレスを受け取る
 	ScopeComponent(Queue& queueuToUse)
 		: audioBufferQueue(queueuToUse)
 	{
@@ -172,84 +218,59 @@ public:
 
 		{
 			Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-			String text(TRANS("SCOPE"));
+			String text("SCOPE");
 			Colour fillColour = Colours::white;
 			g.setColour(fillColour);
 			g.setFont(panelNameFont);
 			g.drawText(text, bounds.removeFromTop(panelNameHeight).reduced(localMargin), Justification::centred, true);
 		}
 
-		
+		// 波形を描画する矩形領域を特定する
 		Rectangle<int> drawArea = getLocalBounds();
 		drawArea.removeFromTop(panelNameHeight);
 		drawArea.reduce(drawArea.getWidth()* 0.05f, drawArea.getHeight()* 0.1f);
+
+		// 波形を描画する矩形領域の背景を灰色に塗りつぶす
 		g.setColour(juce::Colours::darkgrey);
 		g.fillRect(drawArea);
 
-		auto drawX = (SampleType)drawArea.getX();
-		auto drawY = (SampleType)drawArea.getY();
-		auto drawH = (SampleType)drawArea.getHeight();
-		auto drawW = (SampleType)drawArea.getWidth();
+		// 波形をプロットする領域をRectangle<SampleType>型に代入する
+		SampleType drawX = (SampleType)drawArea.getX();
+		SampleType drawY = (SampleType)drawArea.getY();
+		SampleType drawH = (SampleType)drawArea.getHeight();
+		SampleType drawW = (SampleType)drawArea.getWidth();
+		Rectangle<SampleType> scopeRect = Rectangle<SampleType>{ drawX, drawY, drawW, drawH / 1 };
 
-		// Oscilloscopeを描画
+		// 波形をプロットする
 		g.setColour(juce::Colours::cyan);
-		auto scopeRect = Rectangle<SampleType>{ drawX, drawY, drawW, drawH / 1 };
-		plot(sampleData.data(), sampleData.size(), g, scopeRect, SampleType(0.4), drawH / 2);
+		plot(sampleData.data(), sampleData.size(), g, scopeRect, SampleType(0.4), scopeRect.getHeight() / 2);
 
-
-		//// Spectrumを描画
-		//g.setColour(juce::Colours::white);
-		//auto spectrumRect = Rectangle<SampleType>{ drawX, drawH / 2, drawW, drawH / 2 };
-		//plot(spectrumData.data(), spectrumData.size() / 4, g, spectrumRect);
-	
 	}
 
 	void resized() override {}
 
 private:
-	Queue & audioBufferQueue;
+	// オーディオバッファコンテナを参照するためのアドレス変数
+	Queue& audioBufferQueue;
+
+	// サンプルデータの配列
 	std::array<SampleType, Queue::bufferSize> sampleData;
 
-	//juce::dsp::FFT fft{ Queue::order };
-	//using WindowFunc = juce::dsp::WindowingFunction<SampleType>;
-	//WindowFunc windowFunc{ (size_t)fft.getSize(), WindowFunc::hann };
-	//std::array<SampleType, 2 * Queue::bufferSize> spectrumData;
-
+	//
 	void timerCallback() override
 	{
 		audioBufferQueue.pop(sampleData.data());
 
-		//FloatVectorOperations::copy(spectrumData.data(), sampleData.data(), (int)sampleData.size());
-		//auto fftSize = (size_t)fft.getSize();
-
-		//jassert(spectrumData.size() == 2 * fftSize);
-		
-		//windowFunc.multiplyWithWindowingTable(spectrumData.data(), fftSize);
-		//fft.performFrequencyOnlyForwardTransform(spectrumData.data());
-		
-		//static constexpr auto mindB = SampleType(-160); //最小dB
-		//static constexpr auto maxdB = SampleType(0);	//最大dB
-
-		//for (auto& s : spectrumData) 
-		//{
-		//	s = jmap(jlimit(mindB, maxdB, juce::Decibels::gainToDecibels(s) - juce::Decibels::gainToDecibels(SampleType(fftSize)))
-		//		, mindB
-		//		, maxdB
-		//		, SampleType(0)
-		//		, SampleType(1)
-		//	);
-		//}
-
 		repaint();
 	}
 
+	// サンプルデータの配列から折れ線グラフをプロットする
 	static void plot(const SampleType* data
 		, size_t numSamples
 		, Graphics& g
 		, juce::Rectangle<SampleType> rect
 		, SampleType scaler = SampleType(1)
-		, SampleType offset = SampleType(0)
-	)
+		, SampleType offset = SampleType(0))
 	{
 		auto w = rect.getWidth();
 		auto h = rect.getHeight();
@@ -266,7 +287,5 @@ private:
 			const float t = 1.0f;
 			g.drawLine(x1, y1, x2, y2, t);
 		}
-
 	}
-
 };

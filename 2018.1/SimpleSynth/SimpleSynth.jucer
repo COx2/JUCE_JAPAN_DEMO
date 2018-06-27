@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="SimpleSynth" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.3.2" pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST,buildVST3"
+              jucerVersion="5.3.2" pluginFormats="buildVST,buildVST3,buildAU,buildAUv3,buildStandalone"
               buildVST="1" buildVST3="1" buildAU="1" buildAUv3="1" buildRTAS="0"
               buildAAX="0" enableIAA="0" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               id="j6lCat" reportAppUsage="0" bundleIdentifier="com.JuceJapan.SimpleSynth"

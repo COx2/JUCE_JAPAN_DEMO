@@ -60,7 +60,9 @@ public:
 
 	//==============================================================================
 	MidiKeyboardState& getKeyboardState() { return keyboardState; }
-	AudioBufferQueue<float>& getAudioBufferQueue() { return audioBufferQueue; }
+
+	AudioBufferQueue<float>& getAudioBufferQueue() { return scopeDataQueue; }
+
 	void changeVoiceSize();
 
 	//Parameterの用意[1]
@@ -79,7 +81,6 @@ public:
 	AudioParameterBool* velocitySenseParameter;
 
 private:
-	MidiKeyboardState keyboardState;
 	Synthesiser		  synth;
 
 	//歪み用の関数[2]
@@ -96,9 +97,13 @@ private:
 
 	dsp::Reverb reverb;
 
-	// オシロスコープ用バッファーキュー
-	AudioBufferQueue<float> audioBufferQueue;
-	ScopeDataCollector<float> scopedDataCollector;
+	// GUI上のキーボードコンポーネントで生成されたMIDI情報を保持しておくオブジェクト.
+	// MIDIキーボードの状態を同期するためのステートオブジェクト
+	MidiKeyboardState keyboardState;
+
+	// スコープパネルに波形を表示するためのデータバッファ
+	AudioBufferQueue<float> scopeDataQueue;
+	ScopeDataCollector<float> scopeDataCollector;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleSynthAudioProcessor)
