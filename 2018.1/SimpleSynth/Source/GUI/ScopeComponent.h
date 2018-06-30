@@ -25,6 +25,10 @@ template <typename SampleType>
 class AudioBufferQueue
 {
 public:
+	// バッファサイズが512の時, サンプリングレート96kHz下での440Hzの正弦波を2周+αまで描画することができる
+	// サンプリングレート96kHz(⊿T = 0.01[ms])下での440Hzの正弦波(2.27[ms]) => 1バッファ当たり5.12[ms](= 0.01 * 512)の波形を格納できる
+	// バッファサイズが512の時, サンプリングレート48kHz下での440Hzの正弦波を4周+αまで描画することができる
+	// 	// サンプリングレート48kHz(⊿T = 0.02[ms])下での440Hzの正弦波(2.27[ms]) => 1バッファ当たり10.24[ms](= 0.02 * 512)の波形を格納できる
 	static constexpr size_t order = 9;					// 次のバッファサイズを指定するためのバイトオーダー
 	static constexpr size_t bufferSize = 1U << order;	// オーディオバッファーのコンテナ1つ当たりのサイズ(512)
 	static constexpr size_t numBuffers = 5;				// オーディオバッファーのコンテナの数
@@ -122,6 +126,8 @@ public:
 			{
 				auto currentSample = *data++;
 
+				// 波形表示の左端（X=0）においてY=±0となるように調整する処理
+				// この処理により、波形が固定されているように見える。
 				// 所定のレベル以上の値であればサンプリングするトリガーがオンになり、回収状態に移行する。
 				// オシロスコープでいうトリガーモードに類似
 				// 第一条件：現在のサンプルが閾値を超えていること
@@ -145,7 +151,7 @@ public:
 			{
 				buffer[numCollected++] = *data++;
 
-				// バッファサイズだけコレクションしたら、キューにプッシュする
+				// バッファキュー1つ分のサンプル数だけコレクションしたら、キューにプッシュする
 				if (numCollected == buffer.size())
 				{
 					audioBufferQueue.push(buffer.data(), buffer.size());
@@ -162,7 +168,7 @@ private:
 	AudioBufferQueue<SampleType>& audioBufferQueue;
 
 	// オーディオバッファのコンテナ単体オブジェクト
-	std::array<SampleType, AudioBufferQueue<SampleType>::bufferSize> buffer;
+	std::array<SampleType, AudioBufferQueue<SampleType>::bufferSize> buffer; //std::array<float, 512> buffer;
 
 	// バッファにセットしたサンプルの数を監視するための変数
 	size_t numCollected;
