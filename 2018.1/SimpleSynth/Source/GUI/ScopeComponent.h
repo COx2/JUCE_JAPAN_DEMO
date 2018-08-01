@@ -105,8 +105,7 @@ private:
 
 };
 
-// オシロスコープパネルに表示するサンプルデータを回収してキューにセットするコレクター
-// このScopeDataCollectorクラスがオーディオバッファからサンプルデータを回収して、
+// オーディオバッファからサンプルデータを回収してAudioBufferQueueオブジェクトにサンプルデータを追加するクラス
 template<typename SampleType>
 class ScopeDataCollector
 {
@@ -164,6 +163,16 @@ public:
 	}
 
 private:
+	// オーディオバッファコレクターの状態リスト
+	enum class State
+	{
+		WaitingForTrigger,
+		Collecting
+	};
+
+	// トリガーが実行される閾値。本実装では0.001の閾値を超えた場合をトリガーとして認識する
+	static constexpr auto triggerLevel = SampleType(0.001);
+
 	// オーディオバッファーのコンテナ群を保持するオブジェクト
 	AudioBufferQueue<SampleType>& audioBufferQueue;
 
@@ -176,27 +185,19 @@ private:
 	// 前回のサンプルデータの値を保持する変数
 	SampleType prevSample = SampleType(100);
 
-	// トリガーが実行される閾値。本実装では±0.001fの閾値を超えた場合をトリガーとして認識する
-	static constexpr auto triggerLevel = SampleType(0.001);
-
-	// オーディオバッファコレクターの状態リスト
-	enum class State
-	{
-		WaitingForTrigger,
-		Collecting
-	};
 
 	// 現在の動作モードを保持する変数
 	State currentState{ State::WaitingForTrigger };
 };
 
+// ①AudioBufferQueueオブジェクトに貯められたサンプルデータをプロットして描画するGUIコンポーネントのクラス。
 template<typename SampleType>
-class ScopeComponent : public juce::Component, private Timer
+class ScopeComponent : public juce::Component, private juce::Timer
 {
 public:
 	using Queue = AudioBufferQueue<SampleType>;
 
-	// コンストラクタ。初期化子としてDSPで保持するバッファコンテナのアドレスを受け取る
+	// ②引数付きコンストラクタ。AudioBufferQueueクラスの参照を引数として受け取ってクラス内変数に代入する。
 	ScopeComponent(Queue& queueuToUse)
 		: audioBufferQueue(queueuToUse)
 	{
@@ -204,12 +205,14 @@ public:
 		setFramePerSecond(30);
 	}
 
+	// ③波形のプロットを更新する時間間隔を設定する関数
 	void setFramePerSecond(int framePerSecond)
 	{
 		jassert(framePerSecond > 0 && framePerSecond < 1000);
 		startTimerHz(framePerSecond);
 	}
 
+	// ④SCOPEパネルの状態を描画する関数。パネルの領域を塗りつぶす処理と波形をプロットする処理を実行する。
 	void paint(Graphics& g) override
 	{
 		int panelNameHeight = 42;
@@ -245,7 +248,7 @@ public:
 		SampleType drawY = (SampleType)drawArea.getY();
 		SampleType drawH = (SampleType)drawArea.getHeight();
 		SampleType drawW = (SampleType)drawArea.getWidth();
-		Rectangle<SampleType> scopeRect = Rectangle<SampleType>{ drawX, drawY, drawW, drawH / 1 };
+		Rectangle<SampleType> scopeRect = Rectangle<SampleType>{ drawX, drawY, drawW, drawH };
 
 		// 波形をプロットする
 		g.setColour(juce::Colours::cyan);
@@ -256,21 +259,14 @@ public:
 	void resized() override {}
 
 private:
-	// オーディオバッファコンテナを参照するためのアドレス変数
-	Queue& audioBufferQueue;
-
-	// サンプルデータの配列
-	std::array<SampleType, Queue::bufferSize> sampleData;
-
-	//
+	// ⑤juce::Timerクラスのスレッドから呼び出されるコールバック関数。
 	void timerCallback() override
 	{
 		audioBufferQueue.pop(sampleData.data());
-
 		repaint();
 	}
 
-	// サンプルデータの配列から折れ線グラフをプロットする
+	// ⑥サンプルデータの配列から折れ線グラフをプロットする
 	static void plot(const SampleType* data
 		, size_t numSamples
 		, Graphics& g
@@ -294,4 +290,8 @@ private:
 			g.drawLine(x1, y1, x2, y2, t);
 		}
 	}
+
+	// ⑦クラス変数を宣言する。
+	Queue& audioBufferQueue;										// AudioBufferQueueクラスの参照を保持する変数
+	std::array<SampleType, Queue::bufferSize> sampleData;		// プロットするサンプルデータを格納する配列コンテナ
 };

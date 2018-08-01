@@ -154,7 +154,9 @@ void HelloSinewaveAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
 
 		for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
 		{
-			channelData[sample] = sinf(MathConstants<float>::pi * 2.0f * sample / buffer.getNumSamples()) * level;
+			const float currentAngle = juce::MathConstants<float>::pi * 2.0f * sample / buffer.getNumSamples();
+
+			channelData[sample] = sinf(currentAngle) * level;
 		}
 	}
 }
