@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SimpleSound.h"
 #include "AmpEnvelope.h"
+#include "Waveforms.h"
 #include "SimpleSynthParameters.h"
 
 class SimpleVoice : public SynthesiserVoice
@@ -90,21 +91,15 @@ public:
 
 
 private:
-	float calcSineWave(float angle);
-	float calcSawWave(float angle);
-	float calcTriWave(float angle);
-	float calcSquareWave(float angle);
-
 	float angleDelta;
 	float currentAngle;
+    float lfoAngle;
 	float pitchBend;
-	float lfoAngle;
 	float level;
 	float lastLevel;
 	float levelDiff;
 
-	Random whiteNoise;
-
+    Waveforms waveForms;
 	AmpEnvelope ampEnv;
 
 	OscillatorParameters* _oscParamsPtr;

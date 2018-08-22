@@ -22,7 +22,7 @@ SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoPara
 	, pitchBend(0.0f)
 {}
 
-	SimpleVoice::~SimpleVoice()
+SimpleVoice::~SimpleVoice()
 {}
 
 bool SimpleVoice::canPlaySound(SynthesiserSound* sound)
@@ -131,23 +131,23 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 
 				if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Sine")
 				{
-					modulationFactor = sin(lfoAngle);
+					modulationFactor = waveForms.sineWave(lfoAngle);
 				}
 				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Saw")
 				{
-					modulationFactor = calcSawWave(lfoAngle);
+					modulationFactor = waveForms.sawWave(lfoAngle);
 				}
 				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Tri")
 				{
-					modulationFactor = calcTriWave(lfoAngle);
+					modulationFactor = waveForms.triangleWave(lfoAngle);
 				}
 				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Square")
 				{
-					modulationFactor = calcSquareWave(lfoAngle);
+					modulationFactor = waveForms.squareWave(lfoAngle);
 				}
 				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Noise")
 				{
-					modulationFactor = (whiteNoise.nextFloat() * 2.0f - 1.0f);
+					modulationFactor = waveForms.whiteNoise();
 				}
 				modulationFactor *= _lfoParamsPtr->LfoAmount->get();
 				modulationFactor /= 2.0f;
@@ -157,27 +157,26 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 
 				if (_lfoParamsPtr->LfoTarget->getCurrentChoiceName() == "WaveLevel")
 				{
-					currentSample += sin(currentAngle) * _oscParamsPtr->SineWaveLevel->get() * modulationFactor;
+					currentSample += waveForms.sineWave(currentAngle) * _oscParamsPtr->SineWaveLevel->get() * modulationFactor;
 
-					currentSample += calcSawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get() * modulationFactor;
+					currentSample += waveForms.sawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get() * modulationFactor;
 
-					currentSample += calcTriWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get() * modulationFactor;
+					currentSample += waveForms.triangleWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get() * modulationFactor;
 
-					currentSample += calcSquareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get() * modulationFactor;
+					currentSample += waveForms.squareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get() * modulationFactor;
 				}
 				else
 				{
-					currentSample += calcSineWave(currentAngle) * _oscParamsPtr->SineWaveLevel->get();
+					currentSample += waveForms.sineWave(currentAngle) * _oscParamsPtr->SineWaveLevel->get();
 
-					currentSample += calcSawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get();
+					currentSample += waveForms.sawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get();
 
-					currentSample += calcTriWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get();
+					currentSample += waveForms.triangleWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get();
 
-					currentSample += calcSquareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get();
-
+					currentSample += waveForms.squareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get();
 				}
 
-				currentSample += (whiteNoise.nextFloat() * 2.0f - 1.0f) * _oscParamsPtr->NoiseLevel->get();
+				currentSample += waveForms.whiteNoise() * _oscParamsPtr->NoiseLevel->get();
 
 				currentSample *= level + levelDiff;
 				currentSample *= ampEnv.getValue();
@@ -232,50 +231,5 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 
 			}
 		}
-	}
-}
-
-float SimpleVoice::calcSineWave(float angle)
-{
-	return sin(angle);
-}
-
-float SimpleVoice::calcSawWave(float angle)
-{
-	if (angle <= MathConstants<float>::pi)
-	{
-		return (angle / MathConstants<float>::pi);
-	}
-	else
-	{
-		return -1.0f + ((angle - MathConstants<float>::pi) / MathConstants<float>::pi) ;
-	}
-}
-
-float SimpleVoice::calcTriWave(float angle)
-{
-	if (angle <= MathConstants<float>::halfPi)
-	{
-		return (angle / MathConstants<float>::halfPi);
-	}
-	else if(angle > MathConstants<float>::halfPi && angle <= (MathConstants<float>::pi + MathConstants<float>::halfPi))
-	{
-		return 1.0f - (2.0f * ((angle - MathConstants<float>::halfPi) / MathConstants<float>::pi));
-	}
-	else
-	{
-		return -1.0f + ((angle - MathConstants<float>::pi - MathConstants<float>::halfPi) / MathConstants<float>::halfPi);
-	}
-}
-
-float SimpleVoice::calcSquareWave(float angle)
-{
-	if (angle <= MathConstants<float>::pi)
-	{
-		return 1.0f;
-	}
-	else
-	{
-		return -1.0f;
 	}
 }
