@@ -29,6 +29,8 @@
               file="Source/DSP/SimpleSynthParameters.h"/>
         <FILE id="En0YXn" name="SimpleVoice.cpp" compile="1" resource="0" file="Source/DSP/SimpleVoice.cpp"/>
         <FILE id="wW4Ofk" name="SimpleVoice.h" compile="0" resource="0" file="Source/DSP/SimpleVoice.h"/>
+        <FILE id="ndmaLx" name="Waveforms.cpp" compile="1" resource="0" file="Source/DSP/Waveforms.cpp"/>
+        <FILE id="Wm9LNQ" name="Waveforms.h" compile="0" resource="0" file="Source/DSP/Waveforms.h"/>
       </GROUP>
       <FILE id="D20u63" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
