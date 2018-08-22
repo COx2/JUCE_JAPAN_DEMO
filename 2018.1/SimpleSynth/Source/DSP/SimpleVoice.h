@@ -23,8 +23,6 @@ public:
 	/** Creates a voice. */
 	SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, AudioParameterBool* velocitySenseParam);
 
-	//SimpleVoice(OscillatorParameters* oscParams, AmpEnvelopeParameters* ampEnvParams, bool velocitySense = true);
-
 	/** Destructor. */
 	virtual ~SimpleVoice();
 
@@ -91,6 +89,8 @@ public:
 
 
 private:
+	float calcModulationFactor(float angle);
+
 	float angleDelta;
 	float currentAngle;
     float lfoAngle;

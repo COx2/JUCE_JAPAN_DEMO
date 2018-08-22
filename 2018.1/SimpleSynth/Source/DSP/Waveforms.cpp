@@ -1,4 +1,4 @@
-/*
+﻿/*
   ==============================================================================
 
     Waveforms.cpp
@@ -10,7 +10,7 @@
 
 #include "Waveforms.h"
 
-float Waveforms::sineWave(float angle)
+float Waveforms::sine(float angle)
 {
     if(angle > MathConstants<float>::twoPi)
     {
@@ -20,7 +20,7 @@ float Waveforms::sineWave(float angle)
     return sinf(angle);
 }
 
-float Waveforms::sawWave(float angle)
+float Waveforms::saw(float angle)
 {
     if(angle > MathConstants<float>::twoPi)
     {
@@ -38,7 +38,7 @@ float Waveforms::sawWave(float angle)
     }
 }
 
-float Waveforms::triangleWave(float angle)
+float Waveforms::triangle(float angle)
 {
     if(angle > MathConstants<float>::twoPi)
     {
@@ -59,7 +59,7 @@ float Waveforms::triangleWave(float angle)
     }
 }
 
-float Waveforms::squareWave(float angle)
+float Waveforms::square(float angle)
 {
 
     if(angle > MathConstants<float>::twoPi)
@@ -77,7 +77,7 @@ float Waveforms::squareWave(float angle)
     }
 }
 
-float Waveforms::whiteNoise()
+float Waveforms::noise()
 {
-    return (noiseSource.nextFloat() * 2.0f - 1.0f);
+    return (whiteNoise.nextFloat() * 2.0f - 1.0f);
 }

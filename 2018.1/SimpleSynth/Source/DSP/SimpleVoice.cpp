@@ -127,59 +127,34 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 			{
 				levelDiff *= 0.99f;
 
-				float modulationFactor = 0.0f;
+				// Modulation factor
+				float modulationFactor = calcModulationFactor(lfoAngle);
 
-				if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Sine")
-				{
-					modulationFactor = waveForms.sineWave(lfoAngle);
-				}
-				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Saw")
-				{
-					modulationFactor = waveForms.sawWave(lfoAngle);
-				}
-				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Tri")
-				{
-					modulationFactor = waveForms.triangleWave(lfoAngle);
-				}
-				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Square")
-				{
-					modulationFactor = waveForms.squareWave(lfoAngle);
-				}
-				else if (_lfoParamsPtr->LfoWaveType->getCurrentChoiceName() == "Noise")
-				{
-					modulationFactor = waveForms.whiteNoise();
-				}
-				modulationFactor *= _lfoParamsPtr->LfoAmount->get();
-				modulationFactor /= 2.0f;
-				modulationFactor += 0.5f;
-
+				// OSC MIX
 				float currentSample = 0.0f;
+				{
+					currentSample += waveForms.sine(currentAngle) * _oscParamsPtr->SineWaveLevel->get();
 
+					currentSample += waveForms.saw(currentAngle) * _oscParamsPtr->SawWaveLevel->get();
+
+					currentSample += waveForms.triangle(currentAngle) * _oscParamsPtr->TriWaveLevel->get();
+
+					currentSample += waveForms.square(currentAngle) * _oscParamsPtr->SquareWaveLevel->get();
+
+					currentSample += waveForms.noise() * _oscParamsPtr->NoiseLevel->get();
+				}
+
+				// LFO
 				if (_lfoParamsPtr->LfoTarget->getCurrentChoiceName() == "WaveLevel")
 				{
-					currentSample += waveForms.sineWave(currentAngle) * _oscParamsPtr->SineWaveLevel->get() * modulationFactor;
-
-					currentSample += waveForms.sawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get() * modulationFactor;
-
-					currentSample += waveForms.triangleWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get() * modulationFactor;
-
-					currentSample += waveForms.squareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get() * modulationFactor;
+					currentSample *= modulationFactor;
 				}
-				else
+
+				// Level and ADSR
 				{
-					currentSample += waveForms.sineWave(currentAngle) * _oscParamsPtr->SineWaveLevel->get();
-
-					currentSample += waveForms.sawWave(currentAngle) * _oscParamsPtr->SawWaveLevel->get();
-
-					currentSample += waveForms.triangleWave(currentAngle) * _oscParamsPtr->TriWaveLevel->get();
-
-					currentSample += waveForms.squareWave(currentAngle) * _oscParamsPtr->SquareWaveLevel->get();
+					currentSample *= level + levelDiff;
+					currentSample *= ampEnv.getValue();
 				}
-
-				currentSample += waveForms.whiteNoise() * _oscParamsPtr->NoiseLevel->get();
-
-				currentSample *= level + levelDiff;
-				currentSample *= ampEnv.getValue();
 
 				//バッファに対して加算処理を行う。1VOICE内でのMIXと複数VOICE間でのMIXなので加算
 				for (int channelNum = outputBuffer.getNumChannels(); --channelNum >= 0;) 
@@ -198,8 +173,8 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / (float)getSampleRate()) * MathConstants<float>::twoPi;
 
 				ampEnv.cycle();
-					
-				if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE) // [7]
+
+				if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE)
 				{
 					if (ampEnv.getValue() <= 0.005f) //リリースが十分に小さければ
 					{
@@ -228,8 +203,38 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				}
 
 				++startSample;
-
 			}
 		}
 	}
+}
+
+float SimpleVoice::calcModulationFactor(float angle)
+{
+	float factor = 0.0f;
+	juce::String waveTypeName = _lfoParamsPtr->LfoWaveType->getCurrentChoiceName();
+	if (waveTypeName == "Sine")
+	{
+		factor = waveForms.sine(angle);
+	}
+	else if (waveTypeName == "Saw")
+	{
+		factor = waveForms.saw(angle);
+	}
+	else if (waveTypeName == "Tri")
+	{
+		factor = waveForms.triangle(angle);
+	}
+	else if (waveTypeName == "Square")
+	{
+		factor = waveForms.square(angle);
+	}
+	else if (waveTypeName == "Noise")
+	{
+		factor = waveForms.noise();
+	}
+	factor *= _lfoParamsPtr->LfoAmount->get();
+	factor /= 2.0f;
+	factor += 0.5f;
+
+	return factor;
 }

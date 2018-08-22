@@ -1,4 +1,4 @@
-/*
+﻿/*
   ==============================================================================
 
     Waveforms.h
@@ -15,12 +15,12 @@
 class Waveforms
 {
 public:
-    float sineWave(float angle);
-    float sawWave(float angle);
-    float triangleWave(float angle);
-    float squareWave(float angle);
-    float whiteNoise();
+    float sine(float angle);
+    float saw(float angle);
+    float triangle(float angle);
+    float square(float angle);
+    float noise();
 
 private:
-    Random noiseSource;
+    Random whiteNoise;
 };
