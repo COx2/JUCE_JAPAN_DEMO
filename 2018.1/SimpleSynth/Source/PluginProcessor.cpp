@@ -167,12 +167,12 @@ void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 	spec.numChannels = getTotalNumOutputChannels();
 	spec.maximumBlockSize = samplesPerBlock;
 
+	iirFilter.prepare(spec);
+
 	drive.prepare(spec);
 
 	clipper.prepare(spec);
 	clipper.functionToUse = clippingFunction;
-
-	iirFilter.prepare(spec);
 
 	reverb.prepare(spec);
 
@@ -254,11 +254,6 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	dsp::AudioBlock<float> audioBlock(buffer);
 	dsp::ProcessContextReplacing<float> context(audioBlock);
 
-	drive.setGainDecibels(driveParameter->get());
-	drive.process(context);
-
-	clipper.process(context);
-
 	if (filterParameters.Type->getCurrentChoiceName() == "Low-Pass") 
 	{
 		*iirFilter.state = *dsp::IIR::Coefficients<float>::makeLowPass(spec.sampleRate
@@ -282,6 +277,14 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	}
 	iirFilter.process(context);
 
+	// ゲインを上げる
+	drive.setGainDecibels(driveParameter->get());
+	drive.process(context);
+
+	// クリッピング処理
+	clipper.process(context);
+
+	// リバーブ処理
 	juce::dsp::Reverb::Parameters reverbParam;
 	reverbParam.roomSize = reverbParameters.RoomSize->get();
 	reverbParam.damping = reverbParameters.Damping->get();
@@ -292,11 +295,13 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	reverb.setParameters(reverbParam);
 	reverb.process(context);
 
+	// リミッター（クリッピング処理）
 	limiter.process(context);
 
 	// ⑧現時点でオーディオバッファで保持しているサンプルデータをScopeDataCollectorクラスのオブジェクトに渡す。
 	scopeDataCollector.process(buffer.getReadPointer(0), (size_t)buffer.getNumSamples());
 
+	// マスターボリューム調整
 	masterVolume.setGainDecibels(masterVolumePrameter->get());
 	masterVolume.process(context);
 }
