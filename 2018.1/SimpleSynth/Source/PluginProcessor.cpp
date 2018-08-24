@@ -375,7 +375,8 @@ void SimpleSynthAudioProcessor::changeVoiceSize()
 
 float SimpleSynthAudioProcessor::clippingFunction(float inputValue)
 {
-	float threshold = std::tanhf(inputValue); // 双曲線正接...1の時に0.8の値を, -1の時に-0.8の値を取る
+	// 双曲線正接...1の時に0.8の値を, -1の時に-0.8の値を取る
+	float threshold = tanhf(inputValue);
 	float outputValue = inputValue;
 
 	//inputValueが正の値ならthresholdも正の値，inputValueが負の値ならthresholdも負の値を取るので，絶対値で比較する
