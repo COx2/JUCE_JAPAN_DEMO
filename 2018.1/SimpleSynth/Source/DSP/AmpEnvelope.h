@@ -12,9 +12,8 @@
 
 class AmpEnvelope 
 {
-	friend class SimpleVoice;
-
-	enum class AMPENV_STATE 
+public:
+	enum class AMPENV_STATE
 	{
 		ATTACK = 0,
 		DECAY,
@@ -23,17 +22,16 @@ class AmpEnvelope
 		WAIT,
 	};
 
-public:
 	AmpEnvelope(float attackTime, float decayTime, float sustain, float releaseTime);
 	~AmpEnvelope();
 
-	void setParameters(float attackTime, float decayTime, float sustain, float releaseTime);
-	void cycle();
+	AMPENV_STATE getState();
 	float getValue();
+	void setParameters(float attackTime, float decayTime, float sustain, float releaseTime);
 	void attackStart(float sampleRate);
 	void releaseStart();
 	void releaseEnd();
-	AMPENV_STATE getState();
+	void cycle();
 
 private:
 	AmpEnvelope();

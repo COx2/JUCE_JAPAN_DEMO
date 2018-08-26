@@ -10,6 +10,12 @@
 
 #include "SimpleVoice.h"
 
+namespace {
+	const float HALF_PI = MathConstants<float>::halfPi;
+	const float ONE_PI = MathConstants<float>::pi;
+	const float TWO_PI = MathConstants<float>::twoPi;
+}
+
 SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, AudioParameterBool* velocitySenseParam)
 	: _oscParamsPtr(oscParams)
 	, _lfoParamsPtr(lfoParams)
@@ -63,8 +69,7 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 		float cyclesPerSample = (float)cyclesPerSecond / (float)getSampleRate();
 
 		// startNoteではじめてangelDeltaが確定する
-		// MathConstants<double>::piは記事で説明
-		angleDelta = cyclesPerSample * MathConstants<float>::twoPi;
+		angleDelta = cyclesPerSample * TWO_PI;
 
 		// この時にサンプルレートは確定している
 		ampEnv.attackStart((float)getSampleRate());
@@ -170,7 +175,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				{
 					currentAngle += angleDelta * pow(2.0f, pitchBend);
 				}
-				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / (float)getSampleRate()) * MathConstants<float>::twoPi;
+				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / (float)getSampleRate()) * TWO_PI;
 
 				ampEnv.cycle();
 
@@ -192,14 +197,14 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 					levelDiff = 0.0f;
 				}
 
-				if (currentAngle > MathConstants<float>::twoPi)
+				if (currentAngle > TWO_PI)
 				{
-					currentAngle -= MathConstants<float>::twoPi;
+					currentAngle -= TWO_PI;
 				}
 
-				if (lfoAngle > MathConstants<float>::twoPi)
+				if (lfoAngle > TWO_PI)
 				{
-					lfoAngle -= MathConstants<float>::twoPi;
+					lfoAngle -= TWO_PI;
 				}
 
 				++startSample;

@@ -152,10 +152,13 @@ void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 
 	synth.setCurrentPlaybackSampleRate(sampleRate);
 
-	// サイン波を割り当てるノート番号の範囲を定義する。関数"setRange" にて0～127の値をtrueに設定する。
-	BigInteger sineNotes;
-	sineNotes.setRange(0, 127, true);
-	synth.addSound(new SimpleSound(sineNotes));
+	// サウンド再生可能なノート番号の範囲を定義する。関数"setRange" にて0～127の値をtrueに設定する。
+	BigInteger canPlayNotes;
+	canPlayNotes.setRange(0, 127, true);
+	// サウンド再生可能なチャンネル番号の範囲を定義する。関数"setRange" にて0～127の値をtrueに設定する。
+	BigInteger canPlayChannels;
+	canPlayChannels.setRange(1, 16, true);
+	synth.addSound(new SimpleSound(canPlayNotes, canPlayChannels));
 
 	int numVoices = voiceSizeParameter->get();
 	for (int i = 0; i < numVoices; ++i)
