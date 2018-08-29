@@ -98,7 +98,7 @@ void AmpEnvelope::setParameters(float attackTime, float decayTime, float sustain
 
 void AmpEnvelope::attackStart(float sampleRate)
 {
-	if (isReleasing())
+	if (!isReleasing())
 	{
 		_value = AMP_MIN;
 	}
