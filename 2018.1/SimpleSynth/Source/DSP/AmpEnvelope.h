@@ -26,20 +26,18 @@ public:
 
 	// ③引数付きコンストラクタ。引数として各パラメータの初期値を渡す。
 	AmpEnvelope(float attackTime, float decayTime, float sustain, float releaseTime);
-
-	// デストラクタ
 	~AmpEnvelope();
 
 	// ④パラメータの状態を取得する関数、状態を変更する関数を宣言する。
 	AMPENV_STATE getState();
 	float getValue();
 	void setParameters(float attackTime, float decayTime, float sustain, float releaseTime);
-	void attackStart(float sampleRate);
+	void attackStart();
 	void releaseStart();
 	void releaseEnd();
 	bool isHolding();
 	bool isReleasing();
-	void cycle();
+	void cycle(float sampleRate);
 
 private:
 	// 引数無しコンストラクタをprivate領域で宣言することで、クラス外から引数無しコンストラクタを呼べないようにする。

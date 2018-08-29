@@ -75,8 +75,8 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 		angleDelta = cyclesPerSample * TWO_PI;
 
 		// この時にサンプルレートは確定している
-		ampEnv.attackStart((float)getSampleRate());
-		ampEnv.cycle();
+		ampEnv.attackStart();
+		//ampEnv.cycle((float)getSampleRate());
 
 		levelDiff = lastLevel - level;
 
@@ -183,7 +183,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				}
 				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / (float)getSampleRate()) * TWO_PI;
 
-				ampEnv.cycle();
+				ampEnv.cycle((float)getSampleRate());
 
 				if (ampEnv.isReleasing())
 				{
