@@ -35,7 +35,7 @@ public:
 
 	void push(const SampleType* dataToPush, size_t numSamples)
 	{
-		DBG("PUSH");
+		//DBG("PUSH");
 
 		jassert(numSamples <= bufferSize);
 
@@ -67,7 +67,7 @@ public:
 
 	void pop(SampleType* outputBuffer)
 	{
-		DBG("POP");
+		//DBG("POP");
 
 		int start1, size1, start2, size2;
 

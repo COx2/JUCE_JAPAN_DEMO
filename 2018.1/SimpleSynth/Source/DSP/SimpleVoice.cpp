@@ -38,12 +38,15 @@ bool SimpleVoice::canPlaySound(SynthesiserSound* sound)
 
 void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
 {
+	DBG("startNote");
+
 	// velocity = 0...1 
 	if (SimpleSound* soundForPlay = dynamic_cast<SimpleSound*> (sound))
 	{
-		// 異なるノートの場合はstopNoteが実行されずリリース状態ではないので、現在のラジアンを維持
-		if (ampEnv.getState() != AmpEnvelope::AMPENV_STATE::RELEASE
-			&& ampEnv.getState() != AmpEnvelope::AMPENV_STATE::WAIT)
+		// 同じボイスでノートONが繰り返された場合はボイススチール処理としてのstopNote(false)が実行されないため、
+		// startNote()が実行される。この時、AMP EGはリリース状態ではないため、波形の角度は前回フレームのラジアンを維持しておかないと、
+		// 同じボイスから生成する波形の前後フレーム間の変化量が急峻になり、ノイズの発生原因となる。
+		if (ampEnv.isHolding())
 		{
 			//ボイスの発音が初めての場合はラジアンを0としてリセットする
 			currentAngle = 0.0f;
@@ -82,6 +85,8 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 
 void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 {
+	DBG("stopNote : " + juce::String((int)allowTailOff));
+
 	// シンセサイザークラスから呼ばれるとき、キーリリースだとallowTailOff == true、キーリリース直後のボイススチールではallowTailOff == false
 	lastLevel = level;
 
@@ -92,18 +97,19 @@ void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 	}
 	else
 	{
-		// リリース状態でないときはangleDeltaをリセットせずにリリース状態に移行
-		if (ampEnv.getState() != AmpEnvelope::AMPENV_STATE::RELEASE
-			&& ampEnv.getState() != AmpEnvelope::AMPENV_STATE::WAIT)
+		// キーホールド中(ADSのいずれか)であればangleDeltaをリリース状態に移行
+		// ボイススチールを受けて直ぐに音量を0にしてしまうと、急峻な変化となりノイズの発生を引き起こすため、それを予防する処理。
+		if (ampEnv.isHolding())
 		{
 			ampEnv.releaseStart();
 		}
-		else if(ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE)
+		// リリース状態に入っていたときはangleDeltaの値をリセット
+		else if(ampEnv.isReleasing())
 		{
-			// リリース状態に入っていたときはangleDeltaをリセットする
 			angleDelta = 0.0f;		
 		}
 
+		// ボイススチール処理の過程で現在のノート再生状態をクリアする
 		clearCurrentNote();
 	}
 }
@@ -179,12 +185,13 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 
 				ampEnv.cycle();
 
-				if (ampEnv.getState() == AmpEnvelope::AMPENV_STATE::RELEASE)
+				if (ampEnv.isReleasing())
 				{
 					if (ampEnv.getValue() <= 0.005f) //リリースが十分に小さければ
 					{
 						ampEnv.releaseEnd();
 
+						// ボイススチール処理の過程で現在のノート再生状態をクリアする
 						clearCurrentNote();
 						angleDelta = 0.0f;
 						currentAngle = 0.0f;

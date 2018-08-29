@@ -98,19 +98,20 @@ void AmpEnvelope::setParameters(float attackTime, float decayTime, float sustain
 
 void AmpEnvelope::attackStart(float sampleRate)
 {
-	if (_ampState != AMPENV_STATE::RELEASE){
+	if (isReleasing())
+	{
 		_value = AMP_MIN;
 	}
 
 	_sampleRate = sampleRate;
-
 	_ampState = AMPENV_STATE::ATTACK;
 
 }
 
 void AmpEnvelope::releaseStart()
 {
-	if (_ampState != AMPENV_STATE::RELEASE && _ampState != AMPENV_STATE::WAIT) {
+	if (isHolding()) 
+	{
 		_ampState = AMPENV_STATE::RELEASE;
 		_valueOnReleaseStart = _value;
 	}
@@ -120,8 +121,24 @@ void AmpEnvelope::releaseStart()
 void AmpEnvelope::releaseEnd()
 {
 	_value = AMP_MIN;
-
 	_ampState = AMPENV_STATE::WAIT;
+}
+
+bool AmpEnvelope::isHolding()
+{
+	if (_ampState == AmpEnvelope::AMPENV_STATE::ATTACK
+		|| _ampState == AmpEnvelope::AMPENV_STATE::SUSTAIN
+		|| _ampState == AmpEnvelope::AMPENV_STATE::DECAY)
+	{
+		return true;
+	}
+	return false;
+
+}
+
+bool AmpEnvelope::isReleasing()
+{
+	return _ampState == AmpEnvelope::AMPENV_STATE::RELEASE;
 }
 
 void AmpEnvelope::cycle()

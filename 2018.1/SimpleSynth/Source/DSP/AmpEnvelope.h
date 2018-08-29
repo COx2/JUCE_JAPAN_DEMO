@@ -31,6 +31,8 @@ public:
 	void attackStart(float sampleRate);
 	void releaseStart();
 	void releaseEnd();
+	bool isHolding();
+	bool isReleasing();
 	void cycle();
 
 private:
