@@ -10,11 +10,14 @@
 
 #pragma once
 
+// ①JUCEライブラリのヘッダをインクルードする。
 #include "../JuceLibraryCode/JuceHeader.h"
 
+// ②クラス宣言
 class Waveforms
 {
 public:
+	// ③各種波形のサンプルデータを返す関数を宣言する。
     float sine(float angle);
     float saw(float angle);
 	float square(float angle);
@@ -22,5 +25,6 @@ public:
     float noise();
 
 private:
+	// ④ホワイトノイズを生成するjuce::Randomクラスのオブジェクトを宣言する。
     Random whiteNoise;
 };

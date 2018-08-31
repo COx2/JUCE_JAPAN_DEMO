@@ -8,15 +8,22 @@
   ==============================================================================
 */
 
+// ヘッダファイルをインクルードする。
 #include "SimpleSynthParameters.h"
 
-OscillatorParameters::OscillatorParameters(AudioParameterFloat * sineWaveLevel, AudioParameterFloat * sawWaveLevel, AudioParameterFloat * triWaveLevel, AudioParameterFloat * squareWaveLevel, AudioParameterFloat * noiseLevel)
-	:SineWaveLevel(sineWaveLevel), SawWaveLevel(sawWaveLevel), TriWaveLevel(triWaveLevel), SquareWaveLevel(squareWaveLevel), NoiseLevel(noiseLevel)
-{
-}
+// ①引数付きコンストラクタ。初期化指定子でクラス内変数に初期値を代入する。
+OscillatorParameters::OscillatorParameters(AudioParameterFloat * sineWaveLevel, AudioParameterFloat * sawWaveLevel,
+											AudioParameterFloat * triWaveLevel, AudioParameterFloat * squareWaveLevel,
+											AudioParameterFloat * noiseLevel)
+	:SineWaveLevel(sineWaveLevel), SawWaveLevel(sawWaveLevel),
+	 TriWaveLevel(triWaveLevel), SquareWaveLevel(squareWaveLevel),
+	 NoiseLevel(noiseLevel)
+{}
 
+// ②当クラスが保持するパラメータ群をAudioProcessorクラスのパラメータとして登録する。
 void OscillatorParameters::addAllParameters(AudioProcessor& processor)
 {
+	// 引数で受け取ったAudioProcessorクラスの参照を介してaddParameter関数を実行してパラメータを追加する。
 	processor.addParameter(SineWaveLevel);
 	processor.addParameter(SawWaveLevel);
 	processor.addParameter(TriWaveLevel);
@@ -24,8 +31,10 @@ void OscillatorParameters::addAllParameters(AudioProcessor& processor)
 	processor.addParameter(NoiseLevel);
 }
 
+// ③各パラメータの値をXMLフォーマットのデータにセーブする関数。
 void OscillatorParameters::saveParameters(XmlElement& xml)
 {
+	// 引数で受け取ったXmlElementクラスの参照を介して各パラメータのIDと値のペアをXMLフォーマットで書き込む。
 	xml.setAttribute(SineWaveLevel->paramID, (double)SineWaveLevel->get());
 	xml.setAttribute(SawWaveLevel->paramID, (double)SawWaveLevel->get());
 	xml.setAttribute(TriWaveLevel->paramID, (double)TriWaveLevel->get());
@@ -33,8 +42,10 @@ void OscillatorParameters::saveParameters(XmlElement& xml)
 	xml.setAttribute(NoiseLevel->paramID, (double)NoiseLevel->get());
 }
 
+// ④各パラメータの値をXMLフォーマットのデータからロードする関数。
 void OscillatorParameters::loadParameters(XmlElement& xml)
 {
+	// 引数で受け取ったXmlElementクラスの参照を介してXMLフォーマットのデータから各パラメータに対応する値を読み込んで代入する。
 	*SineWaveLevel = (float)xml.getDoubleAttribute(SineWaveLevel->paramID, 1.0);
 	*SawWaveLevel = (float)xml.getDoubleAttribute(SawWaveLevel->paramID, 1.0);
 	*TriWaveLevel = (float)xml.getDoubleAttribute(TriWaveLevel->paramID, 1.0);
