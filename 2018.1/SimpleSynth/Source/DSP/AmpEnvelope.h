@@ -43,7 +43,7 @@ private:
 	// 引数無しコンストラクタをprivate領域で宣言することで、クラス外から引数無しコンストラクタを呼べないようにする。
 	AmpEnvelope();
 
-	// ⑤クラス内変数を宣言する
+	// ⑤メンバ変数を宣言する
 	AMPENV_STATE _ampState;											// エンベロープの状態を保持する変数
 	float _attackTime, _decayTime, _sustainValue, _releaseTime;		// エンベロープのパラメータを保持する変数
 	float _value, _valueOnReleaseStart;								// エンベロープの値を保持する変数

@@ -21,7 +21,7 @@ namespace
 	const float RELEASE_MIN = 0.01f;
 }
 
-// ②引数付きコンストラクタ。初期化指定子にて引数で渡された各パラメータの初期値をクラス内変数に代入する。
+// ②引数付きコンストラクタ。初期化指定子にて引数で渡された各パラメータの初期値をメンバ変数に代入する。
 AmpEnvelope::AmpEnvelope(float attackTime, float decayTime, float sustain, float releaseTime)
 	: _attackTime(attackTime), _decayTime(decayTime), _sustainValue(sustain), _releaseTime(releaseTime)
 	, _sampleRate(0.0f), _value(0.0f), _valueOnReleaseStart(0.0f), _ampState(AMPENV_STATE::WAIT)
@@ -67,7 +67,7 @@ float AmpEnvelope::getValue()
 // ⑤エンベロープの各パラメータに値をセットする関数。
 void AmpEnvelope::setParameters(float attackTime, float decayTime, float sustain, float releaseTime)
 {
-	// 引数で受け取った値をクラス内変数に代入する。
+	// 引数で受け取った値をメンバ変数に代入する。
 	_attackTime = attackTime;
 	_decayTime = decayTime;
 	_sustainValue = sustain;

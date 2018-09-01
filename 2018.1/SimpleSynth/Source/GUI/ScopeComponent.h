@@ -197,7 +197,7 @@ class ScopeComponent : public juce::Component, private juce::Timer
 public:
 	using Queue = AudioBufferQueue<SampleType>;
 
-	// ②引数付きコンストラクタ。AudioBufferQueueクラスの参照を引数として受け取ってクラス内変数に代入する。
+	// ②引数付きコンストラクタ。AudioBufferQueueクラスの参照を引数として受け取ってメンバ変数に代入する。
 	ScopeComponent(Queue& queueuToUse)
 		: audioBufferQueue(queueuToUse)
 	{
@@ -291,7 +291,7 @@ private:
 		}
 	}
 
-	// ⑦クラス変数を宣言する。
+	// ⑦メンバ変数を宣言する。
 	Queue& audioBufferQueue;										// AudioBufferQueueクラスの参照を保持する変数
 	std::array<SampleType, Queue::bufferSize> sampleData;		// プロットするサンプルデータを格納する配列コンテナ
 };

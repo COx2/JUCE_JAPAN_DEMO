@@ -11,7 +11,7 @@
 // ヘッダファイルをインクルードする。
 #include "SimpleSynthParameters.h"
 
-// ①引数付きコンストラクタ。初期化指定子でクラス内変数に初期値を代入する。
+// ①引数付きコンストラクタ。初期化指定子でメンバ変数に初期値を代入する。
 OscillatorParameters::OscillatorParameters(AudioParameterFloat * sineWaveLevel, AudioParameterFloat * sawWaveLevel,
 											AudioParameterFloat * triWaveLevel, AudioParameterFloat * squareWaveLevel,
 											AudioParameterFloat * noiseLevel)

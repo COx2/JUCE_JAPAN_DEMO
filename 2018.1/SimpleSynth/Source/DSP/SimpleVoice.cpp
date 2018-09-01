@@ -45,7 +45,8 @@ bool SimpleVoice::canPlaySound(SynthesiserSound* sound)
 //   引数で渡されたノート番号、ベロシティなどの値に対応して波形を生成する前準備を行う。
 void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
 {
-	DBG("startNote");
+	// 引数として受け取ったノート番号の値とベロシティの値をログとして出力する。
+	DBG("[StartNote] NoteNumber: " + juce::String(midiNoteNumber) + ", Velocity: " + juce::String(velocity));
 
 	// velocity = 0...1 
 	if (SimpleSound* soundForPlay = dynamic_cast<SimpleSound*> (sound))
@@ -89,7 +90,7 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 //   キーリリースだとallowTailOff == true、キーリリース直後のボイススチールではallowTailOff == false
 void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 {
-	DBG("stopNote : " + juce::String((int)allowTailOff));
+	DBG("[stopNote] AllowTailOff: " + juce::String((int)allowTailOff));
 
 	lastLevel = level;
 

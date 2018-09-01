@@ -39,7 +39,7 @@ private:
 	// ⑤クラス内でのみ呼び出す関数をprivate領域に宣言する。
 	float calcModulationFactor(float angle);
 
-	// ⑥クラス内変数を宣言する。
+	// ⑥メンバ変数を宣言する。
 	float currentAngle, lfoAngle, angleDelta;
 	float level, lastLevel, levelDiff;
 	float pitchBend;
