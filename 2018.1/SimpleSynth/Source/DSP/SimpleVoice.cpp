@@ -48,7 +48,7 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 	// 引数として受け取ったノート番号の値とベロシティの値をログとして出力する。
 	DBG("[StartNote] NoteNumber: " + juce::String(midiNoteNumber) + ", Velocity: " + juce::String(velocity));
 
-	// velocity = 0...1 
+	// ノートON対象のサウンドクラスが当ボイスクラスに対応したものであるかどうかを判定する。
 	if (SimpleSound* soundForPlay = dynamic_cast<SimpleSound*> (sound))
 	{
 		// ベロシティ有効/無効のフラグに応じて音量レベルを決定する。有効...ベロシティの値から算出する。 無効...固定値を使用する。
@@ -65,12 +65,9 @@ void SimpleVoice::startNote(int midiNoteNumber, float velocity, SynthesiserSound
 		}
 
 		// ノイズ対策...今回と前回の音量レベルの差分を算出して保持する。
-		if (ampEnv.isReleasing())
-		{
-			levelDiff = level - lastLevel;
-		}
+		levelDiff = level - lastLevel;
 		
-		// ピッチベンド・メッセージの入力を保持する。
+		// ピッチベンド・メッセージの入力を-1.0f～1.0fの値に正規化して保持する。
 		pitchBend = ((float)currentPitchWheelPosition - 8192.0f) / 8192.0f;
 
 		// レンダリングする波形のピッチに相当するサンプルデータ間の角度⊿θ[rad]の値を決定する。
@@ -90,24 +87,22 @@ void SimpleVoice::stopNote(float velocity, bool allowTailOff)
 {
 	DBG("[stopNote] AllowTailOff: " + juce::String((int)allowTailOff));
 
+	// ノイズ対策...現在のノートのレベルを保持しておく
 	lastLevel = level;
 
+	// キーリリース時...allowTailOff = true、ボイススチール時...allowTailOff = false
 	if (allowTailOff)
 	{
 		ampEnv.releaseStart();
 	}
 	else
 	{
-		// キーホールド中(ADSのいずれか)であればangleDeltaをリリース状態に移行
+		// ノイズ対策...ボイススチール直後のAttack状態への移行の時にエンベロープがRelease状態の値から繋がるようにしておく。
 		if (ampEnv.isHolding()) {
-			// ボイススチールを受けて直ぐに音量を0にしてしまうと、急峻な変化となりノイズの発生を引き起こすため、それを予防する処理。
 			ampEnv.releaseStart();
 		}
-		else if(ampEnv.isReleasing()) {
-			// リリース状態に入っていたときはangleDeltaの値をリセット
-			angleDelta = 0.0f;		
-		}
-		// ボイススチール処理の過程で現在のノート再生状態をクリアする
+
+		// ボイスがレンダリングしているノート情報をクリアする
 		clearCurrentNote();
 	}
 }
@@ -122,10 +117,41 @@ void SimpleVoice::pitchWheelMoved(int newPitchWheelValue)
 void SimpleVoice::controllerMoved(int controllerNumber, int newControllerValue)
 {}
 
-// ⑧オーディオバッファに波形をレンダリングする関数。Synthesiserクラスから呼び出される
+// ⑧LFOのモジュレーション波形を算出する関数。
+float SimpleVoice::calcModulationFactor(float angle)
+{
+	float factor = 0.0f;
+	juce::String waveTypeName = _lfoParamsPtr->LfoWaveType->getCurrentChoiceName();
+	if (waveTypeName == "Sine")
+	{
+		factor = waveForms.sine(angle);
+	}
+	else if (waveTypeName == "Saw")
+	{
+		factor = waveForms.saw(angle);
+	}
+	else if (waveTypeName == "Tri")
+	{
+		factor = waveForms.triangle(angle);
+	}
+	else if (waveTypeName == "Square")
+	{
+		factor = waveForms.square(angle);
+	}
+	else if (waveTypeName == "Noise")
+	{
+		factor = waveForms.noise();
+	}
+	// factorの値が0.5を中心とした0.0～1.0の値となるように調整する。
+	factor = ((factor * _lfoParamsPtr->LfoAmount->get()) / 2.0f) + 0.5f;
+	return factor;
+}
+
+// ⑨オーディオバッファに波形をレンダリングする関数。Synthesiserクラスから呼び出される
 void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 {
-	if (SimpleSound* playingSound = static_cast<SimpleSound*>(getCurrentlyPlayingSound().get()))
+	// レンダリング対象のサウンドクラスが当ボイスクラスに対応したものであるかどうかを判定する。
+	if (SimpleSound* playingSound = dynamic_cast<SimpleSound*>(getCurrentlyPlayingSound().get()))
 	{
 		if (angleDelta != 0.0f)
 		{
@@ -216,34 +242,4 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 			}
 		}
 	}
-}
-
-// ⑨LFOのモジュレーション波形を算出する関数。
-float SimpleVoice::calcModulationFactor(float angle)
-{
-	float factor = 0.0f;
-	juce::String waveTypeName = _lfoParamsPtr->LfoWaveType->getCurrentChoiceName();
-	if (waveTypeName == "Sine")
-	{
-		factor = waveForms.sine(angle);
-	}
-	else if (waveTypeName == "Saw")
-	{
-		factor = waveForms.saw(angle);
-	}
-	else if (waveTypeName == "Tri")
-	{
-		factor = waveForms.triangle(angle);
-	}
-	else if (waveTypeName == "Square")
-	{
-		factor = waveForms.square(angle);
-	}
-	else if (waveTypeName == "Noise")
-	{
-		factor = waveForms.noise();
-	}
-	// factorの値が0.5を中心とした0.0～1.0の値となるように調整する。
-	factor = ((factor * _lfoParamsPtr->LfoAmount->get()) / 2.0f) + 0.5f;
-	return factor;
 }
