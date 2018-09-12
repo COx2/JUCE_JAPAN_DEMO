@@ -19,6 +19,11 @@ Dependencies : [JUCE v5.2](https://github.com/WeAreROLI/JUCE/tree/5.2.0)
 
 The JUCE JAPAN DEMO is demo projects correspondig to the book "JUCE JAPAN".
 
+JUCE JAPAN is a textbook for learning audio plugin development with JUCE.
+[Amazon Kindle Store](https://www.amazon.co.jp/dp/B01HSEBPKO)
+
+![img](./img/JACKET.PNG)
+
 ## Building ##
 
 So I've built under Windows and Mac OS X.
