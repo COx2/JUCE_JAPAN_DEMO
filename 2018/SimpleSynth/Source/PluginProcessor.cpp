@@ -324,9 +324,13 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	// Limiter: クリッピング処理を適用する。
 	limiter.process(context);
 
+	// ⑧現時点でオーディオバッファで保持しているサンプルデータをScopeDataCollectorクラスのオブジェクトに渡す。
+	scopeDataCollector.process(buffer.getReadPointer(0), (size_t)buffer.getNumSamples());
+
 	// Volume: パラメータの値に基づき、音量を増減する処理を適用する。
 	masterVolume.setGainDecibels(masterVolumePrameter->get());
 	masterVolume.process(context);
+
 }
 
 //==============================================================================
