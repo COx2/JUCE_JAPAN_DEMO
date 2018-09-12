@@ -153,8 +153,8 @@ void SimpleSynthAudioProcessor::changeProgramName (int index, const String& newN
 }
 
 //==============================================================================
+
 // ⑤ボイスセクションとエフェクトセクションの初期化を行う。
-void// ⑤ボイスセクションとエフェクトセクションの初期化を行う。
 void SimpleSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
 	// ================== ボイスセクションの初期化 ===============
