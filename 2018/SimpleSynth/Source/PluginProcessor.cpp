@@ -247,46 +247,47 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	//   GUIのキーボードコンポーネントで生成されたMIDIデータをのMIDIバッファに追加する処理を行う。
 	keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
+	// 同時発音数: ボイスサイズパラメータの値と現在のボイスサイズが異なる場合は、ボイスサイズを変更する関数を実行する。
 	if ((int)voiceSizeParameter->get() != synth.getNumVoices()) {
 		changeVoiceSize();
 	}
 
-    ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+	ScopedNoDenormals noDenormals;
+	auto totalNumInputChannels = getTotalNumInputChannels();
+	auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+	// 入力チャンネル数が出力チャンネル数より少ない場合、余分な出力チャンネルのオーディオバッファをゼロクリアしておく。
+	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+		buffer.clear(i, 0, buffer.getNumSamples());
 
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+	// オーディオバッファに含まれるすべての入力チャンネルに対して処理を繰り返す。
+	for (int channel = 0; channel < totalNumInputChannels; ++channel)
+	{
+		// 入力チャンネル番号に対応するオーディオバッファの先頭ポインタを取得する。
+		auto* channelData = buffer.getWritePointer(channel);
 
-
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-		// シンセサイザーでバッファに対して加算処理を行う前にゼロクリアをしておく。
+		// ボイスセクションのレンダリングを実行する前にオーディオバッファをゼロクリアをしておく。
 		buffer.clear(channel, 0, buffer.getNumSamples());
-    }
+	}
 
-	//================================ ボイスセクション ====================================
-
+	// ============================ ボイスセクションのレンダリング ===============================
+	// Synthesiserオブジェクトに登録されているすべてのボイスクラスでレンダリングを実行する
 	synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
-
-	//================================ エフェクトセクション ====================================
-
-	// JUCE DSPモジュールで処理できるようにオーディオバッファをラップする
+	// ============================ エフェクトセクションのレンダリング ============================
+	// JUCE DSPモジュールに渡すために、オーディオバッファをAudioBlockクラスとProcessContextReplacingクラスでラップする。
 	dsp::AudioBlock<float> audioBlock(buffer);
 	dsp::ProcessContextReplacing<float> context(audioBlock);
 
-	if (filterParameters.Type->getCurrentChoiceName() == "Low-Pass") 
+	// Filter: パラメータの値に基づき、フィルタモードを決定してフィルタ処理を適用する。
+	if (filterParameters.Type->getCurrentChoiceName() == "Low-Pass")
 	{
 		*iirFilter.state = *dsp::IIR::Coefficients<float>::makeLowPass(spec.sampleRate
 			, filterParameters.Frequency->get()
 			, filterParameters.Q->get()
 		);
 	}
-	else if (filterParameters.Type->getCurrentChoiceName() == "High-Pass") 
+	else if (filterParameters.Type->getCurrentChoiceName() == "High-Pass")
 	{
 		*iirFilter.state = *dsp::IIR::Coefficients<float>::makeHighPass(spec.sampleRate
 			, filterParameters.Frequency->get()
@@ -302,14 +303,14 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	}
 	iirFilter.process(context);
 
-	// ゲインを上げる
+	// Drive: パラメータの値に基づき、音量を増減する処理を適用する。
 	drive.setGainDecibels(driveParameter->get());
 	drive.process(context);
 
-	// クリッピング処理
+	// Drive: クリッピング処理を適用する。
 	clipper.process(context);
 
-	// リバーブ処理
+	// Reverb: パラメータの値に基づき、リバーブ処理を適用する。
 	juce::dsp::Reverb::Parameters reverbParam;
 	reverbParam.roomSize = reverbParameters.RoomSize->get();
 	reverbParam.damping = reverbParameters.Damping->get();
@@ -320,13 +321,10 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	reverb.setParameters(reverbParam);
 	reverb.process(context);
 
-	// リミッター（クリッピング処理）
+	// Limiter: クリッピング処理を適用する。
 	limiter.process(context);
 
-	// ⑧現時点でオーディオバッファで保持しているサンプルデータをScopeDataCollectorクラスのオブジェクトに渡す。
-	scopeDataCollector.process(buffer.getReadPointer(0), (size_t)buffer.getNumSamples());
-
-	// マスターボリューム調整
+	// Volume: パラメータの値に基づき、音量を増減する処理を適用する。
 	masterVolume.setGainDecibels(masterVolumePrameter->get());
 	masterVolume.process(context);
 }
