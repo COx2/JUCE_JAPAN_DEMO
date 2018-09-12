@@ -53,10 +53,9 @@ void OscillatorParameters::loadParameters(XmlElement& xml)
 	*NoiseLevel = (float)xml.getDoubleAttribute(NoiseLevel->paramID, 0.0);
 }
 
-AmpEnvelopePatameters::AmpEnvelopePatameters(AudioParameterFloat * attack, AudioParameterFloat * decay, AudioParameterFloat * sustain, AudioParameterFloat * release)
+AmpEnvelopePatameters::AmpEnvelopePatameters(AudioParameterFloat* attack, AudioParameterFloat* decay, AudioParameterFloat* sustain, AudioParameterFloat* release)
 	: Attack(attack), Decay(decay), Sustain(sustain), Release(release)
-{
-}
+{}
 
 void AmpEnvelopePatameters::addAllParameters(AudioProcessor& processor)
 {
@@ -84,8 +83,7 @@ void AmpEnvelopePatameters::loadParameters(XmlElement & xml)
 
 LfoParameters::LfoParameters(AudioParameterChoice* lfoTarget, AudioParameterChoice* lfoWaveType, AudioParameterFloat* lfoAmount, AudioParameterFloat* lfoSpeed)
 	: LfoTarget(lfoTarget), LfoWaveType(lfoWaveType), LfoAmount(lfoAmount), LfoSpeed(lfoSpeed)
-{
-}
+{}
 
 void LfoParameters::addAllParameters(AudioProcessor& processor)
 {
@@ -111,10 +109,9 @@ void LfoParameters::loadParameters(XmlElement & xml)
 	*LfoSpeed = (float)xml.getDoubleAttribute(LfoSpeed->paramID, 2.0);
 }
 
-FilterPatameters::FilterPatameters(AudioParameterChoice * type, AudioParameterFloat * frequency, AudioParameterFloat * q)
+FilterPatameters::FilterPatameters(AudioParameterChoice* type, AudioParameterFloat* frequency, AudioParameterFloat* q)
 	: Type(type), Frequency(frequency), Q(q)
-{
-}
+{}
 
 void FilterPatameters::addAllParameters(AudioProcessor& processor)
 {
@@ -137,10 +134,9 @@ void FilterPatameters::loadParameters(XmlElement & xml)
 	*Q = (float)xml.getDoubleAttribute(Q->paramID, 1.0);
 }
 
-ReverbPatameters::ReverbPatameters(AudioParameterFloat * roomSize, AudioParameterFloat * damping, AudioParameterFloat * wetLevel, AudioParameterFloat * dryLevel, AudioParameterFloat * width, AudioParameterFloat * freezeMode)
+ReverbPatameters::ReverbPatameters(AudioParameterFloat* roomSize, AudioParameterFloat* damping, AudioParameterFloat* wetLevel, AudioParameterFloat* dryLevel, AudioParameterFloat* width, AudioParameterFloat* freezeMode)
 	:RoomSize(roomSize), Damping(damping), WetLevel(wetLevel), DryLevel(dryLevel), Width(width), FreezeMode(freezeMode)
-{
-}
+{}
 
 void ReverbPatameters::addAllParameters(AudioProcessor& processor)
 {

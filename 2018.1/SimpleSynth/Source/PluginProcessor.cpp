@@ -8,13 +8,14 @@
   ==============================================================================
 */
 
+// ヘッダファイルをインクルードする。
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
 #include "DSP/SimpleSound.h"
 #include "DSP/SimpleVoice.h"
 
-//==============================================================================
+// コンストラクタ。初期化指定子で各種パラメータ群の初期化を行う。
 SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
@@ -26,6 +27,7 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
                      #endif
                        )
 #endif
+	// OSC MIXモジュールを操作するためのパラメータ群
 	, oscParameters{
 		new AudioParameterFloat("SINEWAVE_LEVEL",	"SineWave-Level", 0.0f, 1.0f, 1.0f),
 		new AudioParameterFloat("SAWWAVE_LEVEL",	"SawWave-Level", 0.0f, 1.0f, 1.0f),
@@ -33,23 +35,27 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 		new AudioParameterFloat("SQUAREWAVE_LEVEL", "SquareWave-Level", 0.0f, 1.0f, 1.0f),
 		new AudioParameterFloat("NOISE_LEVEL", "Noise-Level",  0.0f, 1.0f, 0.0f)
 	}
+	// LFOモジュールを操作するためのパラメータ群
 	, lfoParameters{
 		new AudioParameterChoice("LFO_TARGET", "Lfo-Target", LFO_TARGETS, 0),
 		new AudioParameterChoice("LFO_WAVE_TYPE", "Lfo-WaveType", LFO_WAVE_TYPES, 0),
 		new AudioParameterFloat("LFO_LEVEL", "Lfo-Level",  0.0f, 1.0f, 0.5f),
 		new AudioParameterFloat("LFO_SPEED", "Lfo-Speed",  0.0f, 20.0f, 0.2f)
 	}
+	// AMP EGモジュールを操作するためのパラメータ群
 	, ampEnvParameters{
 		new AudioParameterFloat("AMPENV_ATTACK", "Attack", 0.01f, 3.0f, 0.1f),
 		new AudioParameterFloat("AMPENV_DECAY", "Decay",  0.01f, 3.0f, 0.1f),
 		new AudioParameterFloat("AMPENV_SUSTAIN", "Sustain", 0.0f, 1.0f, 1.0f),
 		new AudioParameterFloat("AMPENV_RELEASE", "Release", 0.01f, 3.0f, 0.1f)
 	}
+	// Filterモジュールを操作するためのパラメータ群
 	, filterParameters{
 		new AudioParameterChoice("FILTER_TYPE", "FilterType", FILTER_TYPES, 0),
 		new AudioParameterFloat("FILTER_FREQUENCY", "Frequency", 20.f, 20000.0f, 20000.0f),
 		new AudioParameterFloat("FILTER_Q", "Q", 0.3f, 20.0f, 1.0f),
 	}
+	// Reverbモジュールを操作するためのパラメータ群
 	, reverbParameters{
 		new AudioParameterFloat("REVERB_ROOM_SIZE",	"Room-Size",	0.0f, 1.0f, 0.0f),
 		new AudioParameterFloat("REVERB_DAMPING",	"Damping",		0.0f, 1.0f, 0.0f),
@@ -58,12 +64,18 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 		new AudioParameterFloat("REVERB_WIDTH",		"Width",		0.0f, 1.0f, 0.0f),
 		new AudioParameterFloat("REVERB_FREEZE_MODE",  "Freeze-Mode",	0.0f, 1.0f, 0.0f)
 	}
+	// その他のモジュールを操作するためのパラメータ群
 	, driveParameter(new AudioParameterFloat("DRIVE", "Drive", -24.f, 12.f, 0.0f))
 	, masterVolumePrameter(new AudioParameterFloat("MASTER_VOLUME", "Volume", -36.f, 6.f, -3.0f))
 	, voiceSizeParameter(new AudioParameterInt("VOICE_SIZE", "Voice-Size", 1, 128, 8))
 	, velocitySenseParameter(new AudioParameterBool("VELOCITY_SENSE", "Velocity-Sense", true))
+	// GUI: SCOPEコンポネントで用いるScopeDataCollectorクラスのオブジェクトを初期化する処理
 	, scopeDataCollector(scopeDataQueue)
 {
+	// 当クラスのオブジェクトにパラメータ変数（AudioParameterXxxクラスのインスタンス）を登録する。
+	// 登録されたパラメータ変数は、基底クラスに宣言されたインターフェースを介して更新処理が行われる。
+	// また、パラメータ変数のインスタンスの破棄は、基底クラスの実装によって適切なタイミングで破棄される。
+	// SynthParametersBaseで宣言されたインターフェースを介して共通の関数名を呼び出している。
 	oscParameters.addAllParameters(*this);
 	lfoParameters.addAllParameters(*this);
 	ampEnvParameters.addAllParameters(*this);
@@ -76,8 +88,7 @@ SimpleSynthAudioProcessor::SimpleSynthAudioProcessor()
 }
 
 SimpleSynthAudioProcessor::~SimpleSynthAudioProcessor()
-{
-}
+{}
 
 //==============================================================================
 const String SimpleSynthAudioProcessor::getName() const
@@ -144,9 +155,7 @@ void SimpleSynthAudioProcessor::changeProgramName (int index, const String& newN
 //==============================================================================
 void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-
+	//================================ ボイスセクション ====================================
 	synth.clearSounds();
 	synth.clearVoices();
 
@@ -166,6 +175,7 @@ void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 		synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters, &ampEnvParameters, velocitySenseParameter));
 	}
 
+	//================================ エフェクトセクション ====================================
 	spec.sampleRate = sampleRate;
 	spec.numChannels = getTotalNumOutputChannels();
 	spec.maximumBlockSize = samplesPerBlock;
@@ -221,8 +231,7 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 	//   GUIのキーボードコンポーネントで生成されたMIDIデータをのMIDIバッファに追加する処理を行う。
 	keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
-	if ((int)voiceSizeParameter->get() != synth.getNumVoices()) 
-	{
+	if ((int)voiceSizeParameter->get() != synth.getNumVoices()) {
 		changeVoiceSize();
 	}
 
@@ -239,11 +248,8 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
-
 		// シンセサイザーでバッファに対して加算処理を行う前にゼロクリアをしておく。
 		buffer.clear(channel, 0, buffer.getNumSamples());
-
     }
 
 	//================================ ボイスセクション ====================================
@@ -253,7 +259,7 @@ void SimpleSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 
 	//================================ エフェクトセクション ====================================
 
-	// juce::dspモジュールに渡せるように入力信号バッファをラップする
+	// JUCE DSPモジュールで処理できるようにオーディオバッファをラップする
 	dsp::AudioBlock<float> audioBlock(buffer);
 	dsp::ProcessContextReplacing<float> context(audioBlock);
 
@@ -321,45 +327,56 @@ AudioProcessorEditor* SimpleSynthAudioProcessor::createEditor()
 }
 
 //==============================================================================
-void SimpleSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
+// ⑦パラメータ設定値を外部ファイルにセーブする関数。
+void SimpleSynthAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
-	
+	// XMLフォーマットのオブジェクトを宣言する。
 	std::unique_ptr<XmlElement> xml(new XmlElement("SimpleSynthParameters"));
 
+	// 以下、該当するパラメータ変数から値を取得してXMLオブジェクトに値を書き込む処理を行う
+	// SimpleSynthParameters.h/cppに定義されたパラメータの値をセーブする関数を実行する。
 	oscParameters.saveParameters(*xml);
 	lfoParameters.saveParameters(*xml);
 	ampEnvParameters.saveParameters(*xml);
 	filterParameters.saveParameters(*xml);
 	reverbParameters.saveParameters(*xml);
+
+	// XMLオブジェクトにタグと値のペアとなる文字列のデータを追加する。
 	xml->setAttribute(driveParameter->paramID, (double)driveParameter->get());
 	xml->setAttribute(masterVolumePrameter->paramID, (double)masterVolumePrameter->get());
 	xml->setAttribute(voiceSizeParameter->paramID, voiceSizeParameter->get());
 	xml->setAttribute(velocitySenseParameter->paramID, velocitySenseParameter->get());
 
+	// XMLフォーマットのオブジェクトをバイナリデータ（外部ファイル）にコピーする。
 	copyXmlToBinary(*xml, destData);
 }
 
-void SimpleSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+// ⑧パラメータ設定値を外部ファイルからロードする関数。
+void SimpleSynthAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
-	
+
+	// 外部ファイルのバイナリデータからXMLフォーマットのオブジェクトのポインタを取得する。
 	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
+	// XMLオブジェクトが空でなければ、パラメータ設定値のロード処理を行う。
 	if (xmlState.get() != nullptr)
 	{
-		if (xmlState->hasTagName("SimpleSynthParameters")) 
+		// XMLオブジェクトからSimpleSynthのパラメータ設定値を保持する先頭のタグを取得する。
+		if (xmlState->hasTagName("SimpleSynthParameters"))
 		{
+			// 以下、該当するXMLオブジェクトから値を取得してパラメータ変数に値を代入する処理を行う
+			// SimpleSynthParameters.h/cppに定義されたパラメータの値をロードする関数を実行する。
 			oscParameters.loadParameters(*xmlState);
 			lfoParameters.loadParameters(*xmlState);
 			ampEnvParameters.loadParameters(*xmlState);
 			filterParameters.loadParameters(*xmlState);
 			reverbParameters.loadParameters(*xmlState);
+
+			// driveParameterのパラメータID（文字列）と一致するタグからパラメータの値を浮動小数点型として取得する。
 			*driveParameter = (float)xmlState->getDoubleAttribute(driveParameter->paramID, 0.0);
 			*masterVolumePrameter = (float)xmlState->getDoubleAttribute(masterVolumePrameter->paramID, -3.0);
+
+			// voiceSizeParameterのパラメータID（文字列）と一致するタグからパラメータの値を整数型として取得する。
 			*voiceSizeParameter = xmlState->getIntAttribute(voiceSizeParameter->paramID, 1);
 			*velocitySenseParameter = xmlState->getBoolAttribute(velocitySenseParameter->paramID, true);
 		}

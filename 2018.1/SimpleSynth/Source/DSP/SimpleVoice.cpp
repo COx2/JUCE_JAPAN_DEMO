@@ -177,9 +177,6 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 
 				// OSC MIX: 
 				levelDiff *= 0.99f;						// 前回のベロシティとの差異によるノイズ発生を防ぐ。
-				if (fabsf(levelDiff) <= 0.005f) {
-					levelDiff = 0.0f;
-				}
 				currentSample *= level - levelDiff;
 
 				// AMP EG: エンベロープの値をサンプルデータに反映する。
@@ -219,7 +216,7 @@ void SimpleVoice::renderNextBlock(AudioBuffer<float>& outputBuffer, int startSam
 				}
 				lfoAngle += (_lfoParamsPtr->LfoSpeed->get() / (float)getSampleRate()) * TWO_PI;
 
-				if (abs(levelDiff) < 0.0001f) {
+				if (fabsf(levelDiff) <= 0.005f) {
 					levelDiff = 0.0f;
 				}
 

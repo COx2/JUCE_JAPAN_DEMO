@@ -10,8 +10,11 @@
 
 #pragma once
 
+// ヘッダファイルをインクルードする
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "DSP/SimpleSynthParameters.h"
+
+// C-1. 5-4.で実装したAudioBufferQueueクラスとScopeDataCollectorクラスを使用するためにヘッダをインクルードする
 #include "GUI/ScopeComponent.h"
 
 //==============================================================================
@@ -58,18 +61,22 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 
-	//==============================================================================
-	MidiKeyboardState& getKeyboardState() { return keyboardState; }
-
-	AudioBufferQueue<float>& getAudioBufferQueue() { return scopeDataQueue; }
-
+	// 継承クラス独自の関数を宣言する
+	// ボイス数（同時発音数）を変更するために実行する処理
 	void changeVoiceSize();
 
-	//Parameterの用意[1]
+	// B-2. MidiKeyboardStateクラスのオブジェクトのアドレスを返す関数
+	MidiKeyboardState& getKeyboardState() { return keyboardState; }
+
+	// C-3. AudioBufferQueueクラスのオブジェクトのアドレスを返す関数
+	AudioBufferQueue<float>& getAudioBufferQueue() { return scopeDataQueue; }
+
+	// Parameterの用意
 	const StringArray LFO_TARGETS{ "None", "WaveLevel", "WaveAngle" };
 	const StringArray LFO_WAVE_TYPES{ "Sine", "Saw", "Tri", "Square", "Noise" };
 	const StringArray FILTER_TYPES{ "Low-Pass", "High-Pass", "Band-Pass" };
 
+	// パラメータ変数の実態を参照するポインタ変数およびクラスのオブジェクトを宣言する。
 	OscillatorParameters oscParameters;
 	LfoParameters lfoParameters;
 	AmpEnvelopePatameters ampEnvParameters;
@@ -81,27 +88,28 @@ public:
 	AudioParameterBool* velocitySenseParameter;
 
 private:
-	Synthesiser		  synth;
+	// juce::Synthesiserクラスのオブジェクト
+	juce::Synthesiser	synth;
 
-	//歪み用の関数[2]
-	static float clippingFunction(float inputValue);
+	// エフェクトセクションを構成する各モジュールで使用するDSPオブジェクトを宣言する。
+	dsp::ProcessSpec spec;									// juce::dspオブジェクトの初期化に必要な情報を保持する構造体
 
-	//[3]のオブジェクトの初期化に必要な情報を保持する構造体[4]
-	dsp::ProcessSpec spec;
+	dsp::WaveShaper<float> clipper, limiter;				// 波形を変形・生成するDSPオブジェクトの宣言
 
-	dsp::WaveShaper<float> clipper, limiter;
-	dsp::Gain<float> drive, masterVolume;
+	static float clippingFunction(float inputValue);		// WaveShaper<float>オブジェクトで波形の変形・生成に用いるクリッピング処理の関数
 
-	//IIRFilterをマルチチャンネル対応にしておく
-	dsp::ProcessorDuplicator < dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> iirFilter;
+	dsp::Gain<float> drive, masterVolume;					// 波形の振幅を増減するDSPオブジェクトの宣言
 
-	dsp::Reverb reverb;
+	dsp::Reverb reverb;										// リバーブ効果を適用するDSPオブジェクトの宣言
+
+	// マルチチャンネルの入出力に対応したIIRFilterのDSPオブジェクトの宣言
+	dsp::ProcessorDuplicator<dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> iirFilter;
 
 	// GUI上のキーボードコンポーネントで生成されたMIDI情報を保持しておくオブジェクト.
-	// MIDIキーボードの状態を同期するためのステートオブジェクト
+	// B-1. MIDIデバイスおよびキーボードコンポーネントで生成されたMIDIメッセージをマージして保持するオブジェクト
 	MidiKeyboardState keyboardState;
 
-	// スコープパネルに波形を表示するためのデータバッファ
+	// C-2. 5-4.で実装したAudioBufferQueueクラスとScopeDataCollectorクラスのオブジェクトを宣言する
 	AudioBufferQueue<float> scopeDataQueue;
 	ScopeDataCollector<float> scopeDataCollector;
 
