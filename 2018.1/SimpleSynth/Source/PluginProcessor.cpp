@@ -153,45 +153,61 @@ void SimpleSynthAudioProcessor::changeProgramName (int index, const String& newN
 }
 
 //==============================================================================
-void SimpleSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+// ⑤ボイスセクションとエフェクトセクションの初期化を行う。
+void// ⑤ボイスセクションとエフェクトセクションの初期化を行う。
+void SimpleSynthAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-	//================================ ボイスセクション ====================================
+	// ================== ボイスセクションの初期化 ===============
+	// Synthesiserオブジェクトに登録されているサウンドクラスとボイスクラスのオブジェクトを全て消去する。
 	synth.clearSounds();
 	synth.clearVoices();
 
+	// Synthesiserオブジェクトにホストアプリケーションの現在のサンプルレートを設定する。
 	synth.setCurrentPlaybackSampleRate(sampleRate);
 
-	// サウンド再生可能なノート番号の範囲を定義する。関数"setRange" にて0～127の値をtrueに設定する。
+	// ノートON可能なノート番号の範囲を定義する。関数"setRange" にてノート番号0～127の範囲をtrueに設定する。
 	BigInteger canPlayNotes;
 	canPlayNotes.setRange(0, 127, true);
-	// サウンド再生可能なチャンネル番号の範囲を定義する。関数"setRange" にて0～127の値をtrueに設定する。
+
+	// ノートON可能なチャンネル番号の範囲を定義する。関数"setRange" にてチャンネル番号1～16の範囲をtrueに設定する。
 	BigInteger canPlayChannels;
 	canPlayChannels.setRange(1, 16, true);
+
+	// SynthesiserオブジェクトにノートON可能なノート番号とチャンネル番号を設定したサウンドクラスのオブジェクトを追加する
 	synth.addSound(new SimpleSound(canPlayNotes, canPlayChannels));
 
+	// Synthesiserオブジェクトに同時発音数のパラメータ値と同じ数だけボイスクラスのオブジェクトを追加する。
 	int numVoices = voiceSizeParameter->get();
 	for (int i = 0; i < numVoices; ++i)
 	{
-		synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters, &ampEnvParameters, velocitySenseParameter));
+		synth.addVoice(new SimpleVoice(&oscParameters, &lfoParameters,
+			&ampEnvParameters, velocitySenseParameter));
 	}
 
-	//================================ エフェクトセクション ====================================
-	spec.sampleRate = sampleRate;
-	spec.numChannels = getTotalNumOutputChannels();
-	spec.maximumBlockSize = samplesPerBlock;
+	// ================== エフェクトセクションの初期化 ===============
+	// DSPモジュールのスペックを決定する。
+	spec.sampleRate = sampleRate;								// ホストアプリケーションの現在のサンプルレート
+	spec.numChannels = getTotalNumOutputChannels();		// プラグインに設定されている入出力チャンネルの数
+	spec.maximumBlockSize = samplesPerBlock;				// オーディオバッファのブロックサイズ（1ブロック中のサンプル数）
 
+	// IIR FilterモジュールのDSPオブジェクトを初期化する
 	iirFilter.prepare(spec);
 
+	// DriveモジュールのDSPオブジェクトを初期化する
 	drive.prepare(spec);
 
+	// ClipperモジュールのDSPオブジェクトを初期化する
 	clipper.prepare(spec);
 	clipper.functionToUse = clippingFunction;
 
+	// ReverbモジュールのDSPオブジェクトを初期化する
 	reverb.prepare(spec);
 
+	// LimiterモジュールのDSPオブジェクトを初期化する
 	limiter.prepare(spec);
 	limiter.functionToUse = clippingFunction;
 
+	// VolumeモジュールのDSPオブジェクトを初期化する
 	masterVolume.prepare(spec);
 }
 
