@@ -199,6 +199,7 @@ AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatame
 	, sustainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, releaseSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 {
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	attackSlider.setRange(_ampEnvParamsPtr->Attack->range.start, _ampEnvParamsPtr->Attack->range.end, 0.01);
 	attackSlider.setValue(_ampEnvParamsPtr->Attack->get(), dontSendNotification);
@@ -231,8 +232,6 @@ AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatame
 	releaseSlider.addListener(this);
 	addAndMakeVisible(releaseSlider);
 
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
-
 	attackLabel.setFont(paramLabelFont);
 	attackLabel.setText("Attack", dontSendNotification);
 	attackLabel.setJustificationType(Justification::centred);
@@ -261,21 +260,18 @@ AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatame
 }
 
 AmpEnvelopeParametersComponent::~AmpEnvelopeParametersComponent()
-{
-}
+{}
 
 void AmpEnvelopeParametersComponent::paint(Graphics & g)
 {
 	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
-
 	{
 		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
 		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
-
 	{
-		Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+		Rectangle<int> bounds = getLocalBounds();
 		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
 
 		String text("AMP EG");
@@ -284,7 +280,6 @@ void AmpEnvelopeParametersComponent::paint(Graphics & g)
 		g.setFont(panelNameFont);
 		g.drawText(text, textArea, Justification::centred, false);
 	}
-
 }
 
 void AmpEnvelopeParametersComponent::resized()
@@ -352,6 +347,7 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 	, amountSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, speedSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	targetSelector.addItemList(_lfoParamsPtr->LfoTarget->getAllValueStrings(), 1);
 	targetSelector.setSelectedItemIndex(_lfoParamsPtr->LfoTarget->getIndex(), dontSendNotification);
@@ -372,8 +368,6 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 	amountSlider.setPopupMenuEnabled(true);
 	amountSlider.addListener(this);
 	addAndMakeVisible(amountSlider);
-
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	speedSlider.setRange(_lfoParamsPtr->LfoSpeed->range.start, _lfoParamsPtr->LfoSpeed->range.end, 0.01);
 	speedSlider.setValue(_lfoParamsPtr->LfoSpeed->get(), dontSendNotification);
@@ -412,19 +406,16 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 }
 
 LfoParametersComponent::~LfoParametersComponent()
-{
-}
+{}
 
 void LfoParametersComponent::paint(Graphics & g)
 {
 	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
-
 	{
 		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
 		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
-
 	{
 		Rectangle<int> bounds = getLocalBounds();
 		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
@@ -443,7 +434,7 @@ void LfoParametersComponent::resized()
 	float divide = 1.0f / rowSize;
 	int labelHeight = 20;
 
-	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+	Rectangle<int> bounds = getLocalBounds();
 	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 
 	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
@@ -509,6 +500,7 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	, frequencySlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, qSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	typeSelector.addItemList(_filterParamsPtr->Type->getAllValueStrings(), 1);
 	typeSelector.setSelectedItemIndex(_filterParamsPtr->Type->getIndex(), dontSendNotification);
@@ -516,7 +508,8 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	typeSelector.addListener(this);
 	addAndMakeVisible(typeSelector);
 
-	frequencySlider.setRange(_filterParamsPtr->Frequency->range.start, _filterParamsPtr->Frequency->range.end, 0.01);
+	frequencySlider.setRange(_filterParamsPtr->Frequency->range.start,
+							 _filterParamsPtr->Frequency->range.end, 0.01);
 	frequencySlider.setValue(_filterParamsPtr->Frequency->get(), dontSendNotification);
 	frequencySlider.setSkewFactor(0.3, false);
 	frequencySlider.setPopupDisplayEnabled(true, true, this);
@@ -531,8 +524,6 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 	qSlider.setPopupMenuEnabled(true);
 	qSlider.addListener(this);
 	addAndMakeVisible(qSlider);
-
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	typeLabel.setFont(paramLabelFont);
 	typeLabel.setText("Type", dontSendNotification);
@@ -556,8 +547,7 @@ FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterPa
 }
 
 FilterParametersComponent::~FilterParametersComponent()
-{
-}
+{}
 
 void FilterParametersComponent::paint(Graphics & g)
 {
@@ -637,6 +627,81 @@ void FilterParametersComponent::comboBoxChanged(ComboBox * comboBoxThatHasChange
 	}
 }
 
+DriveParametersComponent::DriveParametersComponent(AudioParameterFloat* driveParam)
+	:_driveParamPtr(driveParam)
+	, gainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
+{
+	gainSlider.setRange(_driveParamPtr->range.start, _driveParamPtr->range.end, 0.01);
+	gainSlider.setValue(_driveParamPtr->get(), dontSendNotification);
+	gainSlider.setPopupDisplayEnabled(true, true, this);
+	gainSlider.setDoubleClickReturnValue(true, 0.0);
+	gainSlider.setTextValueSuffix(" dB");
+	gainSlider.addListener(this);
+	addAndMakeVisible(gainSlider);
+
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
+
+	gainLabel.setFont(paramLabelFont);
+	gainLabel.setText("Gain", dontSendNotification);
+	gainLabel.setJustificationType(Justification::centred);
+	gainLabel.setEditable(false, false, false);
+	addAndMakeVisible(gainLabel);
+
+	startTimerHz(30.0f);
+}
+
+DriveParametersComponent::~DriveParametersComponent()
+{}
+
+void DriveParametersComponent::paint(Graphics & g)
+{
+	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
+
+	{
+		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
+		g.setColour(PANEL_COLOUR);
+		g.fillRoundedRectangle(x, y, width, height, 10.0f);
+	}
+
+	{
+		Rectangle<int> bounds = getLocalBounds();
+		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
+		String text("DRIVE");
+		Colour textColour = Colours::white;
+		g.setColour(textColour);
+		g.setFont(panelNameFont);
+		g.drawText(text, textArea, Justification::centred, false);
+	}
+}
+
+void DriveParametersComponent::resized()
+{
+	float rowSize = 1.0f;
+	float divide = 1.0f / rowSize;
+	int labelHeight = 20;
+
+	Rectangle<int> bounds = getLocalBounds();
+	bounds.removeFromTop(PANEL_NAME_HEIGHT);
+	{
+		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
+		gainLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
+		gainSlider.setBounds(area.reduced(LOCAL_MARGIN));
+	}
+}
+
+void DriveParametersComponent::timerCallback()
+{
+	gainSlider.setValue(_driveParamPtr->get(), dontSendNotification);
+}
+
+void DriveParametersComponent::sliderValueChanged(Slider * slider)
+{
+	if (slider == &gainSlider)
+	{
+		*_driveParamPtr = (float)gainSlider.getValue();
+	}
+}
+
 ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbParams)
 	: _reverbParamsPtr(reverbParams)
 	, roomSizeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
@@ -646,6 +711,8 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	, widthSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, freezeModeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 {
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
+
 	roomSizeSlider.setRange(_reverbParamsPtr->RoomSize->range.start, _reverbParamsPtr->RoomSize->range.end, 0.01);
 	roomSizeSlider.setValue(_reverbParamsPtr->RoomSize->get(), dontSendNotification);
 	roomSizeSlider.setPopupDisplayEnabled(true, true, this);
@@ -689,8 +756,6 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	freezeModeSlider.addListener(this);
 	addAndMakeVisible(freezeModeSlider);
 
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
-
 	roomSizeLabel.setFont(paramLabelFont);
 	roomSizeLabel.setText("RoomSize", dontSendNotification);
 	roomSizeLabel.setJustificationType(Justification::centred);
@@ -727,35 +792,29 @@ ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbPa
 	freezeModeLabel.setEditable(false, false, false);
 	addAndMakeVisible(freezeModeLabel);
 
-
 	startTimerHz(30.0f);
 }
 
 ReverbParametersComponent::~ReverbParametersComponent()
-{
-}
+{}
 
 void ReverbParametersComponent::paint(Graphics & g)
 {
 	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
-
 	{
 		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
 		g.setColour(PANEL_COLOUR);
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);
 	}
-
 	{
 		Rectangle<int> bounds = getLocalBounds();
 		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
-
 		String text("REVERB");
 		Colour textColour = Colours::white;
 		g.setColour(textColour);
 		g.setFont(panelNameFont);
 		g.drawText(text, textArea, Justification::centred, false);
 	}
-
 }
 
 void ReverbParametersComponent::resized()
@@ -764,7 +823,7 @@ void ReverbParametersComponent::resized()
 	float divide = 1.0f / rowSize;
 	int labelHeight = 20;
 
-	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+	Rectangle<int> bounds = getLocalBounds();
 	bounds.removeFromTop(PANEL_NAME_HEIGHT);
 
 	Rectangle<int> upperArea = bounds.removeFromTop(bounds.getHeight() * 0.5);
@@ -840,86 +899,9 @@ void ReverbParametersComponent::sliderValueChanged(Slider * slider)
 	}
 }
 
-DriveParametersComponent::DriveParametersComponent(AudioParameterFloat* driveParam)
-	:_driveParamPtr(driveParam)
-	, gainSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
-{
-	gainSlider.setRange(_driveParamPtr->range.start, _driveParamPtr->range.end, 0.01);
-	gainSlider.setValue(_driveParamPtr->get(), dontSendNotification);
-	gainSlider.setPopupDisplayEnabled(true, true, this);
-	gainSlider.setDoubleClickReturnValue(true, 0.0);
-	gainSlider.setTextValueSuffix(" dB");
-	gainSlider.addListener(this);
-	addAndMakeVisible(gainSlider);
-
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
-
-	gainLabel.setFont(paramLabelFont);
-	gainLabel.setText("Gain", dontSendNotification);
-	gainLabel.setJustificationType(Justification::centred);
-	gainLabel.setEditable(false, false, false);
-	addAndMakeVisible(gainLabel);
-
-	startTimerHz(30.0f);
-}
-
-DriveParametersComponent::~DriveParametersComponent()
-{
-}
-
-void DriveParametersComponent::paint(Graphics & g)
-{
-	Font panelNameFont = Font(PANEL_NAME_FONT_SIZE, Font::plain).withTypefaceStyle("Italic");
-
-	{
-		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();
-		g.setColour(PANEL_COLOUR);
-		g.fillRoundedRectangle(x, y, width, height, 10.0f);
-	}
-
-	{
-		Rectangle<int> bounds = getLocalBounds();
-		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
-
-		String text("DRIVE");
-		Colour textColour = Colours::white;
-		g.setColour(textColour);
-		g.setFont(panelNameFont);
-		g.drawText(text, textArea, Justification::centred, false);
-	}
-}
-
-void DriveParametersComponent::resized()
-{
-	float rowSize = 1.0f;
-	float divide = 1.0f / rowSize;
-	int labelHeight = 20;
-
-	//	Rectangle<int> bounds = getBounds(); // ウインドウ基準の値
-
-	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
-	bounds.removeFromTop(PANEL_NAME_HEIGHT);
-	{
-		Rectangle<int> area = bounds.removeFromLeft(getWidth() * divide);
-		gainLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
-		gainSlider.setBounds(area.reduced(LOCAL_MARGIN));
-	}
-}
-
-void DriveParametersComponent::timerCallback()
-{
-	gainSlider.setValue(_driveParamPtr->get(), dontSendNotification);
-}
-
-void DriveParametersComponent::sliderValueChanged(Slider * slider)
-{
-	if (slider == &gainSlider)
-	{
-		*_driveParamPtr = (float)gainSlider.getValue();
-	}
-}
-
-MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolumeParam, AudioParameterInt* voiceSizeParam, AudioParameterBool* velocitySenseParam)
+MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolumeParam,
+												AudioParameterInt* voiceSizeParam,
+												AudioParameterBool* velocitySenseParam)
 	:_masterVolumeParamPtr(masterVolumeParam)
 	, _voiceSizeParamPtr(voiceSizeParam)
 	, _velocitySenseParamPtr(velocitySenseParam)
@@ -927,8 +909,10 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	, voiceSizeSlider(Slider::SliderStyle::IncDecButtons, Slider::TextEntryBoxPosition::TextBoxRight)
 	, velocitySenseButton()
 {
+	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
-	masterVolumeSlider.setRange(_masterVolumeParamPtr->range.start, _masterVolumeParamPtr->range.end, 0.01);
+	masterVolumeSlider.setRange(_masterVolumeParamPtr->range.start,
+								_masterVolumeParamPtr->range.end, 0.01);
 	masterVolumeSlider.setValue(_masterVolumeParamPtr->get(), dontSendNotification);
 	masterVolumeSlider.setPopupDisplayEnabled(true, true, this);
 	masterVolumeSlider.setPopupMenuEnabled(true);
@@ -937,7 +921,8 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	masterVolumeSlider.addListener(this);
 	addAndMakeVisible(masterVolumeSlider);
 
-	voiceSizeSlider.setRange(_voiceSizeParamPtr->getRange().getStart(), _voiceSizeParamPtr->getRange().getEnd(), 1.0);
+	voiceSizeSlider.setRange(_voiceSizeParamPtr->getRange().getStart(),
+							 _voiceSizeParamPtr->getRange().getEnd(), 1.0);
 	voiceSizeSlider.setValue(_voiceSizeParamPtr->get(), dontSendNotification);
 	voiceSizeSlider.setTooltip("Size of synthesiser voice");
 	voiceSizeSlider.addListener(this);
@@ -946,8 +931,6 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 	velocitySenseButton.setButtonText("Key Velocity Sense");
 	velocitySenseButton.addListener(this);
 	addAndMakeVisible(velocitySenseButton);
-
-	Font paramLabelFont = Font(PARAM_LABEL_FONT_SIZE, Font::plain).withTypefaceStyle("Regular");
 
 	masterVolumeLabel.setFont(paramLabelFont);
 	masterVolumeLabel.setText("Volume", dontSendNotification);
@@ -965,8 +948,7 @@ MiscParametersComponent::MiscParametersComponent(AudioParameterFloat* masterVolu
 }
 
 MiscParametersComponent::~MiscParametersComponent()
-{
-}
+{}
 
 void MiscParametersComponent::paint(Graphics & g)
 {
@@ -983,25 +965,27 @@ void MiscParametersComponent::resized()
 	float divide = 1.0f / columnSize;
 	int labelHeight = 20;
 
-	//	Rectangle<int> bounds = getBounds(); // ウインドウ基準の値
-
-	Rectangle<int> bounds = getLocalBounds(); // コンポーネント基準の値
+	Rectangle<int> bounds = getLocalBounds();
 	bounds.removeFromTop(4);
 	{
 		Rectangle<int> area = bounds.removeFromTop(getHeight() * divide * 3);
 		masterVolumeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
 		masterVolumeSlider.setBounds(area.reduced(LOCAL_MARGIN));
 	}
+
 	{
 		Rectangle<int> area = bounds.removeFromTop(getHeight() * divide * 2);
 		voiceSizeLabel.setBounds(area.removeFromTop(labelHeight).reduced(LOCAL_MARGIN));
 		voiceSizeSlider.setBounds(area.reduced(LOCAL_MARGIN));
-		voiceSizeSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxRight, false, area.getWidth() * 0.2, voiceSizeSlider.getHeight());
+		voiceSizeSlider.setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxRight, false,
+										area.getWidth() * 0.2, voiceSizeSlider.getHeight());
 	}
+
 	{
 		Rectangle<int> area = bounds.removeFromTop(getHeight() * divide * 2);
 		velocitySenseButton.setBounds(area.reduced(LOCAL_MARGIN));
 	}
+
 }
 
 void MiscParametersComponent::timerCallback()

@@ -1,4 +1,4 @@
-/*
+﻿/*
   ==============================================================================
 
     ParametersComponent.h
@@ -78,13 +78,11 @@ class LfoParametersComponent : public Component, Slider::Listener, ComboBox::Lis
 public:
 	LfoParametersComponent(LfoParameters* lfoParams);
 	virtual ~LfoParametersComponent();
-
 	virtual void paint(Graphics& g) override;
 	virtual void resized() override;
 
 private:
 	LfoParametersComponent();
-
 	virtual void timerCallback() override;
 	virtual void sliderValueChanged(Slider* slider) override;
 	virtual void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
@@ -108,13 +106,11 @@ class FilterParametersComponent : public Component, Slider::Listener, ComboBox::
 public:
 	FilterParametersComponent(FilterPatameters* filterParams);
 	virtual ~FilterParametersComponent();
-
 	virtual void paint(Graphics& g) override;
 	virtual void resized() override;
 
 private:
 	FilterParametersComponent();
-
 	virtual void timerCallback() override;
 	virtual void sliderValueChanged(Slider* slider) override;
 	virtual void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
@@ -131,50 +127,16 @@ private:
 	Label qLabel;
 };
 
-class ReverbParametersComponent : public Component, Slider::Listener, private Timer
-{
-public:
-	ReverbParametersComponent(ReverbPatameters* reverbParams);
-	virtual ~ReverbParametersComponent();
-
-	virtual void paint(Graphics& g) override;
-	virtual void resized() override;
-
-private:
-	ReverbParametersComponent();
-
-	virtual void timerCallback() override;
-	virtual void sliderValueChanged(Slider* slider) override;
-
-	ReverbPatameters* _reverbParamsPtr;
-
-	Slider roomSizeSlider;
-	Slider dampingSlider;
-	Slider wetLevelSlider;
-	Slider dryLevelSlider;
-	Slider widthSlider;
-	Slider freezeModeSlider;
-
-	Label roomSizeLabel;
-	Label dampingLabel;
-	Label wetLevelLabel;
-	Label dryLevelLabel;
-	Label widthLabel;
-	Label freezeModeLabel;
-};
-
 class DriveParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
 	DriveParametersComponent(AudioParameterFloat* driveParam);
 	virtual ~DriveParametersComponent();
-
 	virtual void paint(Graphics& g) override;
 	virtual void resized() override;
 
 private:
 	DriveParametersComponent();
-
 	virtual void timerCallback() override;
 	virtual void sliderValueChanged(Slider* slider) override;
 
@@ -185,18 +147,46 @@ private:
 	Label gainLabel;
 };
 
+class ReverbParametersComponent : public Component, Slider::Listener, private Timer
+{
+public:
+	ReverbParametersComponent(ReverbPatameters* reverbParams);
+	virtual ~ReverbParametersComponent();
+	virtual void paint(Graphics& g) override;
+	virtual void resized() override;
+
+private:
+	ReverbParametersComponent();
+	virtual void timerCallback() override;
+	virtual void sliderValueChanged(Slider* slider) override;
+
+	ReverbPatameters* _reverbParamsPtr;
+	Slider roomSizeSlider;
+	Slider dampingSlider;
+	Slider wetLevelSlider;
+	Slider dryLevelSlider;
+	Slider widthSlider;
+	Slider freezeModeSlider;
+	Label roomSizeLabel;
+	Label dampingLabel;
+	Label wetLevelLabel;
+	Label dryLevelLabel;
+	Label widthLabel;
+	Label freezeModeLabel;
+};
+
 class MiscParametersComponent : public Component, Slider::Listener, Button::Listener, private Timer
 {
 public:
-	MiscParametersComponent(AudioParameterFloat* masterVolumeParam, AudioParameterInt* voiceSizeParam, AudioParameterBool* velocitySenseParam);
+	MiscParametersComponent(AudioParameterFloat* masterVolumeParam,
+							AudioParameterInt* voiceSizeParam,
+							AudioParameterBool* velocitySenseParam);
 	virtual ~MiscParametersComponent();
-
 	virtual void paint(Graphics& g) override;
 	virtual void resized() override;
 
 private:
 	MiscParametersComponent();
-
 	virtual void timerCallback() override;
 	virtual void sliderValueChanged(Slider* slider) override;
 	virtual void buttonClicked(Button* button) override;
@@ -207,9 +197,7 @@ private:
 
 	Slider masterVolumeSlider;
 	Slider voiceSizeSlider;
-
 	ToggleButton velocitySenseButton;
-
 	Label masterVolumeLabel;
 	Label voiceSizeLabel;
 };
