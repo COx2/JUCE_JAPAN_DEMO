@@ -1,4 +1,4 @@
-/* =========================================================================================
+﻿/* =========================================================================================
 
    This is an auto-generated file: Any edits you make may be overwritten!
 
@@ -6,25 +6,23 @@
 
 #pragma once
 
-namespace BinaryData
+namespace BinaryData		// バイナリリソースの名前空間
 {
-    extern const char*   sine_wav;
-    const int            sine_wavSize = 176444;
+    extern const char*   sine_wav;					// 正弦波のサンプル音源のバイナリリソース名
+    const int            sine_wavSize = 176444;		// 正弦波のサンプル音源のデータサイズ
 
-    // Number of elements in the namedResourceList and originalFileNames arrays.
+	// 保持しているバイナリリソースの個数（配列の個数）
     const int namedResourceListSize = 1;
 
-    // Points to the start of a list of resource names.
+	// 保持しているバイナリリソース名の配列（例："sine_wav"）
     extern const char* namedResourceList[];
 
-    // Points to the start of a list of resource filenames.
+	// バイナリリソースに変換したファイルの元となったファイルの名前の配列（例："sine.wav"）
     extern const char* originalFilenames[];
 
-    // If you provide the name of one of the binary resource variables above, this function will
-    // return the corresponding data and its size (or a null pointer if the name isn't found).
+	// バイナリリソースの名前とサイズからバイナリリソースをchar配列のポインタで取得する関数
     const char* getNamedResource (const char* resourceNameUTF8, int& dataSizeInBytes);
 
-    // If you provide the name of one of the binary resource variables above, this function will
-    // return the corresponding original, non-mangled filename (or a null pointer if the name isn't found).
+	// バイナリリソースの名前からバイナリ化されたファイルの元ファイルの名前を取得する関数
     const char* getNamedResourceOriginalFilename (const char* resourceNameUTF8);
 }
