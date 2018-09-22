@@ -28,11 +28,11 @@ public:
     void resized() override;
 
 private:
-	void buttonClicked(Button* button) override;  // Button::Listenerクラスのイベントハンドラをオーバーライドする
+	void buttonClicked(Button* button) override;	// Button::Listenerクラスのイベントハンドラをオーバーライドする
 
-	TextButton sampleSelectButton;					// TextButtonクラスのインスタンス（サンプル音源選択用）
 	TextButton sineWaveButton;						// TextButtonクラスのインスタンス（サイン波選択用）
-	MidiKeyboardComponent keyboardComponent;     // MidiKeyboadComponentクラスのインスタンス
+	TextButton sampleSelectButton;					// TextButtonクラスのインスタンス（サンプル音源選択用）
+	MidiKeyboardComponent keyboardComponent;		// MidiKeyboadComponentクラスのインスタンス
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
