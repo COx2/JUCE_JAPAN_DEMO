@@ -132,7 +132,7 @@ void OscillatorParametersComponent::paint(Graphics& g)
 	// ③パネルの背景を描画する処理.当コンポーネントの領域を角丸の四角形で塗りつぶす描画命令を実行する。
 	{
 		float x = 0.0f, y = 0.0f, width = (float)getWidth(), height = (float)getHeight();	// 塗りつぶす領域を設定する。
-		g.setColour(PANEL_COLOUR);																	// 塗りつぶす色を設定する。
+		g.setColour(PANEL_COLOUR);															// 塗りつぶす色を設定する。
 		g.fillRoundedRectangle(x, y, width, height, 10.0f);									// 角丸の四角形を描画する。
 	}
 
@@ -144,10 +144,10 @@ void OscillatorParametersComponent::paint(Graphics& g)
 		// 上記getLocalBounds関数で取得した矩形領域から文字列を表示する領域を特定する
 		Rectangle<int> textArea = bounds.removeFromTop(PANEL_NAME_HEIGHT).reduced(LOCAL_MARGIN);
 
-		String text("OSC MIX");												// 表示する文字列を設定(OSC MIX)
-		Colour textColour = Colours::white;								// 表示する文字列の色を設定（ホワイト）
-		g.setColour(textColour);											// グラフィックコンテキストに文字列の色を設定する
-		g.setFont(panelNameFont);											// グラフィックコンテキストに文字のフォントを設定する
+		String text("OSC MIX");										// 表示する文字列を設定(OSC MIX)
+		Colour textColour = Colours::white;							// 表示する文字列の色を設定（ホワイト）
+		g.setColour(textColour);									// グラフィックコンテキストに文字列の色を設定する
+		g.setFont(panelNameFont);									// グラフィックコンテキストに文字のフォントを設定する
 
 		// 文字列を描画する. 第一引数:文字列, 第二引数:表示領域, 第三引数:文字のアライメント, 第四引数: 省力記号の有無
 		g.drawText(text, textArea, Justification::centred, true);
@@ -158,9 +158,9 @@ void OscillatorParametersComponent::paint(Graphics& g)
 void OscillatorParametersComponent::resized()
 {
 	// ②スライダーとテキストラベルを配置する矩形領域を導くための変数を用意する
-	float rowSize = 5.0f;					// 横方向に並べるコンポーネントの数
-	float divide = 1.0f / rowSize;			// コンポーネントの数で均等に分割したときの値を計算する
-	int labelHeight = 20;					// ラベルの高さ方向大きさの値
+	float rowSize = 5.0f;							// 横方向に並べるコンポーネントの数
+	float divide = 1.0f / rowSize;					// コンポーネントの数で均等に分割したときの値を計算する
+	int labelHeight = 20;							// ラベルの高さ方向大きさの値
 
 	// ③パネル全体を示す矩形領域から、すべてのスライダーとテキストラベルを配置する矩形領域を取得する。
 	//   パネル左上が原点(0,0)でパネルサイズと同じ幅と高さを有するバウンディングボックスから矩形領域を取得する。

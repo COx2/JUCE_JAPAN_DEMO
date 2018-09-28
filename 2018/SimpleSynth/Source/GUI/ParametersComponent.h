@@ -8,39 +8,53 @@
   ==============================================================================
 */
 
+// 二重インクルード防止のコンパイルオプション
 #pragma once
 
+// ①JUCEライブラリのヘッダーとDSP部に定義した機能区ごとのパラメータセットを定義する構造体の宣言をインクルードする。
 #include "JuceHeader.h"
 #include "../DSP/SimpleSynthParameters.h"
 
+// ②クラス宣言。juce::Componentクラス, juce::Slider::Listenerクラス, juce::Timerクラスを継承する。
 class OscillatorParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
+	// ③引数付きコンストラクタを宣言する。
 	OscillatorParametersComponent(OscillatorParameters* oscParams);
 	virtual ~OscillatorParametersComponent();
 
+	// ④juce::Componentクラスの描画時に実行される関数をオーバーライド宣言する。
 	virtual void paint(Graphics& g) override;
+
+	// ⑤juce::Componentクラスのサイズ変更時に実行される関数をオーバーライド宣言する。
 	virtual void resized() override;
 
 private:
+	// デフォルトコンストラクタをprivateにすることで呼び出せないようにする。
 	OscillatorParametersComponent();
 
-	virtual void timerCallback() override;
+	// ⑥juce::Slider::Listenerクラスの仮想関数（コールバック関数）をオーバーライド宣言する。
 	virtual void sliderValueChanged(Slider* slider) override;
 
+	// ⑦juce::Timerクラスの仮想関数（コールバック関数）をオーバーライド宣言する。
+	virtual void timerCallback() override;
+
+	// ⑧OSC MIX用のパラメータセットのオブジェクトのポインタを宣言する。
 	OscillatorParameters* _oscParamsPtr;
 
-	Slider sineWaveLevelSlider;
-	Slider sawWaveLevelSlider;
-	Slider triWaveLevelSlider;
-	Slider squareWaveLevelSlider;
-	Slider noiseLevelSlider;
+	// ⑨パラメータ変更用スライダーに用いるスライダーコンポーネントを宣言する。
+	Slider sineWaveLevelSlider;								// 正弦波音量レベル用スライダー
+	Slider sawWaveLevelSlider;								// ノコギリ波音量レベル用スライダー
+	Slider triWaveLevelSlider;								// 三角波音量レベル用スライダー
+	Slider squareWaveLevelSlider;							// 矩形波音量レベル用スライダー
+	Slider noiseLevelSlider;								// ノイズ音量レベル用スライダー
 
-	Label sineWaveLevelLabel;
-	Label sawWaveLevelLabel;
-	Label triWaveLevelLabel;
-	Label squareWaveLevelLabel;
-	Label noiseLevelLabel;
+	// ⑩パラメータ名表示用テキストラベルに用いるラベルコンポーネントを宣言する。
+	Label sineWaveLevelLabel;								// 正弦波用テキストラベル
+	Label sawWaveLevelLabel;								// ノコギリ波用テキストラベル
+	Label triWaveLevelLabel;								// 三角波用テキストラベル
+	Label squareWaveLevelLabel;								// 矩形波用テキストラベル
+	Label noiseLevelLabel;									// ノイズ用テキストラベル
 };
 
 
