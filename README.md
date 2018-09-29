@@ -11,7 +11,7 @@ Current Version : V1.0.0
 
 License : GPL v3
 
-Dependencies : [JUCE v5.2](https://github.com/WeAreROLI/JUCE/tree/5.2.0)
+Dependencies : [JUCE v5.3.2](https://github.com/WeAreROLI/JUCE/tree/5.3.2)
 
 [JUCE JAPAN / Outlaw Faction](http://oufac.com/ "Outlaw Faction")
 
@@ -26,7 +26,7 @@ JUCE JAPAN is a textbook for learning audio plugin development with JUCE.
 
 ## Building ##
 
-So I've built under Windows and Mac OS X.
+I have built under Windows and Mac OS X.
 
 ### Windows Build Instructions ###
 
