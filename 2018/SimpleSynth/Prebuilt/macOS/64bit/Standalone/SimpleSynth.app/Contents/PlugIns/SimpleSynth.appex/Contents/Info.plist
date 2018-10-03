@@ -9,11 +9,11 @@
 	<key>CFBundleExecutable</key>
 	<string>SimpleSynth</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.JuceJapan.SimpleSynth</string>
+	<string>com.JuceJapan.SimpleSynth.SimpleSynthAUv3</string>
 	<key>CFBundleName</key>
 	<string>SimpleSynth</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
@@ -38,6 +38,41 @@
 	<string>1000</string>
 	<key>DTXcodeBuild</key>
 	<string>10A255</string>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>AudioComponents</key>
+			<array>
+				<dict>
+					<key>description</key>
+					<string>SimpleSynth</string>
+					<key>factoryFunction</key>
+					<string>SimpleSynthAUFactoryAUv3</string>
+					<key>manufacturer</key>
+					<string>Manu</string>
+					<key>name</key>
+					<string>JUCE JAPAN: SimpleSynth</string>
+					<key>sandboxSafe</key>
+					<true/>
+					<key>subtype</key>
+					<string>J6lc</string>
+					<key>tags</key>
+					<array>
+						<string>Synth</string>
+					</array>
+					<key>type</key>
+					<string>aumu</string>
+					<key>version</key>
+					<integer>65536</integer>
+				</dict>
+			</array>
+		</dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.AudioUnit-UI</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>SimpleSynthAUFactoryAUv3</string>
+	</dict>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
