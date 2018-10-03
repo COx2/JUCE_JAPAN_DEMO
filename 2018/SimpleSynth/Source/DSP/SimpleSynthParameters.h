@@ -52,7 +52,7 @@ private:
 	OscillatorParameters() {};
 };
 
-class AmpEnvelopePatameters : public SynthParametersBase
+class AmpEnvelopeParameters : public SynthParametersBase
 {
 public:
 	AudioParameterFloat* Attack;
@@ -60,7 +60,7 @@ public:
 	AudioParameterFloat* Sustain;
 	AudioParameterFloat* Release;
 
-	AmpEnvelopePatameters(AudioParameterFloat* attack,
+	AmpEnvelopeParameters(AudioParameterFloat* attack,
 		AudioParameterFloat* decay,
 		AudioParameterFloat* sustain,
 		AudioParameterFloat* release);
@@ -70,7 +70,7 @@ public:
 	virtual void loadParameters(XmlElement& xml) override;
 
 private:
-	AmpEnvelopePatameters() {};
+	AmpEnvelopeParameters() {};
 };
 
 class LfoParameters : public SynthParametersBase
@@ -94,14 +94,14 @@ private:
 	LfoParameters() {};
 };
 
-class FilterPatameters : public SynthParametersBase
+class FilterParameters : public SynthParametersBase
 {
 public:
 	AudioParameterChoice* Type;
 	AudioParameterFloat*  Frequency;
 	AudioParameterFloat*  Q;
 
-	FilterPatameters(AudioParameterChoice* type,
+	FilterParameters(AudioParameterChoice* type,
 		AudioParameterFloat*  frequency,
 		AudioParameterFloat*  q);
 
@@ -110,10 +110,10 @@ public:
 	virtual void loadParameters(XmlElement& xml) override;
 
 private:
-	FilterPatameters() {};
+	FilterParameters() {};
 };
 
-class ReverbPatameters : public SynthParametersBase
+class ReverbParameters : public SynthParametersBase
 {
 public:
 	AudioParameterFloat*  RoomSize;
@@ -123,7 +123,7 @@ public:
 	AudioParameterFloat*  Width;
 	AudioParameterFloat*  FreezeMode;
 
-	ReverbPatameters(AudioParameterFloat*  roomSize,
+	ReverbParameters(AudioParameterFloat*  roomSize,
 				AudioParameterFloat*  damping,
 				AudioParameterFloat*  wetLevel,
 				AudioParameterFloat*  dryLevel,
@@ -135,5 +135,5 @@ public:
 	virtual void loadParameters(XmlElement& xml) override;
 
 private:
-	ReverbPatameters() {};
+	ReverbParameters() {};
 };

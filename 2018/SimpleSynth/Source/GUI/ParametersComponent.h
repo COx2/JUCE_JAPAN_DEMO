@@ -61,7 +61,7 @@ private:
 class AmpEnvelopeParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
-	AmpEnvelopeParametersComponent(AmpEnvelopePatameters* ampEnvParams);
+	AmpEnvelopeParametersComponent(AmpEnvelopeParameters* ampEnvParams);
 	virtual ~AmpEnvelopeParametersComponent();
 
 	virtual void paint(Graphics& g) override;
@@ -73,7 +73,7 @@ private:
 	virtual void timerCallback() override;
 	virtual void sliderValueChanged(Slider* slider) override;
 
-	AmpEnvelopePatameters* _ampEnvParamsPtr;
+	AmpEnvelopeParameters* _ampEnvParamsPtr;
 
 	Slider attackSlider;
 	Slider decaySlider;
@@ -118,7 +118,7 @@ private:
 class FilterParametersComponent : public Component, Slider::Listener, ComboBox::Listener, private Timer
 {
 public:
-	FilterParametersComponent(FilterPatameters* filterParams);
+	FilterParametersComponent(FilterParameters* filterParams);
 	virtual ~FilterParametersComponent();
 	virtual void paint(Graphics& g) override;
 	virtual void resized() override;
@@ -129,7 +129,7 @@ private:
 	virtual void sliderValueChanged(Slider* slider) override;
 	virtual void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
 
-	FilterPatameters* _filterParamsPtr;
+	FilterParameters* _filterParamsPtr;
 
 	ComboBox typeSelector;
 
@@ -164,7 +164,7 @@ private:
 class ReverbParametersComponent : public Component, Slider::Listener, private Timer
 {
 public:
-	ReverbParametersComponent(ReverbPatameters* reverbParams);
+	ReverbParametersComponent(ReverbParameters* reverbParams);
 	virtual ~ReverbParametersComponent();
 	virtual void paint(Graphics& g) override;
 	virtual void resized() override;
@@ -174,7 +174,7 @@ private:
 	virtual void timerCallback() override;
 	virtual void sliderValueChanged(Slider* slider) override;
 
-	ReverbPatameters* _reverbParamsPtr;
+	ReverbParameters* _reverbParamsPtr;
 	Slider roomSizeSlider;
 	Slider dampingSlider;
 	Slider wetLevelSlider;

@@ -19,7 +19,7 @@ namespace {
 }
 
 // ②引数付きコンストラクタ
-SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, AudioParameterBool* velocitySenseParam)
+SimpleVoice::SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopeParameters* ampEnvParams, AudioParameterBool* velocitySenseParam)
 	: _oscParamsPtr(oscParams)
 	, _lfoParamsPtr(lfoParams)
 	, _ampEnvParamsPtr(ampEnvParams)

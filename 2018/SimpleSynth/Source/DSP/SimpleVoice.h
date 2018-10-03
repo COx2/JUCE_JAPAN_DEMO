@@ -22,7 +22,7 @@ class SimpleVoice : public SynthesiserVoice
 {
 public:
 	// ③引数付きコンストラクタ。
-	SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopePatameters* ampEnvParams, AudioParameterBool* velocitySenseParam);
+	SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopeParameters* ampEnvParams, AudioParameterBool* velocitySenseParam);
 
 	// デストラクタ
 	virtual ~SimpleVoice();
@@ -51,6 +51,6 @@ private:
 	// パラメータを管理するオブジェクトのポインタ変数。
 	OscillatorParameters* _oscParamsPtr;
 	LfoParameters* _lfoParamsPtr;
-	AmpEnvelopePatameters* _ampEnvParamsPtr;
+	AmpEnvelopeParameters* _ampEnvParamsPtr;
 	AudioParameterBool* _velocitySenseParamPtr;
 };

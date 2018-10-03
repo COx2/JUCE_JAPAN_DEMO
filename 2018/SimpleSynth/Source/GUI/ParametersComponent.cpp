@@ -251,7 +251,7 @@ void OscillatorParametersComponent::sliderValueChanged(Slider* slider)
 	}
 }
 
-AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopePatameters * ampEnvParams)
+AmpEnvelopeParametersComponent::AmpEnvelopeParametersComponent(AmpEnvelopeParameters * ampEnvParams)
 	:_ampEnvParamsPtr(ampEnvParams)
 	, attackSlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
 	, decaySlider(Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox)
@@ -553,7 +553,7 @@ void LfoParametersComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 	}
 }
 
-FilterParametersComponent::FilterParametersComponent(FilterPatameters * filterParams)
+FilterParametersComponent::FilterParametersComponent(FilterParameters * filterParams)
 	:_filterParamsPtr(filterParams)
 	, typeSelector("Filter-Type")
 	, frequencySlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
@@ -761,7 +761,7 @@ void DriveParametersComponent::sliderValueChanged(Slider * slider)
 	}
 }
 
-ReverbParametersComponent::ReverbParametersComponent(ReverbPatameters * reverbParams)
+ReverbParametersComponent::ReverbParametersComponent(ReverbParameters * reverbParams)
 	: _reverbParamsPtr(reverbParams)
 	, roomSizeSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)
 	, dampingSlider(Slider::SliderStyle::RotaryHorizontalVerticalDrag, Slider::TextEntryBoxPosition::NoTextBox)

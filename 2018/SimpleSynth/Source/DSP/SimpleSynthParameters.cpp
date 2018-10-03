@@ -53,7 +53,7 @@ void OscillatorParameters::loadParameters(XmlElement& xml)
 	*NoiseLevel = (float)xml.getDoubleAttribute(NoiseLevel->paramID, 0.0);
 }
 
-AmpEnvelopePatameters::AmpEnvelopePatameters(AudioParameterFloat* attack,
+AmpEnvelopeParameters::AmpEnvelopeParameters(AudioParameterFloat* attack,
 											 AudioParameterFloat* decay,
 											 AudioParameterFloat* sustain,
 											 AudioParameterFloat* release)
@@ -63,7 +63,7 @@ AmpEnvelopePatameters::AmpEnvelopePatameters(AudioParameterFloat* attack,
 	, Release(release)
 {}
 
-void AmpEnvelopePatameters::addAllParameters(AudioProcessor& processor)
+void AmpEnvelopeParameters::addAllParameters(AudioProcessor& processor)
 {
 	processor.addParameter(Attack);
 	processor.addParameter(Decay);
@@ -71,7 +71,7 @@ void AmpEnvelopePatameters::addAllParameters(AudioProcessor& processor)
 	processor.addParameter(Release);
 }
 
-void AmpEnvelopePatameters::saveParameters(XmlElement & xml)
+void AmpEnvelopeParameters::saveParameters(XmlElement & xml)
 {
 	xml.setAttribute(Attack->paramID, (double)Attack->get());
 	xml.setAttribute(Decay->paramID, (double)Decay->get());
@@ -79,7 +79,7 @@ void AmpEnvelopePatameters::saveParameters(XmlElement & xml)
 	xml.setAttribute(Release->paramID, (double)Release->get());
 }
 
-void AmpEnvelopePatameters::loadParameters(XmlElement & xml)
+void AmpEnvelopeParameters::loadParameters(XmlElement & xml)
 {
 	*Attack = (float)xml.getDoubleAttribute(Attack->paramID, 0.01);
 	*Decay = (float)xml.getDoubleAttribute(Decay->paramID, 0.01);
@@ -121,7 +121,7 @@ void LfoParameters::loadParameters(XmlElement & xml)
 	*LfoSpeed = (float)xml.getDoubleAttribute(LfoSpeed->paramID, 2.0);
 }
 
-FilterPatameters::FilterPatameters(AudioParameterChoice* type,
+FilterParameters::FilterParameters(AudioParameterChoice* type,
 								AudioParameterFloat* frequency,
 								AudioParameterFloat* q)
 	: Type(type)
@@ -129,28 +129,28 @@ FilterPatameters::FilterPatameters(AudioParameterChoice* type,
 	, Q(q)
 {}
 
-void FilterPatameters::addAllParameters(AudioProcessor& processor)
+void FilterParameters::addAllParameters(AudioProcessor& processor)
 {
 	processor.addParameter(Type);
 	processor.addParameter(Frequency);
 	processor.addParameter(Q);
 }
 
-void FilterPatameters::saveParameters(XmlElement & xml)
+void FilterParameters::saveParameters(XmlElement & xml)
 {
 	xml.setAttribute(Type->paramID, Type->getIndex());
 	xml.setAttribute(Frequency->paramID, (double)Frequency->get());
 	xml.setAttribute(Q->paramID, (double)Q->get());
 }
 
-void FilterPatameters::loadParameters(XmlElement & xml)
+void FilterParameters::loadParameters(XmlElement & xml)
 {
 	*Type = xml.getIntAttribute(Type->paramID, 1);
 	*Frequency = (float)xml.getDoubleAttribute(Frequency->paramID, 20000.0);
 	*Q = (float)xml.getDoubleAttribute(Q->paramID, 1.0);
 }
 
-ReverbPatameters::ReverbPatameters(AudioParameterFloat* roomSize,
+ReverbParameters::ReverbParameters(AudioParameterFloat* roomSize,
 								AudioParameterFloat* damping,
 								AudioParameterFloat* wetLevel,
 								AudioParameterFloat* dryLevel,
@@ -164,7 +164,7 @@ ReverbPatameters::ReverbPatameters(AudioParameterFloat* roomSize,
 	, FreezeMode(freezeMode)
 {}
 
-void ReverbPatameters::addAllParameters(AudioProcessor& processor)
+void ReverbParameters::addAllParameters(AudioProcessor& processor)
 {
 	processor.addParameter(RoomSize);
 	processor.addParameter(Damping);
@@ -174,7 +174,7 @@ void ReverbPatameters::addAllParameters(AudioProcessor& processor)
 	processor.addParameter(FreezeMode);
 }
 
-void ReverbPatameters::saveParameters(XmlElement & xml)
+void ReverbParameters::saveParameters(XmlElement & xml)
 {
 	xml.setAttribute(RoomSize->paramID, (double)RoomSize->get());
 	xml.setAttribute(Damping->paramID, (double)Damping->get());
@@ -184,7 +184,7 @@ void ReverbPatameters::saveParameters(XmlElement & xml)
 	xml.setAttribute(FreezeMode->paramID, (double)FreezeMode->get());
 }
 
-void ReverbPatameters::loadParameters(XmlElement & xml)
+void ReverbParameters::loadParameters(XmlElement & xml)
 {
 	*RoomSize = (float)xml.getDoubleAttribute(RoomSize->paramID, 0.3);
 	*Damping = (float)xml.getDoubleAttribute(Damping->paramID, 0.3);

@@ -79,9 +79,9 @@ public:
 	// パラメータ変数の実態を参照するポインタ変数およびクラスのオブジェクトを宣言する。
 	OscillatorParameters oscParameters;
 	LfoParameters lfoParameters;
-	AmpEnvelopePatameters ampEnvParameters;
-	FilterPatameters filterParameters;
-	ReverbPatameters reverbParameters;
+	AmpEnvelopeParameters ampEnvParameters;
+	FilterParameters filterParameters;
+	ReverbParameters reverbParameters;
 	AudioParameterFloat* driveParameter;
 	AudioParameterFloat* masterVolumePrameter;
 	AudioParameterInt* voiceSizeParameter;
