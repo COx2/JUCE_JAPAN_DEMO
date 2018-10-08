@@ -1,4 +1,4 @@
-﻿/*
+/*
   ==============================================================================
 
     SimpleSynthParameters.cpp
@@ -95,7 +95,11 @@ LfoParameters::LfoParameters(AudioParameterChoice* lfoTarget,
 	, LfoWaveType(lfoWaveType)
 	, LfoAmount(lfoAmount)
 	, LfoSpeed(lfoSpeed)
-{}
+{
+    LfoSpeed->range.symmetricSkew = false;
+    LfoSpeed->range.skew = 0.5;
+    
+}
 
 void LfoParameters::addAllParameters(AudioProcessor& processor)
 {
@@ -127,7 +131,11 @@ FilterParameters::FilterParameters(AudioParameterChoice* type,
 	: Type(type)
 	, Frequency(frequency)
 	, Q(q)
-{}
+{
+    Frequency->range.symmetricSkew = false;
+    Frequency->range.skew = 0.3;
+    
+}
 
 void FilterParameters::addAllParameters(AudioProcessor& processor)
 {
