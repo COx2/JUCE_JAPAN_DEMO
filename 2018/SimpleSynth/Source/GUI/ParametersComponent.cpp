@@ -1,4 +1,4 @@
-/*
+﻿/*
   ==============================================================================
 
     ParametersComponent.cpp
@@ -430,7 +430,7 @@ LfoParametersComponent::LfoParametersComponent(LfoParameters * lfoParams)
 
 	speedSlider.setRange(_lfoParamsPtr->LfoSpeed->range.start, _lfoParamsPtr->LfoSpeed->range.end, 0.01);
 	speedSlider.setValue(_lfoParamsPtr->LfoSpeed->get(), dontSendNotification);
-	speedSlider.setSkewFactor(0.5, false);
+	speedSlider.setSkewFactor(0.5, false);					// GUI側のspeedSliderの値の変化を指数カーブにする。
 	speedSlider.setPopupDisplayEnabled(true, true, this);
 	speedSlider.setPopupMenuEnabled(true);
 	speedSlider.setTextValueSuffix(" hz");
@@ -570,7 +570,7 @@ FilterParametersComponent::FilterParametersComponent(FilterParameters * filterPa
 	frequencySlider.setRange(_filterParamsPtr->Frequency->range.start,
 							 _filterParamsPtr->Frequency->range.end, 0.01);
 	frequencySlider.setValue(_filterParamsPtr->Frequency->get(), dontSendNotification);
-	frequencySlider.setSkewFactor(0.3, false);
+	frequencySlider.setSkewFactor(0.3, false);					// GUI側のfrequencySliderの値の変化を指数カーブにする。
 	frequencySlider.setPopupDisplayEnabled(true, true, this);
 	frequencySlider.setPopupMenuEnabled(true);
 	frequencySlider.setTextValueSuffix(" hz");

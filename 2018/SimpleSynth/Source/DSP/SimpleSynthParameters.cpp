@@ -1,4 +1,4 @@
-/*
+﻿/*
   ==============================================================================
 
     SimpleSynthParameters.cpp
@@ -96,6 +96,9 @@ LfoParameters::LfoParameters(AudioParameterChoice* lfoTarget,
 	, LfoAmount(lfoAmount)
 	, LfoSpeed(lfoSpeed)
 {
+	// DSP側のLfoSpeedパラメータの変化を指数カーブにする。
+	// これにより、MIDI CCの入力値である0～127の直線的なカーブが、LfoSpeedパラメータの指数カーブにマッピングされる。
+	// GUI側の対応するコンポーネントに同様のskewを設定することで、MIDI CCの値とGUIを近いカーブに合わせることができる。
     LfoSpeed->range.symmetricSkew = false;
     LfoSpeed->range.skew = 0.5;
     
@@ -132,6 +135,9 @@ FilterParameters::FilterParameters(AudioParameterChoice* type,
 	, Frequency(frequency)
 	, Q(q)
 {
+	// DSP側のFrequencyパラメータの変化を指数カーブにする。
+	// これにより、MIDI CCの入力値である0～127の直線的なカーブが、Frequencyパラメータの指数カーブにマッピングされる。
+	// GUI側の対応するコンポーネントに同様のskewを設定することで、MIDI CCの値とGUIを近いカーブに合わせることができる。
     Frequency->range.symmetricSkew = false;
     Frequency->range.skew = 0.3;
     
