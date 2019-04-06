@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="SimpleSynth" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.3.2" pluginFormats="buildVST,buildVST3,buildAU,buildAUv3,buildStandalone"
-              buildVST="1" buildVST3="1" buildAU="1" buildAUv3="1" buildRTAS="0"
+              jucerVersion="5.4.3" pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST3"
+              buildVST="0" buildVST3="1" buildAU="1" buildAUv3="1" buildRTAS="0"
               buildAAX="0" enableIAA="0" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               id="j6lCat" reportAppUsage="0" bundleIdentifier="com.JuceJapan.SimpleSynth"
-              pluginManufacturer="JUCE JAPAN">
+              pluginManufacturer="JUCE JAPAN" companyName="JUCE JAPAN" companyCopyright="JUCE JAPAN"
+              companyWebsite="http://www.oufac.com">
   <MAINGROUP id="IZtsAI" name="SimpleSynth">
     <GROUP id="{0FF198AF-00FB-C9FF-2361-004F9332861C}" name="Source">
       <GROUP id="{1EF15716-4953-878F-FF46-72E0314DD4F8}" name="GUI">
@@ -114,5 +115,5 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0"/>
 </JUCERPROJECT>

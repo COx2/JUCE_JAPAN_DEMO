@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="OneShotSampler" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.3.2" companyName="JUCE JAPAN" companyCopyright="JUCE JAPAN"
+              jucerVersion="5.4.3" companyName="JUCE JAPAN" companyCopyright="JUCE JAPAN"
               companyWebsite="http://www.oufac.com" reportAppUsage="0" bundleIdentifier="com.JuceJapan.OneShotSampler"
-              pluginFormats="buildVST,buildVST3,buildAU,buildStandalone" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginFormats="buildAU,buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               pluginName="OneShotSampler" pluginDesc="OneShotSampler" pluginManufacturer="JUCE JAPAN"
               pluginAUMainType="'aumu'" pluginVSTCategory="kPlugCategSynth"
-              pluginVST3Category="Instrument,Sampler" buildVST="1" buildVST3="1"
+              pluginVST3Category="Instrument,Sampler" buildVST="0" buildVST3="1"
               buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0" enableIAA="0"
               id="X2KnhD">
   <MAINGROUP id="zvOZDl" name="OneShotSampler">
@@ -93,5 +93,5 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0"/>
 </JUCERPROJECT>
