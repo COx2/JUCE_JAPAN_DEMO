@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="YQn4Ml" name="JUCE JAPAN DEMO" projectType="audioplug" version="1.0.0"
               bundleIdentifier="com.JuceJapan.JUCEJPANDEMO" includeBinaryInAppConfig="1"
-              buildVST="1" buildVST3="1" buildAU="1" buildAUv3="0" buildRTAS="0"
+              buildVST="1" buildVST3="0" buildAU="1" buildAUv3="0" buildRTAS="0"
               buildAAX="0" pluginName="JUCE JAPAN DEMO" pluginDesc="JUCE JAPAN DEMO"
               pluginManufacturer="JUCE JAPAN" pluginManufacturerCode="Manu"
               pluginCode="Yqn4" pluginChannelConfigs="{2, 2}, {1, 1}" pluginIsSynth="0"
