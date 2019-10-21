@@ -1,30 +1,28 @@
 /*
   ==============================================================================
-
     ParametricEQ.h
     Created: 27 Sep 2016 1:51:16am
     Author:  COx2
-
   ==============================================================================
 */
 
-// ‡@“ñdƒCƒ“ƒNƒ‹[ƒh–hŽ~‚Ì‚½‚ß‚ÌƒvƒŠƒvƒƒZƒbƒTiŽ©“®¶¬j
-#ifndef PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"‚ªdefine’è‹`‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎAˆÈ‰º‚Ìˆ—‚ðŽÀs
-#define PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"‚ðdefine’è‹`‚·‚é
+// ①二重インクルード防止のためのプリプロセッサ（自動生成）
+#ifndef PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"がdefine定義されていなければ、以下の処理を実行
+#define PARAMETRICEQ_H_INCLUDED			//"PARAMETRICEQ_H_INCLUDED"をdefine定義する
 
-// ‡AƒNƒ‰ƒX–¼éŒ¾
+// ②クラス名宣言
 class ParametricEQ {
-public:								// ‡B•Ï”EŠÖ”‚ÌƒAƒNƒZƒXŒ ‚ðPublic‚ÉŽw’è‚·‚ééŒ¾
-	ParametricEQ();					// ‡CƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	~ParametricEQ();				// ‡DƒfƒXƒgƒ‰ƒNƒ^
-	void SetParameter(float samplerate, float frequency, float bw, float gain);	// ‡EƒtƒBƒ‹ƒ^‚Ìƒpƒ‰ƒ[ƒ^‚ð•ÏX‚·‚éŠÖ”
-	void DoProcess(float* bufferPtr, int bufferSize);						// ‡FƒfƒWƒ^ƒ‹ƒtƒBƒ‹ƒ^‚ð“K—p‚·‚éŠÖ”
+public:								// ③変数・関数のアクセス権をPublicに指定する宣言
+	ParametricEQ();					// ④コンストラクタ
+	~ParametricEQ();				// ⑤デストラクタ
+	void SetParameter(float samplerate, float freq, float bw, float gain);	// ⑥フィルタのパラメータを変更する関数
+	void DoProcess(float* bufferPtr, int bufferSize);						// ⑦デジタルフィルタを適用する関数
 
 private:
-	float a0, a1, a2, b0, b1, b2;						// ‡G“`’BŠÖ”‚Ìƒpƒ‰ƒ[ƒ^‚ð•ÛŽ‚·‚é•Ï”
-	float in1, in2;										// ‡HƒtƒBƒ‹ƒ^ŒvŽZ—p‚ÌˆêŽž•Û‘¶•Ï”i“ü—Í‘¤’x‰„Šíj
-	float out1, out2;									// ‡HƒtƒBƒ‹ƒ^ŒvŽZ—p‚ÌˆêŽž•Û‘¶•Ï”io—Í‘¤’x‰„Šíj
+	float a0, a1, a2, b0, b1, b2;						// ⑧伝達関数のパラメータを保持する変数
+	float in1, in2;										// ⑨フィルタ計算用の一時保存変数（入力側遅延器）
+	float out1, out2;									// ⑨フィルタ計算用の一時保存変数（出力側遅延器）
 };
 
-// ‡@“ñdƒCƒ“ƒNƒ‹[ƒh–hŽ~‚Ì‚½‚ß‚ÌƒvƒŠƒvƒƒZƒbƒTiŽ©“®¶¬j
+// ①二重インクルード防止のためのプリプロセッサ（自動生成）
 #endif  // PARAMETRICEQ_H_INCLUDED

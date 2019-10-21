@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  FilmstripSlider.cpp
  *  dRowAudio
  *

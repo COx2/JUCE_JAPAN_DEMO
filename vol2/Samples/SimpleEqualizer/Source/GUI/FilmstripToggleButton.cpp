@@ -1,4 +1,4 @@
-/*
+﻿/*
 *  FilmstripToggleButton.h
 *  COx2
 *
