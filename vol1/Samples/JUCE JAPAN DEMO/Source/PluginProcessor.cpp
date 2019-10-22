@@ -141,14 +141,14 @@ void JuceJapanDemoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
         float* channelData = buffer.getWritePointer (channel);
         for (long buffNum = 0; buffNum<buffer.getNumSamples(); buffNum++)
         {
-        if (channelData[buffNum] >= threshold) 
-        {
-            channelData[buffNum] = threshold;
-        }
-        else if (channelData[buffNum] <= -threshold) 
-        {
-            channelData[buffNum] = -threshold;
-        }
+            if (channelData[buffNum] >= threshold) 
+            {
+                channelData[buffNum] = threshold;
+            }
+            else if (channelData[buffNum] <= -threshold) 
+            {
+                channelData[buffNum] = -threshold;
+            }
         }
     }
     buffer.applyGain(pow(UserParams[Volume], 2) * 2.0f);
@@ -193,32 +193,33 @@ void JuceJapanDemoAudioProcessor::setStateInformation (const void* data, int siz
     // whose contents will have been created by the getStateInformation() call.
 
     //Load UserParams/Data from file
-    std::unique_ptr<XmlElement> pRoot = getXmlFromBinary(data, sizeInBytes);
-    if (pRoot.get())
+    XmlElement* pRoot = getXmlFromBinary(data, sizeInBytes);
+    if (pRoot != NULL)
     {
         forEachXmlChildElement((*pRoot), pChild)
         {
-        if (pChild->hasTagName("Bypass"))
-        {
-            String text = pChild->getAllSubText();
-            setParameter(MasterBypass, text.getFloatValue());
+            if (pChild->hasTagName("Bypass"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(MasterBypass, text.getFloatValue());
+            }
+            else if (pChild->hasTagName("Gain"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(Gain, text.getFloatValue());
+            }
+            else if (pChild->hasTagName("Threshold"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(Threshold, text.getFloatValue());
+            }
+            else if (pChild->hasTagName("Volume"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(Parameters::Volume, text.getFloatValue());
+            }
         }
-        else if (pChild->hasTagName("Gain"))
-        {
-            String text = pChild->getAllSubText();
-            setParameter(Gain, text.getFloatValue());
-        }
-        else if (pChild->hasTagName("Threshold"))
-        {
-            String text = pChild->getAllSubText();
-            setParameter(Threshold, text.getFloatValue());
-        }
-        else if (pChild->hasTagName("Volume"))
-        {
-            String text = pChild->getAllSubText();
-            setParameter(Parameters::Volume, text.getFloatValue());
-        }
-        }
+        delete pRoot;
     }
 
     //GUI
