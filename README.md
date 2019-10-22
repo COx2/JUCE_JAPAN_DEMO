@@ -43,7 +43,7 @@ I have built under Windows and Mac OS X.
    - Make any changes to the configure and build options.
    - Save juce project if modified
 5. Hit "Save Project"
-6. Open Xcode project file named "xxx.xcproj" in your Xcode.
+6. Open Xcode project file named "xxx.xcodeproj" in your Xcode.
 7. Select the architecture x64(64bit) or x86(32bit).
 8. On default setting, When build succeed and automatically deploy to plugin directory.
 
