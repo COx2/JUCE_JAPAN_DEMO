@@ -1,28 +1,21 @@
 [![Github All Releases](https://img.shields.io/github/downloads/COx2/JUCE_JAPAN_DEMO/total.svg)]()  [![GitHub release](https://img.shields.io/github/release/COx2/JUCE_JAPAN_DEMO.svg)](https://github.com/COx2/JUCE_JAPAN_DEMO/releases)
 
 ## JUCE JAPAN DEMO ##
-Demo projects of Juce Japan.
+Demo projects for Juce Japan series.
 
 Project Name : JUCE JAPAN DEMO
 
-Product Name : None
-
-Current Version : V1.0.0
-
 License : GPL v3
 
-Dependencies : [JUCE v5.3.2](https://github.com/WeAreROLI/JUCE/tree/5.3.2)
-
-[JUCE JAPAN / Outlaw Faction](http://oufac.com/ "Outlaw Faction")
 
 ## What's the JUCE JAPAN DEMO? ##
 
 The JUCE JAPAN DEMO is demo projects correspondig to the book "JUCE JAPAN".
 
 JUCE JAPAN is a textbook for learning audio plugin development with JUCE.
-[Amazon Kindle Store](https://www.amazon.co.jp/dp/B01HSEBPKO)
 
-![img](./img/JACKET.PNG)
+[JUCE JAPAN / Outlaw Faction](http://oufac.com/ "Outlaw Faction")
+
 
 ## Building ##
 
