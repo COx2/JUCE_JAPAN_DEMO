@@ -60,28 +60,30 @@ JuceJapanDemoAudioProcessorEditor::JuceJapanDemoAudioProcessorEditor (JuceJapanD
 	GainLabel.setJustificationType(Justification::centredTop);
 	GainLabel.setEditable(false, false, false);
 	GainLabel.setColour(Label::backgroundColourId, Colours::white);
-	GainLabel.setColour(TextEditor::textColourId, Colours::black);
-	GainLabel.setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+	GainLabel.setColour(Label::textColourId, Colours::black);
+	GainLabel.setColour(Label::backgroundColourId, Colour(0x00000000));
 	GainLabel.setText("Gain\n", dontSendNotification);
 
 	ThresholdLabel.setFont(Font(13.00f, Font::plain));
 	ThresholdLabel.setJustificationType(Justification::centredTop);
 	ThresholdLabel.setEditable(false, false, false);
 	ThresholdLabel.setColour(Label::backgroundColourId, Colours::white);
-	ThresholdLabel.setColour(TextEditor::textColourId, Colours::black);
-	ThresholdLabel.setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+	ThresholdLabel.setColour(Label::textColourId, Colours::black);
+	ThresholdLabel.setColour(Label::backgroundColourId, Colour(0x00000000));
 	ThresholdLabel.setText("Threshold\n", dontSendNotification);
 
 	VolumeLabel.setFont(Font(13.00f, Font::plain));
 	VolumeLabel.setJustificationType(Justification::centredTop);
 	VolumeLabel.setEditable(false, false, false);
 	VolumeLabel.setColour(Label::backgroundColourId, Colours::white);
-	VolumeLabel.setColour(TextEditor::textColourId, Colours::black);
-	VolumeLabel.setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+	VolumeLabel.setColour(Label::textColourId, Colours::black);
+	VolumeLabel.setColour(Label::backgroundColourId, Colour(0x00000000));
 	VolumeLabel.setText("Volume\n", dontSendNotification);
 
 	Bypass.setButtonText("Bypass");
 	Bypass.setColour(ToggleButton::textColourId, Colours::blue);
+	Bypass.setColour(ToggleButton::tickDisabledColourId, Colours::blue);
+	Bypass.setColour(ToggleButton::tickColourId, Colours::blue);
 
 	// this function adds the slider to the editor
 	addAndMakeVisible(&Gain);
@@ -114,7 +116,6 @@ JuceJapanDemoAudioProcessorEditor::~JuceJapanDemoAudioProcessorEditor()
 void JuceJapanDemoAudioProcessorEditor::paint (Graphics& g)
 {
     g.fillAll (Colours::lightgrey);
-	g.setColour(Colours::blue);
 	Image image_bg = ImageCache::getFromMemory(BinaryData::JUCE_JAPAN_DEMO_BG_png,BinaryData::JUCE_JAPAN_DEMO_BG_pngSize);
 	g.drawImageWithin(image_bg,
 		0, 0, 400, 300,
