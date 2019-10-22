@@ -139,7 +139,7 @@ void JuceJapanDemoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
-        for (long buffNum = 0; buffNum<buffer.getNumSamples(); buffNum++)
+        for (long buffNum = 0; buffNum < buffer.getNumSamples(); buffNum++)
         {
             if (channelData[buffNum] >= threshold) 
             {
@@ -223,7 +223,7 @@ void JuceJapanDemoAudioProcessor::setStateInformation (const void* data, int siz
     }
 
     //GUI
-    UIUpdateFlag = true;//Request UI update
+    UIUpdateFlag = true;    // Request UI update
 }
 
 //==============================================================================
