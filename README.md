@@ -1,7 +1,7 @@
 [![Github All Releases](https://img.shields.io/github/downloads/COx2/JUCE_JAPAN_DEMO/total.svg)]()  [![GitHub release](https://img.shields.io/github/release/COx2/JUCE_JAPAN_DEMO.svg)](https://github.com/COx2/JUCE_JAPAN_DEMO/releases)
 
 ## JUCE JAPAN DEMO ##
-Demo projects for Juce Japan series.
+Demo projects for Juce Japan books.
 
 Project Name : JUCE JAPAN DEMO
 
@@ -10,7 +10,7 @@ License : GPL v3
 
 ## What's the JUCE JAPAN DEMO? ##
 
-The JUCE JAPAN DEMO is demo projects correspondig to the book "JUCE JAPAN".
+The JUCE JAPAN DEMO is demo projects regarding to the book named "JUCE JAPAN".
 
 JUCE JAPAN is a textbook for learning audio plugin development with JUCE.
 
@@ -23,27 +23,29 @@ I have built under Windows and Mac OS X.
 
 ### Windows Build Instructions ###
 
-1. Download Juce (http://www.juce.com/)
-2. Download the VST SDK (http://www.steinberg.net/en/company/developers.html)
-3. Run "The Projucer" executable included in Juce.
+1. Clone this repository.
+2. Open a directory with the name regarding to the book numbering.
+3. Run "Projucer.exe" executable included in "Juce" directory.
 4. Open juce project file "xxx.jucer"
    - Make any changes to the configure and build options.
    - Save juce project if modified
-5. Hit "Save Project and Open in Visual Studio". I use Visual Studio 2015.
-6. Select the build: "Release - x64" and set platform to x64(64bit). Otherwise, "Release - Win32" and set platform to x86(32bit).
-7. Build and deploy to plugin folder.
+5. Hit "Save Project"
+6. Open Visual Studio solution file named "xxx.sln" in your Visual Studio.
+7. Select the build settings: "Release - x64" and set platform to x64(64bit). Otherwise, "Release - Win32" and set platform to x86(32bit).
+8. Build and deploy to plugin folder.
 
 ### Mac OS X Build Instructions ###
 
-1. Download Juce (http://www.juce.com/)
-2. Download the VST SDK (http://www.steinberg.net/en/company/developers.html)
-3. Run "The Projucer" executable included in Juce.
+1. Clone this repository.
+2. Open a directory with the name regarding to the book numbering.
+3. Run "Projucer.exe" executable included in "Juce" directory.
 4. Open juce project file "xxx.jucer"
    - Make any changes to the configure and build options.
    - Save juce project if modified
-5. Hit "Save Project and Open in Xcode". I use Xcode 7.
-6. Select the architecture x64(64bit) or x86(32bit).
-7. On default setting, When build succeed and automatically deploy to plugin directory.
+5. Hit "Save Project"
+6. Open Xcode project file named "xxx.xcproj" in your Xcode.
+7. Select the architecture x64(64bit) or x86(32bit).
+8. On default setting, When build succeed and automatically deploy to plugin directory.
 
 
 ### Technologies Used ###
