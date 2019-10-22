@@ -1,10 +1,10 @@
-# SimpleSynth
+# JUCE JAPAN DEMO
 
-This is an example of Virtual Analog Synthesiser that implemented as minimum changes.
+This is an example of Distortion Effector that implemented as minimum changes.
 
 This project is created with "Audio Plugin" template from Projucer.
 
-![img](./ScreenShot/SimpleSynth_GUI.PNG)
+![img](./ScreenShot/JUCE_JAPAN_DEMO_GUI.PNG)
 
 
 # require 

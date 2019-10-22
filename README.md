@@ -38,7 +38,7 @@ I have built under Windows and Mac OS X.
 
 1. Clone this repository.
 2. Open a directory with the name regarding to the book numbering.
-3. Run "Projucer.exe" executable included in "Juce" directory.
+3. Run "Projucer.app" executable included in "Juce" directory.
 4. Open juce project file "xxx.jucer"
    - Make any changes to the configure and build options.
    - Save juce project if modified

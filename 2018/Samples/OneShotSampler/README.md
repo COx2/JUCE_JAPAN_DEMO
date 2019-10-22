@@ -1,6 +1,6 @@
 # OneShotSampler
 
-This is a example of PCM Synthesiser that implemented as minimum changes.
+This is an example of PCM Synthesiser that implemented as minimum changes.
 
 This project is created with "Audio Plugin" template from Projucer.
 

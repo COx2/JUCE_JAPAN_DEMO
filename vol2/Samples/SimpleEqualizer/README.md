@@ -1,10 +1,10 @@
-# SimpleSynth
+# SimpleEqualizer
 
-This is an example of Virtual Analog Synthesiser that implemented as minimum changes.
+This is an example of Parametric Equalizer that implemented as minimum changes.
 
 This project is created with "Audio Plugin" template from Projucer.
 
-![img](./ScreenShot/SimpleSynth_GUI.PNG)
+![img](./ScreenShot/SimpleEqualizer_GUI.PNG)
 
 
 # require 

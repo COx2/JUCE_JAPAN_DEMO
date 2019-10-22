@@ -14,15 +14,15 @@ JUCE: [JUCE v5.4.3](https://github.com/WeAreROLI/JUCE/tree/5.4.3)
 
 ## サンプルプロジェクト
 
-#### HelloSineWave
+### HelloSineWave
 
 正弦波を再生する実装例です
 
-#### OneShotSampler
+### OneShotSampler
 
 ワンショットサンプラーの実装例です
 
-#### SimpleSynth
+### SimpleSynth
 
 シンプルなモジュールで構成されたVAシンセサイザーの実装例です
 

@@ -14,7 +14,7 @@ JUCE: [JUCE v5.2.0](https://github.com/WeAreROLI/JUCE/tree/5.2.0)
 
 ## サンプルプロジェクト
 
-#### JUCE JAPAN DEMO
+### JUCE JAPAN DEMO
 
 JUCE JAPAN vol.1で掲載している歪みエフェクター（ディストーション）の実装例です。
 
