@@ -15,12 +15,12 @@
 //==============================================================================
 JuceJapanDemoAudioProcessor::JuceJapanDemoAudioProcessor()
 {
-	UserParams[MasterBypass] = 0.0f;//default to not bypassed
-	UserParams[Gain] = 0.7f;		//default Width 1.0 (no change)
-	UserParams[Threshold] = 1.0f;	//default Width 1.0 (no change)
-	UserParams[Volume] = 0.7f;		//default Width 1.0 (no change)
-	//GUI
-	UIUpdateFlag = true;			//Request UI update
+    UserParams[MasterBypass] = 0.0f;//default to not bypassed
+    UserParams[Gain] = 0.7f;		//default Width 1.0 (no change)
+    UserParams[Threshold] = 1.0f;	//default Width 1.0 (no change)
+    UserParams[Volume] = 0.7f;		//default Width 1.0 (no change)
+    //GUI
+    UIUpdateFlag = true;			//Request UI update
 }
 
 JuceJapanDemoAudioProcessor::~JuceJapanDemoAudioProcessor()
@@ -131,30 +131,33 @@ void JuceJapanDemoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
     // this code if your algorithm always overwrites all the output channels.
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-	
-	if (UserParams[MasterBypass] == 1.0f) return;
 
-	buffer.applyGain(pow(UserParams[Gain], 2) * 2.0f);
-	float threshold = pow(UserParams[Threshold], 2);
+    if (UserParams[MasterBypass] == 1.0f) return;
+
+    buffer.applyGain(pow(UserParams[Gain], 2) * 2.0f);
+    float threshold = pow(UserParams[Threshold], 2);
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-		float* channelData = buffer.getWritePointer (channel);
-		for (long buffNum = 0; buffNum<buffer.getNumSamples(); buffNum++){
-			if (channelData[buffNum] >= threshold) {
-				channelData[buffNum] = threshold;
-			}
-			else if (channelData[buffNum] <= -threshold) {
-				channelData[buffNum] = -threshold;
-			}
-		}
+        float* channelData = buffer.getWritePointer (channel);
+        for (long buffNum = 0; buffNum<buffer.getNumSamples(); buffNum++)
+        {
+        if (channelData[buffNum] >= threshold) 
+        {
+            channelData[buffNum] = threshold;
+        }
+        else if (channelData[buffNum] <= -threshold) 
+        {
+            channelData[buffNum] = -threshold;
+        }
+        }
     }
-	buffer.applyGain(pow(UserParams[Volume], 2) * 2.0f);
+    buffer.applyGain(pow(UserParams[Volume], 2) * 2.0f);
 }
 
 //==============================================================================
 bool JuceJapanDemoAudioProcessor::hasEditor() const
 {
-	//return false;
+    //return false;
     return true; // (change this to false if you choose to not supply an editor)
 }
 
@@ -166,62 +169,60 @@ AudioProcessorEditor* JuceJapanDemoAudioProcessor::createEditor()
 //==============================================================================
 void JuceJapanDemoAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-	// You should use this method to store your parameters in the memory block.
-	// You could do that either as raw data, or use the XML or ValueTree classes
-	// as intermediaries to make it easy to save and load complex data.
+    // You should use this method to store your parameters in the memory block.
+    // You could do that either as raw data, or use the XML or ValueTree classes
+    // as intermediaries to make it easy to save and load complex data.
 
-	//Save UserParams/Data to file
-	XmlElement root("Root");
-	XmlElement *el;
-	el = root.createNewChildElement("Bypass");
-	el->addTextElement(String(UserParams[MasterBypass]));
-	el = root.createNewChildElement("Gain");
-	el->addTextElement(String(UserParams[Gain]));
-	el = root.createNewChildElement("Threshold");
-	el->addTextElement(String(UserParams[Threshold]));
-	el = root.createNewChildElement("Volume");
-	el->addTextElement(String(UserParams[Volume]));
-	copyXmlToBinary(root, destData);
-
+    //Save UserParams/Data to file
+    XmlElement root("Root");
+    XmlElement *el;
+    el = root.createNewChildElement("Bypass");
+    el->addTextElement(String(UserParams[MasterBypass]));
+    el = root.createNewChildElement("Gain");
+    el->addTextElement(String(UserParams[Gain]));
+    el = root.createNewChildElement("Threshold");
+    el->addTextElement(String(UserParams[Threshold]));
+    el = root.createNewChildElement("Volume");
+    el->addTextElement(String(UserParams[Volume]));
+    copyXmlToBinary(root, destData);
 }
 
 void JuceJapanDemoAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-	// You should use this method to restore your parameters from this memory block,
-	// whose contents will have been created by the getStateInformation() call.
+    // You should use this method to restore your parameters from this memory block,
+    // whose contents will have been created by the getStateInformation() call.
 
-	//Load UserParams/Data from file
-	XmlElement* pRoot = getXmlFromBinary(data, sizeInBytes);
-	if (pRoot != NULL)
-	{
-		forEachXmlChildElement((*pRoot), pChild)
-		{
-			if (pChild->hasTagName("Bypass"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(MasterBypass, text.getFloatValue());
-			}
-			else if (pChild->hasTagName("Gain"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(Gain, text.getFloatValue());
-			}
-			else if (pChild->hasTagName("Threshold"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(Threshold, text.getFloatValue());
-			}
-			else if (pChild->hasTagName("Volume"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(Parameters::Volume, text.getFloatValue());
-			}
-		}
-		delete pRoot;
-	}
+    //Load UserParams/Data from file
+    std::unique_ptr<XmlElement> pRoot = getXmlFromBinary(data, sizeInBytes);
+    if (pRoot.get())
+    {
+        forEachXmlChildElement((*pRoot), pChild)
+        {
+        if (pChild->hasTagName("Bypass"))
+        {
+            String text = pChild->getAllSubText();
+            setParameter(MasterBypass, text.getFloatValue());
+        }
+        else if (pChild->hasTagName("Gain"))
+        {
+            String text = pChild->getAllSubText();
+            setParameter(Gain, text.getFloatValue());
+        }
+        else if (pChild->hasTagName("Threshold"))
+        {
+            String text = pChild->getAllSubText();
+            setParameter(Threshold, text.getFloatValue());
+        }
+        else if (pChild->hasTagName("Volume"))
+        {
+            String text = pChild->getAllSubText();
+            setParameter(Parameters::Volume, text.getFloatValue());
+        }
+        }
+    }
 
-	//GUI
-	UIUpdateFlag = true;//Request UI update
+    //GUI
+    UIUpdateFlag = true;//Request UI update
 }
 
 //==============================================================================
@@ -234,58 +235,64 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 //Addd for Host
 int JuceJapanDemoAudioProcessor::getNumParameters() { return totalNumParam; }
 
-float JuceJapanDemoAudioProcessor::getParameter(int index){
-	if (index >= 0 && index < totalNumParam)
-		return UserParams[index];
-	else return 0;
+float JuceJapanDemoAudioProcessor::getParameter(int index)
+{
+    if (index >= 0 && index < totalNumParam)
+    {
+        return UserParams[index];
+    }
+    else 
+    {
+        return 0;
+    }
 }
 
 void JuceJapanDemoAudioProcessor::setParameter(int index, float value)
 {
-	switch (index)
-	{
-	case MasterBypass:
-		UserParams[MasterBypass] = value;
-		break;
-	case Gain:
-		UserParams[Gain] = value;
-		break;
-	case Threshold:
-		UserParams[Threshold] = value;
-		break;
-	case Volume:
-		UserParams[Volume] = value;
-		break;
-	default: return;
-	}
-	//GUI
-	UIUpdateFlag = true;//Request UI update -- Some OSX hosts use alternate editors, this updates ours
+    switch (index)
+    {
+    case MasterBypass:
+        UserParams[MasterBypass] = value;
+        break;
+    case Gain:
+        UserParams[Gain] = value;
+        break;
+    case Threshold:
+        UserParams[Threshold] = value;
+        break;
+    case Volume:
+        UserParams[Volume] = value;
+        break;
+    default: return;
+    }
+    //GUI
+    UIUpdateFlag = true;//Request UI update -- Some OSX hosts use alternate editors, this updates ours
 }
 
 const String JuceJapanDemoAudioProcessor::getParameterName(int index)
 {
-	switch (index)
-	{
-	case MasterBypass: return "Master Bypass";
-	case Gain: return "Gain";
-	case Threshold: return "Threshold";
-	case Volume: return "Volume";
-	default:return String::empty;
-	}
+    switch (index)
+    {
+    case MasterBypass: return "Master Bypass";
+    case Gain: return "Gain";
+    case Threshold: return "Threshold";
+    case Volume: return "Volume";
+    default:return String();
+    }
 }
 
 const String JuceJapanDemoAudioProcessor::getParameterText(int index)
 {
-	switch (index)
-	{
-	case MasterBypass: 
-		return UserParams[MasterBypass] == 1.0f ? "BYPASS" : "EFFECT";
-	case Gain: 
-		return String(Decibels::gainToDecibels(pow(UserParams[Gain], 2)*2.0f), 1)+"dB";
-	case Threshold: 
-		return String(Decibels::gainToDecibels(pow(UserParams[Threshold], 2)), 1)+"dB";
-	case Volume: 
-		return String(Decibels::gainToDecibels(pow(UserParams[Volume], 2)*2.0f), 1)+"dB";
-	default:return String::empty;
-	}
+    switch (index)
+    {
+    case MasterBypass: 
+        return UserParams[MasterBypass] == 1.0f ? "BYPASS" : "EFFECT";
+    case Gain: 
+        return String(Decibels::gainToDecibels(pow(UserParams[Gain], 2)*2.0f), 1)+"dB";
+    case Threshold: 
+        return String(Decibels::gainToDecibels(pow(UserParams[Threshold], 2)), 1)+"dB";
+    case Volume: 
+        return String(Decibels::gainToDecibels(pow(UserParams[Volume], 2)*2.0f), 1)+"dB";
+    default:return String();
+    }
 }

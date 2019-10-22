@@ -28,9 +28,9 @@ public:
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
 
-   #ifndef JucePlugin_PreferredChannelConfigurations
+    #ifndef JucePlugin_PreferredChannelConfigurations
     bool setPreferredBusArrangement (bool isInput, int bus, const AudioChannelSet& preferredSet) override;
-   #endif
+    #endif
 
     void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
 
@@ -56,37 +56,35 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	//for doc
-	//Processor
-	enum Parameters { 
-		MasterBypass = 0,
-		Gain,
-		Threshold,
-		Volume,
-		totalNumParam
-	};
+    //Processor
+    enum Parameters 
+    { 
+      MasterBypass = 0,
+      Gain,
+      Threshold,
+      Volume,
+      totalNumParam
+    };
 
-	int getNumParameters() override;
-	float getParameter(int index) override;
-	void setParameter(int index, float value) override;
-	const String getParameterName(int index) override;
-	const String getParameterText(int index) override;
+    int getNumParameters() override;
+    float getParameter(int index) override;
+    void setParameter(int index, float value) override;
+    const String getParameterName(int index) override;
+    const String getParameterText(int index) override;
 
-	//GUI
-	bool NeedsUIUpdate() { return UIUpdateFlag; };
-	void RequestUIUpdate() { UIUpdateFlag = true; };
-	void ClearUIUpdateFlag() { UIUpdateFlag = false; };
+    //GUI
+    bool NeedsUIUpdate() { return UIUpdateFlag; };
+    void RequestUIUpdate() { UIUpdateFlag = true; };
+    void ClearUIUpdateFlag() { UIUpdateFlag = false; };
 
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceJapanDemoAudioProcessor)
 
-	//for doc
-	//Processor
-	float UserParams[totalNumParam];
-	//GUI
-	bool UIUpdateFlag;
+    //Processor
+    float UserParams[totalNumParam];
+    //GUI
+    bool UIUpdateFlag;
 };
-
 
 #endif  // PLUGINPROCESSOR_H_INCLUDED

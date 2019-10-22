@@ -19,9 +19,9 @@
 /**
 */
 class JuceJapanDemoAudioProcessorEditor : public AudioProcessorEditor,
-	private Slider::Listener,
-	private Button::Listener,
-	private Timer
+    private Slider::Listener,
+    private Button::Listener,
+    private Timer
 {
 public:
     JuceJapanDemoAudioProcessorEditor (JuceJapanDemoAudioProcessor&);
@@ -35,21 +35,21 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     JuceJapanDemoAudioProcessor& processor;
-	
-	Slider Gain;
-	Slider Threshold;
-	Slider Volume;
 
-	Label GainLabel;
-	Label ThresholdLabel;
-	Label VolumeLabel;
+    Slider Gain;
+    Slider Threshold;
+    Slider Volume;
 
-	ToggleButton Bypass;
+    Label GainLabel;
+    Label ThresholdLabel;
+    Label VolumeLabel;
 
-	void sliderValueChanged(Slider *changedSlider) override;
-	void buttonClicked(Button* clickedButton) override;
+    ToggleButton Bypass;
 
-	void timerCallback() override;
+    void sliderValueChanged(Slider *changedSlider) override;
+    void buttonClicked(Button* clickedButton) override;
+
+    void timerCallback() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceJapanDemoAudioProcessorEditor)
 };
