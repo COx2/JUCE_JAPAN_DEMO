@@ -11,7 +11,7 @@
 
 // constructor with copies
 FilmstripToggleButton::FilmstripToggleButton(const String &componentName)
-	:   ToggleButton(componentName),
+    :   ToggleButton(componentName),
         numFrames (0),
         isHorizontal (true),
         frameWidth (0),
@@ -23,11 +23,11 @@ void FilmstripToggleButton::setImage (Image image, int numFrames_, bool isHorizo
 {
     filmStripImage = image;
 
-	if(filmStripImage.isValid())
-	{
+    if(filmStripImage.isValid())
+    {
         numFrames = numFrames_;
         isHorizontal = isHorizontal_;
-        
+
         if(isHorizontal)
         {
             frameHeight = filmStripImage.getHeight();
@@ -38,7 +38,7 @@ void FilmstripToggleButton::setImage (Image image, int numFrames_, bool isHorizo
             frameHeight = filmStripImage.getHeight() / numFrames;
             frameWidth = filmStripImage.getWidth();
         }
-	}
+    }
     else
     {
         numFrames = 0;
@@ -54,21 +54,21 @@ FilmstripToggleButton::~FilmstripToggleButton()
 // draw image process.(automated call back)
 void FilmstripToggleButton::paint(Graphics& g)
 {
-	if (filmStripImage.isValid())
-	{
-		bool value = getToggleState();
-		int imageHeight = getWidth();;
-		int imageWidth = getHeight();
-		
-		if(isHorizontal)
+    if (filmStripImage.isValid())
+    {
+        bool value = getToggleState();
+        int imageHeight = getWidth();;
+        int imageWidth = getHeight();
+
+        if(isHorizontal)
         {
-			g.drawImage(filmStripImage, (getWidth() - imageWidth) * 0.5, 0, imageWidth, imageHeight,
-						value * frameWidth, 0, frameWidth, frameHeight);
+            g.drawImage(filmStripImage, (getWidth() - imageWidth) * 0.5, 0, imageWidth, imageHeight,
+                        value * frameWidth, 0, frameWidth, frameHeight);
         }
-		else
+        else
         {
-			g.drawImage(filmStripImage, 0, 0, imageWidth, imageHeight,
-						0, value * frameHeight, frameWidth, frameHeight);
+            g.drawImage(filmStripImage, 0, 0, imageWidth, imageHeight,
+                        0, value * frameHeight, frameWidth, frameHeight);
         }
-	}
+    }
 }

@@ -97,22 +97,22 @@ void OneShotSamplerAudioProcessor::changeProgramName (int index, const String& n
 // プラグインをロードした時やホスト側のセットアップ処理を実行した時にホストから呼び出される。
 void OneShotSamplerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-	// Synthesiserオブジェクトにホストアプリケーションのサンプリングレートをセットする
-	synth.setCurrentPlaybackSampleRate(sampleRate);
+    // Synthesiserオブジェクトにホストアプリケーションのサンプリングレートをセットする
+    synth.setCurrentPlaybackSampleRate(sampleRate);
 
-	// MidiKeyboardStateオブジェクトの状態を初期化する
-	keyboardState.reset();
+    // MidiKeyboardStateオブジェクトの状態を初期化する
+    keyboardState.reset();
 }
 
 // プラグインを非アクティブ化した時や削除する時にホストから呼び出される。
 void OneShotSamplerAudioProcessor::releaseResources()
 {
 
-	// MidiKeyboardStateオブジェクトをオール・ノートOFF状態にする。引数に数値0を渡すことですべてのMIDIチャンネルに作用する.
-	keyboardState.allNotesOff(0);
+    // MidiKeyboardStateオブジェクトをオール・ノートOFF状態にする。引数に数値0を渡すことですべてのMIDIチャンネルに作用する.
+    keyboardState.allNotesOff(0);
 
-	// MidiKeyboardStateオブジェクトの状態を初期化する
-	keyboardState.reset();
+    // MidiKeyboardStateオブジェクトの状態を初期化する
+    keyboardState.reset();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -142,21 +142,21 @@ bool OneShotSamplerAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
 // ホストアプリケーションからオーディオバッファとMIDIバッファの参照を取得してオーディオレンダリングを実行する関数。
 void OneShotSamplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-	if (isChanging) { return; } // isChangingフラグがtrueなら処理をスキップする
+    if (isChanging) { return; } // isChangingフラグがtrueなら処理をスキップする
 
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-	// MidiKeyboardStateオブジェクトのMIDIメッセージとMIDIバッファのMIDIメッセージをマージする。
-	keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
+    // MidiKeyboardStateオブジェクトのMIDIメッセージとMIDIバッファのMIDIメッセージをマージする。
+    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
-	// オーディオバッファのサンプルデータをクリアしておく。
+    // オーディオバッファのサンプルデータをクリアしておく。
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-	// Synthesiserオブジェクトにオーディオバッファの参照とMIDIバッファの参照を渡して、オーディオレンダリングを行う。
-	synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    // Synthesiserオブジェクトにオーディオバッファの参照とMIDIバッファの参照を渡して、オーディオレンダリングを行う。
+    synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
 }
 
@@ -195,67 +195,67 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void OneShotSamplerAudioProcessor::setupSampler(AudioFormatReader& newReader)
 {
-	isChanging = true;					// 関数processBlock内の処理をスキップするためのフラグ
+    isChanging = true;                  // 関数processBlock内の処理をスキップするためのフラグ
 
-	// ①Synthesiserオブジェクトに登録されたSamplerVoiceオブジェクトとSamplerSoundオブジェクトをすべて破棄する。
-	synth.clearSounds();
-	synth.clearVoices();
+    // ①Synthesiserオブジェクトに登録されたSamplerVoiceオブジェクトとSamplerSoundオブジェクトをすべて破棄する。
+    synth.clearSounds();
+    synth.clearVoices();
 
-	// ②読み込んだサンプル音源を割り当てるノート番号の範囲を定義する。setRange関数で0～127（C-2～G8）の範囲をtrueに設定する。
-	BigInteger allNotes;
-	allNotes.setRange(0, 128, true);
+    // ②読み込んだサンプル音源を割り当てるノート番号の範囲を定義する。setRange関数で0～127（C-2～G8）の範囲をtrueに設定する。
+    BigInteger allNotes;
+    allNotes.setRange(0, 128, true);
 
-	// ③SamplerSoundオブジェクトをSynthesiserオブジェクトに追加する。
-	synth.addSound(new SamplerSound("default", newReader, allNotes, 60, 0, 0.1, 10.0));
+    // ③SamplerSoundオブジェクトをSynthesiserオブジェクトに追加する。
+    synth.addSound(new SamplerSound("default", newReader, allNotes, 60, 0, 0.1, 10.0));
 
-	// ④SamplerVoiceオブジェクトをSynthesiserオブジェクトに追加する。
-	for (int i = 0; i < 128; i++) {
-		synth.addVoice(new SamplerVoice());
-	}
+    // ④SamplerVoiceオブジェクトをSynthesiserオブジェクトに追加する。
+    for (int i = 0; i < 128; i++) {
+        synth.addVoice(new SamplerVoice());
+    }
 
-	isChanging = false;						// processBlock関数内の処理をスキップするためのフラグ
+    isChanging = false;                     // processBlock関数内の処理をスキップするためのフラグ
 }
 
 void OneShotSamplerAudioProcessor::loadSineWave()
 {
-	AudioFormatManager formatManager;
-	formatManager.registerBasicFormats();
+    AudioFormatManager formatManager;
+    formatManager.registerBasicFormats();
 
-	// バイナリリソースに置かれた正弦波のサンプル音源からMemoyInputSteramクラスのインスタンスを生成する。
-	MemoryInputStream* inputStream = new MemoryInputStream(BinaryData::sine_wav, BinaryData::sine_wavSize, true);
+    // バイナリリソースに置かれた正弦波のサンプル音源からMemoyInputSteramクラスのインスタンスを生成する。
+    MemoryInputStream* inputStream = new MemoryInputStream(BinaryData::sine_wav, BinaryData::sine_wavSize, true);
 
-	// MemoyInputSteramオブジェクトを引数に渡してAudioFormatReaderクラスのインスタンスを生成する。
-	AudioFormatReader* reader = formatManager.createReaderFor(inputStream);
+    // MemoyInputSteramオブジェクトを引数に渡してAudioFormatReaderクラスのインスタンスを生成する。
+    AudioFormatReader* reader = formatManager.createReaderFor(inputStream);
 
-	if (reader != nullptr)
-	{
-		setupSampler(*reader);
-		delete reader;
-	}
+    if (reader != nullptr)
+    {
+        setupSampler(*reader);
+        delete reader;
+    }
 }
 
 void OneShotSamplerAudioProcessor::loadSampleFile()
 {
-	AudioFormatManager formatManager;
-	formatManager.registerBasicFormats();
+    AudioFormatManager formatManager;
+    formatManager.registerBasicFormats();
 
-	// FileChooserクラスのインスタンスを生成する。コンストラクタの実行とともにファイルブラウザが表示される。
-	FileChooser chooser("Open audio file to play.", File::nonexistent, formatManager.getWildcardForAllFormats());
+    // FileChooserクラスのインスタンスを生成する。コンストラクタの実行とともにファイルブラウザが表示される。
+    FileChooser chooser("Open audio file to play.", File::nonexistent, formatManager.getWildcardForAllFormats());
 
-	// ファイルブラウザから選択したファイルを開くことができたらif文内の処理を実行する。
-	if (chooser.browseForFileToOpen())
-	{
-		// 開いたFileオブジェクトからAudioFormatReaderクラスのインスタンスを生成する。
-		File file(chooser.getResult());
-		AudioFormatReader* reader = formatManager.createReaderFor(chooser.getResult());
+    // ファイルブラウザから選択したファイルを開くことができたらif文内の処理を実行する。
+    if (chooser.browseForFileToOpen())
+    {
+        // 開いたFileオブジェクトからAudioFormatReaderクラスのインスタンスを生成する。
+        File file(chooser.getResult());
+        AudioFormatReader* reader = formatManager.createReaderFor(chooser.getResult());
 
-		if (reader != nullptr)
-		{
-			// setupSampler関数にAudioFormatReaderオブジェクトを参照渡しする。
-			setupSampler(*reader);
+        if (reader != nullptr)
+        {
+            // setupSampler関数にAudioFormatReaderオブジェクトを参照渡しする。
+            setupSampler(*reader);
 
-			// セットアップ処理が完了したらAudioFormatReaderオブジェクトを破棄する。
-			delete reader;
-		}
-	}
+            // セットアップ処理が完了したらAudioFormatReaderオブジェクトを破棄する。
+            delete reader;
+        }
+    }
 }

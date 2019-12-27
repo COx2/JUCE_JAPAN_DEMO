@@ -1,4 +1,4 @@
-/*
+﻿/*
   ==============================================================================
 
     This file was auto-generated!
@@ -16,11 +16,11 @@
 JuceJapanDemoAudioProcessor::JuceJapanDemoAudioProcessor()
 {
     UserParams[MasterBypass] = 0.0f;//default to not bypassed
-    UserParams[Gain] = 0.7f;		//default Width 1.0 (no change)
-    UserParams[Threshold] = 1.0f;	//default Width 1.0 (no change)
-    UserParams[Volume] = 0.7f;		//default Width 1.0 (no change)
+    UserParams[Gain] = 0.7f;        //default Width 1.0 (no change)
+    UserParams[Threshold] = 1.0f;   //default Width 1.0 (no change)
+    UserParams[Volume] = 0.7f;      //default Width 1.0 (no change)
     //GUI
-    UIUpdateFlag = true;			//Request UI update
+    UIUpdateFlag = true;            //Request UI update
 }
 
 JuceJapanDemoAudioProcessor::~JuceJapanDemoAudioProcessor()
@@ -141,11 +141,11 @@ void JuceJapanDemoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
         float* channelData = buffer.getWritePointer (channel);
         for (long buffNum = 0; buffNum < buffer.getNumSamples(); buffNum++)
         {
-            if (channelData[buffNum] >= threshold) 
+            if (channelData[buffNum] >= threshold)
             {
                 channelData[buffNum] = threshold;
             }
-            else if (channelData[buffNum] <= -threshold) 
+            else if (channelData[buffNum] <= -threshold)
             {
                 channelData[buffNum] = -threshold;
             }
@@ -242,7 +242,7 @@ float JuceJapanDemoAudioProcessor::getParameter(int index)
     {
         return UserParams[index];
     }
-    else 
+    else
     {
         return 0;
     }
@@ -286,13 +286,13 @@ const String JuceJapanDemoAudioProcessor::getParameterText(int index)
 {
     switch (index)
     {
-    case MasterBypass: 
+    case MasterBypass:
         return UserParams[MasterBypass] == 1.0f ? "BYPASS" : "EFFECT";
-    case Gain: 
+    case Gain:
         return String(Decibels::gainToDecibels(pow(UserParams[Gain], 2)*2.0f), 1)+"dB";
-    case Threshold: 
+    case Threshold:
         return String(Decibels::gainToDecibels(pow(UserParams[Threshold], 2)), 1)+"dB";
-    case Volume: 
+    case Volume:
         return String(Decibels::gainToDecibels(pow(UserParams[Volume], 2)*2.0f), 1)+"dB";
     default:return String();
     }

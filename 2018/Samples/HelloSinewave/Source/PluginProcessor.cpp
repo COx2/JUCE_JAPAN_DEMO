@@ -139,26 +139,26 @@ void HelloSinewaveAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-	float level = 0.5f;
+    float level = 0.5f;
 
-	// for Effector Project.
+    // for Effector Project.
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-		float* channelData = buffer.getWritePointer (channel);
+        float* channelData = buffer.getWritePointer (channel);
     }
 
-	// for Synthesizer/Effector Project.
-	for (int channel = 0; channel < totalNumOutputChannels; ++channel)
-	{
-		float* channelData = buffer.getWritePointer(channel);
+    // for Synthesizer/Effector Project.
+    for (int channel = 0; channel < totalNumOutputChannels; ++channel)
+    {
+        float* channelData = buffer.getWritePointer(channel);
 
-		for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
-		{
-			const float currentAngle = juce::MathConstants<float>::pi * 2.0f * sample / buffer.getNumSamples();
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        {
+            const float currentAngle = juce::MathConstants<float>::pi * 2.0f * sample / buffer.getNumSamples();
 
-			channelData[sample] = sinf(currentAngle) * level;
-		}
-	}
+            channelData[sample] = sinf(currentAngle) * level;
+        }
+    }
 }
 
 //==============================================================================

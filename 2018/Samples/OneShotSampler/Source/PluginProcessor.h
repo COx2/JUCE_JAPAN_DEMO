@@ -55,23 +55,23 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	// シンセサイザーのセットアップ処理
-	// サンプル音源のロード、SamplerSoundオブジェクトの生成とセット、SamplerVoiceオブジェクトの生成とセットを行う。
-	void setupSampler(AudioFormatReader& newReader);
+    // シンセサイザーのセットアップ処理
+    // サンプル音源のロード、SamplerSoundオブジェクトの生成とセット、SamplerVoiceオブジェクトの生成とセットを行う。
+    void setupSampler(AudioFormatReader& newReader);
 
-	// サンプル音源としてバイナリリソースから正弦波を読み込み、セットアップ処理を実行する。
-	void loadSineWave();
+    // サンプル音源としてバイナリリソースから正弦波を読み込み、セットアップ処理を実行する。
+    void loadSineWave();
 
-	// サンプル音源をファイルブラウザから選択して読み込み、セットアップ処理を実行する。
-	void loadSampleFile();
+    // サンプル音源をファイルブラウザから選択して読み込み、セットアップ処理を実行する。
+    void loadSampleFile();
 
-	// MidiKeyboardStateオブジェクトの参照を返す。
-	MidiKeyboardState& getMidiKeyboardState() { return keyboardState; };
+    // MidiKeyboardStateオブジェクトの参照を返す。
+    MidiKeyboardState& getMidiKeyboardState() { return keyboardState; };
 
 private:
-	Synthesiser synth;								// Synthesiserクラスのインスタンス
-	MidiKeyboardState keyboardState;				// MidiKeyboardStateクラスのインスタンス
-	bool isChanging;								// processBlock関数内の処理をスキップするかどうかのフラグ
+    Synthesiser synth;                              // Synthesiserクラスのインスタンス
+    MidiKeyboardState keyboardState;                // MidiKeyboardStateクラスのインスタンス
+    bool isChanging;                                // processBlock関数内の処理をスキップするかどうかのフラグ
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OneShotSamplerAudioProcessor)

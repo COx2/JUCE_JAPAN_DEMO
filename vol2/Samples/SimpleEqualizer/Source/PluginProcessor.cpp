@@ -15,12 +15,12 @@
 //==============================================================================
 SimpleEqualizerAudioProcessor::SimpleEqualizerAudioProcessor()
 {
-	UserParams[MasterBypass] = 0.0f;
-	UserParams[Frequency] = 0.5664f;
-	UserParams[BandWidth] = 0.393f;
-	UserParams[Gain] = 0.5f;
+    UserParams[MasterBypass] = 0.0f;
+    UserParams[Frequency] = 0.5664f;
+    UserParams[BandWidth] = 0.393f;
+    UserParams[Gain] = 0.5f;
 
-	UIUpdateFlag = true;//Request UI update
+    UIUpdateFlag = true;//Request UI update
 }
 
 SimpleEqualizerAudioProcessor::~SimpleEqualizerAudioProcessor()
@@ -120,42 +120,42 @@ bool SimpleEqualizerAudioProcessor::setPreferredBusArrangement (bool isInput, in
 
 void SimpleEqualizerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-	const int totalNumInputChannels = getTotalNumInputChannels();
-	const int totalNumOutputChannels = getTotalNumOutputChannels();
+    const int totalNumInputChannels = getTotalNumInputChannels();
+    const int totalNumOutputChannels = getTotalNumOutputChannels();
 
-	// Unuse buffer clear process
-	for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-		buffer.clear(i, 0, buffer.getNumSamples());
+    // Unuse buffer clear process
+    for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear(i, 0, buffer.getNumSamples());
 
-	if (UserParams[MasterBypass] >= 1.0f) return;
+    if (UserParams[MasterBypass] >= 1.0f) return;
 
-	// This is the place where you'd normally do the guts of your plugin's
-	// audio processing...
-	for (int channel = 0; channel < totalNumInputChannels; ++channel)
-	{
-		// EQ Process
-		float _sampleRate = getSampleRate();
-		UserParams[SampleRate] = _sampleRate;
+    // This is the place where you'd normally do the guts of your plugin's
+    // audio processing...
+    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    {
+        // EQ Process
+        float _sampleRate = getSampleRate();
+        UserParams[SampleRate] = _sampleRate;
 
-		float _frequency = 20.0f * pow(1000.0f, UserParams[Frequency]);
-		float _bandWidth = 0.1f * pow(60.0f, UserParams[BandWidth]);
-		float _q = 0.2f * pow(100.0, UserParams[BandWidth]);
-		float _gain = 48.0f * (UserParams[Gain] - 0.5f);
-		if (channel < 2) {
-			//iirFilter[channel].setCoefficients(IIRCoefficients::makeLowPass(_sampleRate, _frequency));
-			//iirFilter[channel].processSamples(buffer.getWritePointer(channel), buffer.getNumSamples());
+        float _frequency = 20.0f * pow(1000.0f, UserParams[Frequency]);
+        float _bandWidth = 0.1f * pow(60.0f, UserParams[BandWidth]);
+        float _q = 0.2f * pow(100.0, UserParams[BandWidth]);
+        float _gain = 48.0f * (UserParams[Gain] - 0.5f);
+        if (channel < 2) {
+            //iirFilter[channel].setCoefficients(IIRCoefficients::makeLowPass(_sampleRate, _frequency));
+            //iirFilter[channel].processSamples(buffer.getWritePointer(channel), buffer.getNumSamples());
 
-			parametricEQ[channel].SetParameter(_sampleRate, _frequency, _bandWidth, _gain);
-			parametricEQ[channel].DoProcess(buffer.getWritePointer(channel), buffer.getNumSamples());
-		}
-	}
+            parametricEQ[channel].SetParameter(_sampleRate, _frequency, _bandWidth, _gain);
+            parametricEQ[channel].DoProcess(buffer.getWritePointer(channel), buffer.getNumSamples());
+        }
+    }
 }
 
 //==============================================================================
 bool SimpleEqualizerAudioProcessor::hasEditor() const
 {
-	//return false;
-	return true; // (change this to false if you choose to not supply an editor)
+    //return false;
+    return true; // (change this to false if you choose to not supply an editor)
 }
 
 AudioProcessorEditor* SimpleEqualizerAudioProcessor::createEditor()
@@ -166,67 +166,67 @@ AudioProcessorEditor* SimpleEqualizerAudioProcessor::createEditor()
 //==============================================================================
 void SimpleEqualizerAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
-	//Save UserParams/Data to file
-	XmlElement root("Root");
-	XmlElement *el;
-	el = root.createNewChildElement("Bypass");
-	el->addTextElement(String(UserParams[Parameters::MasterBypass]));
-	el = root.createNewChildElement("Frequency");
-	el->addTextElement(String(UserParams[Parameters::Frequency]));
-	el = root.createNewChildElement("BandWidth");
-	el->addTextElement(String(UserParams[Parameters::BandWidth]));
-	el = root.createNewChildElement("Gain");
-	el->addTextElement(String(UserParams[Parameters::Gain]));
-	copyXmlToBinary(root, destData);
+    //Save UserParams/Data to file
+    XmlElement root("Root");
+    XmlElement *el;
+    el = root.createNewChildElement("Bypass");
+    el->addTextElement(String(UserParams[Parameters::MasterBypass]));
+    el = root.createNewChildElement("Frequency");
+    el->addTextElement(String(UserParams[Parameters::Frequency]));
+    el = root.createNewChildElement("BandWidth");
+    el->addTextElement(String(UserParams[Parameters::BandWidth]));
+    el = root.createNewChildElement("Gain");
+    el->addTextElement(String(UserParams[Parameters::Gain]));
+    copyXmlToBinary(root, destData);
 }
 
 void SimpleEqualizerAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
-	//Load UserParams/Data from file
-	XmlElement* pRoot = getXmlFromBinary(data, sizeInBytes);
-	if (pRoot != NULL)
-	{
-		forEachXmlChildElement((*pRoot), pChild)
-		{
-			if (pChild->hasTagName("Bypass"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(Parameters::MasterBypass, text.getFloatValue());
-			}
-			else if (pChild->hasTagName("Frequency"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(Parameters::Frequency, text.getFloatValue());
-			}
-			else if (pChild->hasTagName("BandWidth"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(Parameters::BandWidth, text.getFloatValue());
-			}
-			else if (pChild->hasTagName("Gain"))
-			{
-				String text = pChild->getAllSubText();
-				setParameter(Parameters::Gain, text.getFloatValue());
-			}
-		}
-		delete pRoot;
-	}
+    //Load UserParams/Data from file
+    XmlElement* pRoot = getXmlFromBinary(data, sizeInBytes);
+    if (pRoot != NULL)
+    {
+        forEachXmlChildElement((*pRoot), pChild)
+        {
+            if (pChild->hasTagName("Bypass"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(Parameters::MasterBypass, text.getFloatValue());
+            }
+            else if (pChild->hasTagName("Frequency"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(Parameters::Frequency, text.getFloatValue());
+            }
+            else if (pChild->hasTagName("BandWidth"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(Parameters::BandWidth, text.getFloatValue());
+            }
+            else if (pChild->hasTagName("Gain"))
+            {
+                String text = pChild->getAllSubText();
+                setParameter(Parameters::Gain, text.getFloatValue());
+            }
+        }
+        delete pRoot;
+    }
 
-	UIUpdateFlag = true;//Request UI update
+    UIUpdateFlag = true;//Request UI update
 }
 
 //==============================================================================
 int SimpleEqualizerAudioProcessor::getNumParameters()
 {
-	return Parameters::totalNumParam;
+    return Parameters::totalNumParam;
 }
 
 //Get Return Filter Parameter range 0~1.0
 float SimpleEqualizerAudioProcessor::getParameter(int index)
 {
-	if (index >= 0 && index < totalNumParam)
-		return UserParams[index];
-	else return 0;
+    if (index >= 0 && index < totalNumParam)
+        return UserParams[index];
+    else return 0;
 }
 
 //The host will call this method to change the value of one of the filter's parameters.
@@ -235,54 +235,54 @@ float SimpleEqualizerAudioProcessor::getParameter(int index)
 //The value passed will be between 0 and 1.0.
 //...
 //Your filter can call this when it needs to change one of its parameters.
-//This could happen when the editor or some other internal operation changes a parameter. 
+//This could happen when the editor or some other internal operation changes a parameter.
 //This method will call the setParameter() method to change the value, and will then send a message to the host telling it about the change.
 //The value passed will be between 0 and 1.0.
 void SimpleEqualizerAudioProcessor::setParameter(int index, float newValue)
 {
-	if (index >= 0 && index < totalNumParam)
-		UserParams[index] = newValue;
-	else return;
+    if (index >= 0 && index < totalNumParam)
+        UserParams[index] = newValue;
+    else return;
 
-	UIUpdateFlag = true;//Request UI update -- Some OSX hosts use alternate editors, this updates ours
+    UIUpdateFlag = true;//Request UI update -- Some OSX hosts use alternate editors, this updates ours
 }
 
 //return parameter Name as string to HOST.
 const String SimpleEqualizerAudioProcessor::getParameterName(int index)
 {
-	switch (index)
-	{
-	case MasterBypass: return "Master Bypass";
-	case Frequency: return "Frequency";
-	case BandWidth: return "Band Width";
-	case Gain: return "Gain";
-	case SampleRate: return "SampleRate";
-	default:return String::empty;
-	}
+    switch (index)
+    {
+    case MasterBypass: return "Master Bypass";
+    case Frequency: return "Frequency";
+    case BandWidth: return "Band Width";
+    case Gain: return "Gain";
+    case SampleRate: return "SampleRate";
+    default:return String::empty;
+    }
 }
 
 //return parameter value as string to HOST.
 const String SimpleEqualizerAudioProcessor::getParameterText(int index)
 {
-	switch (index)
-	{
-	case Parameters::MasterBypass:
-		return UserParams[MasterBypass] != 1.0f ? "EFFECT" : "BYPASS";
+    switch (index)
+    {
+    case Parameters::MasterBypass:
+        return UserParams[MasterBypass] != 1.0f ? "EFFECT" : "BYPASS";
 
-	case Parameters::Frequency:
-		return String((int)(pow(1000.0f, UserParams[Frequency]) * 20.0f)) + String(" Hz");
+    case Parameters::Frequency:
+        return String((int)(pow(1000.0f, UserParams[Frequency]) * 20.0f)) + String(" Hz");
 
-	case Parameters::BandWidth:
-		return String(pow(60.0f, UserParams[BandWidth]) * 0.1f, 2) + String(" Octave");
+    case Parameters::BandWidth:
+        return String(pow(60.0f, UserParams[BandWidth]) * 0.1f, 2) + String(" Octave");
 
-	case Parameters::Gain:
-		return String((48.0f * (UserParams[Gain] - 0.5f)), 1) + String(" dB");
+    case Parameters::Gain:
+        return String((48.0f * (UserParams[Gain] - 0.5f)), 1) + String(" dB");
 
-	case Parameters::SampleRate:
-		return String(UserParams[SampleRate]) + String(" Hz");
+    case Parameters::SampleRate:
+        return String(UserParams[SampleRate]) + String(" Hz");
 
-	default:return String::empty;
-	}
+    default:return String::empty;
+    }
 }
 
 //==============================================================================

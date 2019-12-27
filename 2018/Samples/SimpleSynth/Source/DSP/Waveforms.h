@@ -17,14 +17,14 @@
 class Waveforms
 {
 public:
-	// ③各種波形のサンプルデータを返す関数を宣言する。
+    // ③各種波形のサンプルデータを返す関数を宣言する。
     float sine(float angle);
     float saw(float angle);
-	float square(float angle);
+    float square(float angle);
     float triangle(float angle);
     float noise();
 
 private:
-	// ④ホワイトノイズを生成するjuce::Randomクラスのオブジェクトを宣言する。
+    // ④ホワイトノイズを生成するjuce::Randomクラスのオブジェクトを宣言する。
     Random whiteNoise;
 };

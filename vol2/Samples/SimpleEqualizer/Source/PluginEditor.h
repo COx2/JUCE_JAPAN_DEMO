@@ -20,9 +20,9 @@
 /**
 */
 class SimpleEqualizerAudioProcessorEditor  : public AudioProcessorEditor,
-	private Slider::Listener,// 2-6...
-	private Button::Listener,// 2-6...
-	private Timer// 2-6...
+    private Slider::Listener,// 2-6...
+    private Button::Listener,// 2-6...
+    private Timer// 2-6...
 {
 public:
     SimpleEqualizerAudioProcessorEditor (SimpleEqualizerAudioProcessor&);
@@ -37,29 +37,29 @@ private:
     // access the processor object that created it.
     SimpleEqualizerAudioProcessor& processor;
 
-	///////////////////////////
-	// 2-5...
-	FilmstripSlider Frequency;
-	FilmstripSlider BandWidth;
-	FilmstripSlider Gain;
+    ///////////////////////////
+    // 2-5...
+    FilmstripSlider Frequency;
+    FilmstripSlider BandWidth;
+    FilmstripSlider Gain;
 
-	Label FrequencyLabel;
-	Label BandWidthLabel;
-	Label GainLabel;
-	Label BypassLabel;
+    Label FrequencyLabel;
+    Label BandWidthLabel;
+    Label GainLabel;
+    Label BypassLabel;
 
-	FilmstripToggleButton Bypass;
+    FilmstripToggleButton Bypass;
 
-	Image image_knob;
-	Image image_bypass;
-	Image image_bg;
+    Image image_knob;
+    Image image_bypass;
+    Image image_bg;
 
-	// 2-6...
-	void sliderValueChanged(Slider* changedSlider) override;
-	void buttonClicked(Button* clickedButton) override;
+    // 2-6...
+    void sliderValueChanged(Slider* changedSlider) override;
+    void buttonClicked(Button* clickedButton) override;
 
-	void timerCallback() override;
-	//////////////////////////
+    void timerCallback() override;
+    //////////////////////////
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEqualizerAudioProcessorEditor)

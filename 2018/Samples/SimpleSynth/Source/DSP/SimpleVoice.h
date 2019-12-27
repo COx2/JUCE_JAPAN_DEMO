@@ -21,36 +21,36 @@
 class SimpleVoice : public SynthesiserVoice
 {
 public:
-	// ③引数付きコンストラクタ。
-	SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopeParameters* ampEnvParams, AudioParameterBool* velocitySenseParam);
+    // ③引数付きコンストラクタ。
+    SimpleVoice(OscillatorParameters* oscParams, LfoParameters* lfoParams, AmpEnvelopeParameters* ampEnvParams, AudioParameterBool* velocitySenseParam);
 
-	// デストラクタ
-	virtual ~SimpleVoice();
+    // デストラクタ
+    virtual ~SimpleVoice();
 
-	// ④基底クラスで宣言された純粋仮想関数をオーバーライド宣言する。
-	virtual bool canPlaySound(SynthesiserSound* sound) override;
-	virtual void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override;
-	virtual void stopNote(float velocity, bool allowTailOff) override;
-	virtual void pitchWheelMoved(int newPitchWheelValue) override;
-	virtual void controllerMoved(int controllerNumber, int newControllerValue) override;
-	virtual void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
+    // ④基底クラスで宣言された純粋仮想関数をオーバーライド宣言する。
+    virtual bool canPlaySound(SynthesiserSound* sound) override;
+    virtual void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override;
+    virtual void stopNote(float velocity, bool allowTailOff) override;
+    virtual void pitchWheelMoved(int newPitchWheelValue) override;
+    virtual void controllerMoved(int controllerNumber, int newControllerValue) override;
+    virtual void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 
 private:
-	// ⑤クラス内でのみ呼び出す関数をprivate領域に宣言する。
-	float calcModulationFactor(float angle);
+    // ⑤クラス内でのみ呼び出す関数をprivate領域に宣言する。
+    float calcModulationFactor(float angle);
 
-	// ⑥メンバ変数を宣言する。
-	float currentAngle, lfoAngle, angleDelta;
-	float level, lastLevel, levelDiff;
-	float pitchBend;
+    // ⑥メンバ変数を宣言する。
+    float currentAngle, lfoAngle, angleDelta;
+    float level, lastLevel, levelDiff;
+    float pitchBend;
 
-	// VCOとVCAのオブジェクトを宣言する。
-	Waveforms waveForms;
-	AmpEnvelope ampEnv;
+    // VCOとVCAのオブジェクトを宣言する。
+    Waveforms waveForms;
+    AmpEnvelope ampEnv;
 
-	// パラメータを管理するオブジェクトのポインタ変数。
-	OscillatorParameters* _oscParamsPtr;
-	LfoParameters* _lfoParamsPtr;
-	AmpEnvelopeParameters* _ampEnvParamsPtr;
-	AudioParameterBool* _velocitySenseParamPtr;
+    // パラメータを管理するオブジェクトのポインタ変数。
+    OscillatorParameters* _oscParamsPtr;
+    LfoParameters* _lfoParamsPtr;
+    AmpEnvelopeParameters* _ampEnvParamsPtr;
+    AudioParameterBool* _velocitySenseParamPtr;
 };

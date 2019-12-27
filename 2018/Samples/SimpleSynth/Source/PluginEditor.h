@@ -30,22 +30,22 @@ public:
     void resized() override;
 
 private:
-	// DSPオブジェクトのアドレスを保持しておくための変数。
-	SimpleSynthAudioProcessor& processor;
+    // DSPオブジェクトのアドレスを保持しておくための変数。
+    SimpleSynthAudioProcessor& processor;
 
-	// ②ウインドウ内に配置するGUIコンポーネントクラスのオブジェクト宣言を追加する。
-	MidiKeyboardComponent keyboardComponent;						// キーボードコンポーネント（JUCEライブラリが提供する）
-	ScopeComponent<float> scopeComponent;							// SCOPEパネルのコンポーネント
-	OscillatorParametersComponent oscParamsComponent;				// OSC MIXパネルのコンポーネント
-	AmpEnvelopeParametersComponent ampEnvParamsComponent;			// AMP EGパネルのコンポーネント
-	LfoParametersComponent lfoParamsComponent;						// LFOパネルのコンポーネント
-	FilterParametersComponent filterParamsComponent;				// FILTERパネルのコンポーネント
-	ReverbParametersComponent reverbParamsComponent;				// REVERBパネルのコンポーネント
-	DriveParametersComponent driveParamsComponent;					// DRIVEパネルのコンポーネント
-	MiscParametersComponent miscParamsComponent;					// 『その他』パネルのコンポーネント
+    // ②ウインドウ内に配置するGUIコンポーネントクラスのオブジェクト宣言を追加する。
+    MidiKeyboardComponent keyboardComponent;                        // キーボードコンポーネント（JUCEライブラリが提供する）
+    ScopeComponent<float> scopeComponent;                           // SCOPEパネルのコンポーネント
+    OscillatorParametersComponent oscParamsComponent;               // OSC MIXパネルのコンポーネント
+    AmpEnvelopeParametersComponent ampEnvParamsComponent;           // AMP EGパネルのコンポーネント
+    LfoParametersComponent lfoParamsComponent;                      // LFOパネルのコンポーネント
+    FilterParametersComponent filterParamsComponent;                // FILTERパネルのコンポーネント
+    ReverbParametersComponent reverbParamsComponent;                // REVERBパネルのコンポーネント
+    DriveParametersComponent driveParamsComponent;                  // DRIVEパネルのコンポーネント
+    MiscParametersComponent miscParamsComponent;                    // 『その他』パネルのコンポーネント
 
-	// ①juce::LookAndFeelクラスのポインタ変数を宣言する
-	LookAndFeel* customLookAndFeel;
+    // ①juce::LookAndFeelクラスのポインタ変数を宣言する
+    LookAndFeel* customLookAndFeel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleSynthAudioProcessorEditor)
 };

@@ -57,37 +57,37 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	//for doc
-	//Processor
-	enum Parameters {
-		MasterBypass = 0,
-		Frequency,
-		BandWidth,
-		Gain,
-		SampleRate,
-		totalNumParam
-	};
+    //for doc
+    //Processor
+    enum Parameters {
+        MasterBypass = 0,
+        Frequency,
+        BandWidth,
+        Gain,
+        SampleRate,
+        totalNumParam
+    };
 
-	int getNumParameters() override;
-	float getParameter(int index) override;
-	void setParameter(int index, float value) override;
-	const String getParameterName(int index) override;
-	const String getParameterText(int index) override;
+    int getNumParameters() override;
+    float getParameter(int index) override;
+    void setParameter(int index, float value) override;
+    const String getParameterName(int index) override;
+    const String getParameterText(int index) override;
 
-	//GUI
-	bool NeedsUIUpdate() { return UIUpdateFlag; };
-	void RequestUIUpdate() { UIUpdateFlag = true; };
-	void ClearUIUpdateFlag() { UIUpdateFlag = false; };
+    //GUI
+    bool NeedsUIUpdate() { return UIUpdateFlag; };
+    void RequestUIUpdate() { UIUpdateFlag = true; };
+    void ClearUIUpdateFlag() { UIUpdateFlag = false; };
 
 private:
-	//Processor
-	float UserParams[totalNumParam];
-	ParametricEQ parametricEQ[2]; //Create PeakingEQ for 2ch
+    //Processor
+    float UserParams[totalNumParam];
+    ParametricEQ parametricEQ[2]; //Create PeakingEQ for 2ch
 
-	IIRFilter iirFilter[2];
+    IIRFilter iirFilter[2];
 
-	//GUI
-	bool UIUpdateFlag;
+    //GUI
+    bool UIUpdateFlag;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEqualizerAudioProcessor)
